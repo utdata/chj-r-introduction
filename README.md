@@ -22,7 +22,11 @@ We can use some COVID data, including from the [covidcast](https://cmu-delphi.gi
 - Import/Exporting data (readr, etc)
 - Data Wrangling (dplyr)
 
+I'll also apply for a shinnyapps.io educational account.
+
 ### Andrew
+
+In addition to below, figure out how to publish to the shinyapps.io.
 
 - Shaping data (tidyr)
 - Visualizations (ggplot)
