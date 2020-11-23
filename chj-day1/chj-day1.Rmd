@@ -212,19 +212,6 @@ Also make sure you have blank lines above and below each code chunk.
 - Install the tidyverse
 - Also install janitor
 
----
-- Add the library "janitor" to the setup chunk below
-
-```{r libraries, exercise=TRUE}
-library(tidyverse)
-
-```
-
-```{r libraries-hint}
-library(tidyverse)
-library(janitor)
-```
-
 ## Importing data
 
 - Start a new notebook: 02-opiod-deaths.Rmd
@@ -234,12 +221,22 @@ library(janitor)
 
 ---
 
-```{r import-exercise, exercise=TRUE, exercise.lines = 5}
-opioid <- read_csv("chj_mn_opiate_deaths_data.csv")
+### We'll figure out importing
+
+
+
+Here we have the data imported as "opioid", but will start looking at it. (The dataframe is called opioid even if you named it something else above.)
+
+```{r prepare-opioid, include=FALSE}
+opioid <- read_csv("https://github.com/utdata/chj-r-introduction/blob/main/data/chj_mn_opiate_deaths_data.csv?raw=true")
 
 ```
 
-Go to [this URL]() and then click on download.
+- Use `head()` to view the top of the created dataframe "opioid".
+
+```{r explore, exercise=TRUE, exercise.lines = 5, exercise.setup = "prepare-opioid"}
+
+```
 
 
 *Stuff here.*
