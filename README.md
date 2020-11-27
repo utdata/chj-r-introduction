@@ -1,6 +1,6 @@
 # Center for Health Journalism: R Introduction
 
-A course by Andrew B Tran & Christian McDonald for the [Center for Health Journalism Data Fellowship](https://centerforhealthjournalism.org/event/2020-data-fellowship-1).
+A course by Andrew Ba Tran & Christian McDonald for the [Center for Health Journalism Data Fellowship](https://centerforhealthjournalism.org/event/2020-data-fellowship-1).
 
 ## Outline
 

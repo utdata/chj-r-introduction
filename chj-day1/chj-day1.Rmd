@@ -40,6 +40,7 @@ You'll see once you put in the answer and click **Run code** the executed answer
 
 ## Learning RStudio
 
+This first day -- only an hour, really -- we'll be learning about RStudio, RMarkdown and how to use them. I promise we'll get to to the data.
 
 ### Create a chj folder for your work
 
@@ -63,7 +64,7 @@ When you launch RStudio, you will get a screen like this:
 
 ### Updating preferences
 
-There is a preference in RStudio that I would like you to change. By default, the program wants to save a the state of your work (all the variables and such) when you close a project, but that is not good practice. We'll change that.
+There is a preference in RStudio that I would like you to change. By default, the program wants to save the state of your work (all the variables and such) when you close a project, but that is not good practice. We'll change that.
 
 - Go to the **RStudio** menu and choose **Preferences**
 - Under the **General** tab, uncheck the first four boxes.
@@ -78,7 +79,7 @@ We only have to do this once for each computer.
 
 When we work in RStudio, we will create "Projects" to hold all the files related to one another. This sets the "working directory", which is a sort of home base for the project.
 
-- Click on the second button that has a green `+R` sign.
+- In the top toolbar for RStudio, click on the second button that has a green `+R` sign.
 - That brings up a box to create the project with several options. You want **New Directory** (unless you already have a folder for this specific project, which you don't yet)
 - For **Project Type**, choose **New Project**.
 - Next, for the **Directory name**, choose a new name for your project folder. For this project, use "first-project".
@@ -88,8 +89,6 @@ I am pretty anal-retentive about naming folders because they can become URLs in 
 
 - Use lowercase characters.
 - Don't use spaces. Use dashes.
-
-> UPDATE screenshot of new project here.
 
 ![New project screen](images/intro-newproject.png){width=90%}
 
@@ -109,15 +108,13 @@ For this class, we will almost always use R Notebooks. This format allows us to 
 
 This will open a new file with some boilerplate R Markdown code.
 
-- At the top between the `---` marks, is the **metadata**. This is written using YAML, and what is inside are commands for the R Notebook. Don't sweat the YAML syntax too much right now, as we won't be editing it often.
-- Next, you'll see a couple of paragraphs of text that describes how to use an R Notebooks. It is written in R Markdown, and has some inline links and bold commands, which you will learn.
-- Then you will see an R code chunk that looks like the figure below.
-
-> UPDATE this screenshot to include the YAML
-
 ![R code chunk](images/intro-rcodechunk.png){width="90%"}
 
-Let's take a closer look at this:
+- At the top between the `---` marks, is the **metadata**. This is written using YAML, and what is inside are commands for the R Notebook. Don't sweat the YAML syntax too much right now, as we won't be editing it often.
+- Next, you'll see a couple of paragraphs of text that describe how to use an R Notebooks. It is written in R Markdown, and has some inline links and bold commands, which you will learn.
+- Then you will see an R code chunk.
+
+Let's take a closer look at this chunk part:
 
 - The three back-tick characters (the key found at the top left on your keyboard) followed by the `{r}` indicate that this is a chunk of R code. The last three back ticks say the code chunk is over.
 - The `{r}` bit can have some parameters added to it. We'll get into that later.
@@ -148,7 +145,7 @@ You should get something like this:
 
 ![Cars plot](images/intro-defaultplot.png){width="90%"}
 
-What you've done here is create a plot chart of sample data "cars" that is already embedded inside the R programming. (FWIW, It is the speed of cars and the distances taken to stop. Note that the data were recorded in the 1920s.) There are other data sets like this embedded in R for examples like this.
+What you've done here is create a plot chart of sample data "cars" that is already embedded inside the R programming. (FWIW, it is the speed of cars and the distances taken to stop. Note that the data were recorded in the 1920s.) There are other data sets like this embedded in R for examples like this.
 
 But that wasn't a whole lot of code to see there is a relationship with speed vs stopping distance, eh?
 
@@ -177,9 +174,10 @@ Congratulations! The answer given at the bottom of that code chunk is the [socia
 Throwing aside whether the formula is sound, let's break down the code.
 
 - `# update 53 to your age` is a comment. It's a way to explain what is happening in the code without being considered part of the code.
-- `age <- 53` is assigning a number (`53`) to a variable name (`age`). A variable is a placeholder. It can hold numbers, text or even groups of numbers. Variables are key to programming because they allow you to change a value as you go along.
-- The next part is simple math: `(age - 7) * 2` takes the value of `age` and subtracts `7`, then multiplies by `2`.
-- When you run it, you get the result of the math equation, `[1] 92` in my case. That means there was one observation, and the value was "92". For the record, my wife is _much_ younger than that.
+- `age <- 53` is assigning a number (`53`) to a variable name (`age`). A variable is a placeholder. It can hold numbers, text or even groups of numbers. Variables are key to programming because they allow you to change a value as you go along. In R we use an arrow (or dash and angle bracket) to show which direction we are assigning the value, but convention is to name the variable first, then assign from the right.
+- Pro tip: You can use **option -** to type in the `<-` assigning operator.
+- The next part is simple math: `(age - 7) * 2` takes the value of `age` and subtracts `7`, then multiplies by `2`. You might have noticed that the editor helped you by adding closing `)` and putting your cursor in the middle. If you've never used a code editor, help like this can be confusing at first, but you'll learn to love it.
+- When you run the code chucnk, you get the result of the math equation below it, `[1] 92` in my case. That means there was one observation, and the value was "92". For the record, my wife is _much_ younger than that.
 
 Now you can play with the number assigned to the age variable to test out different ages. Do that.
 
@@ -187,7 +185,7 @@ Now you can play with the number assigned to the age variable to test out differ
 
 ### A note on RMarkdown and clean code
 
-When writing RMarkdown in an RNotebook, you want a blank line between each major element: code block, headline, paragraph of text.
+When writing RMarkdown in an RNotebook, you want an empty blank line between each major element: code block, headline, or paragraph of text.
 
 Headlines are indicated with a hashtag at the beginning. The more hashtags there are, the smaller the headline (I know, it's counter-intuitive, but it matches HTML headlines.) In RMarkdown, the singe-hashtag headline is the title, so the next biggest headline you should use is two hashes:
 
@@ -206,11 +204,44 @@ This text is related to the above in some way.
 
 Also make sure you have blank lines above and below each code chunk.
 
+### Preview the report
+
+The rest of the boilerplate text here describes how you can *Preview* and *Knit* a notebook. Let's do that now.
+
+- Press *Cmd+Shift+K* to open a Preview.
+
+This will open a new window and show you the "pretty" notebook that we are building.
+
+Preview is a little different than *Knit*, which runs all the code, then creates the new knitted HTML document. **Knit to HMTL** creates an HTML document that you can send to others, or publish on Github with some additional YAML configurations. You can also Knit to PDFs.
+
+### The toolbar
+
+One last thing to point out with RStudio before we move on is the toolbar that runs across the top of the R Notebook file window. The image below explains some of the more useful tools, but you _REALLY_ should learn and use keyboard commands when they are available.
+
+![R Notebook toolbar](images/intro-toolbar.png){width=90%}
+
 ## The tidyverse and R packages
 
-- Describe the tidyverse
-- Install the tidyverse
-- Also install janitor
+While "base" R is a robust programming language on its own, the true power lies in a community of that writes "packages" to do new things easier and better. A R users, we "install" the code for these packages into RStudio to make their functions available to us.
+
+The pièce de résistance of packages is the [tidyverse](https://www.tidyverse.org/), as collection of packages for data science that were all written to work together. Hadley Wickham is one of the main developers, and wrote [R for Data Science](https://r4ds.had.co.nz/index.html)
+
+![Hadley Wickham holds court at IRE 2019 in Houston](images/hadley.jpg){width=90%}
+
+### Install the tidyverse
+
+Let's install the tidyverse on your machines.
+
+- Open the **Console** at the bottom of your RStudio window.
+- Type in `install.packages("tidyverse")` and hit return.
+
+You'll see your computer work away and eventually come to a success message saying where the packages were installed. You only have to do this once for your computer.
+
+### Install janitor
+
+We also want to install another package we'll be using soon, called [janitor](https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html).
+
+- In your **Console**, run `install.packages("janitor)`.
 
 ## Importing data
 
@@ -218,12 +249,21 @@ Also make sure you have blank lines above and below each code chunk.
 - Add libraries
 - Create a data folder
 - Download our test data
+- clean names with janitor
+- get `summary()` and use pipe
+
+### The pipe
+
+One of the tenets of the tidyverse is the use of the pipe: ` %>% ` which takes the result of the previous operation and "pipes" it into the next operation. It makes for more readable code than the nested syntax of base R, so much so I don't even teach base R that much.
+
+### Getting help
+
+- The help function
+- Good Googling techniques
 
 ---
 
 ### We'll figure out importing
-
-
 
 Here we have the data imported as "opioid", but will start looking at it. (The dataframe is called opioid even if you named it something else above.)
 
@@ -236,6 +276,66 @@ opioid <- read_csv("https://github.com/utdata/chj-r-introduction/blob/main/data/
 
 ```{r explore, exercise=TRUE, exercise.lines = 5, exercise.setup = "prepare-opioid"}
 
+```
+
+
+TESTY TEST
+
+```{r}
+# usafacts <- read_csv("https://storage.googleapis.com/bln_prod/project/ae3967c2-8bef-4343-a9e2-6915dfa598d1/covid_casesdeaths_reshaped_bln.csv?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=bln-storage%40big-local-news-267923.iam.gserviceaccount.com%2F20201124%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20201124T122500Z&X-Goog-Expires=86400&X-Goog-SignedHeaders=host&X-Goog-Signature=3bb01991c09882deb7fa1213da538615ae412e3d4e95f5891457c007c0dd4ba7f5dd850301e7799ce690f6f7399fb530cf6d1ff2c8fbb7593ca8782ad224641f3e3769cdac2f0f52202eac9559eff1b9ace5531b6527e24c94644ba6c2664636a755abccf365e6f27056d655673be7f87d53e259773d13b764c50ddff022b64d0b3aa982bef9d3fb1c5814c99baadf01116945e86ca4ae3538b571c35567b92d3ef47f28c9d91bf5e355268dd693e9b01dfcc17c1ac6d7ff482ba2da87fdee5868bc1965f7a205bee1222e84cacb5e5f2ae9544df987dbde813b2b9c5a3c78ad70a8b7dde762beef5a7658342d94abd3102898419914ac368f78081c99640780") %>% clean_names()
+```
+
+```{r}
+# usafacts %>% 
+#   filter(state == "TX", county_name == "Travis County") %>% 
+#   mutate()
+```
+
+
+Import NYTimes covid case numbers
+
+
+```{r}
+covid <- read_csv("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv")
+```
+
+Get daily cases: Since cases and deaths are cumulative, this subtracts the previous day to get the daily count.
+
+```{r}
+covid_daily <- covid %>%
+  group_by(county, state, fips) %>%
+  mutate(
+    daily_cases = case_when(
+      is.na(lag(cases)) ~ cases,
+      TRUE ~ cases - lag(cases)
+    ),
+    daily_deaths = case_when(
+      is.na(lag(deaths))~ deaths,
+      TRUE ~ deaths-lag(deaths)
+    )
+  )
+```
+
+
+```{r}
+covid_daily %>% 
+  filter(state == "Texas", county == "Travis")
+```
+
+
+Covidtracking.co api
+
+[found here](https://covidtracking.com/data/api)
+
+```{r}
+ctapi <- read_csv("https://api.covidtracking.com/v1/states/current.csv")
+```
+
+### Quick summary of your data
+
+
+```{r}
+covid %>% summary()
 ```
 
 
