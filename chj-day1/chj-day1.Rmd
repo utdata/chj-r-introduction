@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## About these lessons
 
-This lesson was written by Christian McDonald. I use a Mac so any keyboard commands that are *Cmd-whatever* are usually *Control-whatever* on a PC.
+This lesson was written by Christian McDonald. I use a Mac so any keyboard commands that are *Cmd+whatever* might be *Ctrl+whatever* on a PC.
 
 As we go through this week of training, we will use interactive tutorials like this one to describe and practice key concepts and then provide directions on how you can practice similar steps on your own computer.
 
@@ -40,7 +40,7 @@ You'll see once you put in the answer and click **Run code** the executed answer
 
 ## Learning RStudio
 
-This first day -- only an hour, really -- we'll be learning about RStudio, RMarkdown and how to use them. I promise we'll get to to the data.
+This first day -- only an hour, really -- we'll be learning about RStudio, RMarkdown and how to use them. It's a lot of setup and not a lot of practice. I promise we'll get to the data for quickly in future sessions.
 
 ### Create a chj folder for your work
 
@@ -237,18 +237,94 @@ Let's install the tidyverse on your machines.
 
 You'll see your computer work away and eventually come to a success message saying where the packages were installed. You only have to do this once for your computer.
 
-### Install janitor
+When we install packages, we put the package name in quotes because R doesn't "have" what it is looking for yet and has to look for it. When in set libraries later, we won't use the quotes.
 
-We also want to install another package we'll be using soon, called [janitor](https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html).
+### Install janitor and readr
 
-- In your **Console**, run `install.packages("janitor)`.
+There are two other packages we are going to install and we'll do it at one time, learning about `c()` along the way.
+
+- In your **Console**, run: `install.packages(c("janitor","readxl"))`
+
+- [janitor](https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html) has some data cleaning properties we'll use.
+- [readxl](https://readxl.tidyverse.org/reference/read_excel.html) is a tidyverse add-on to import Excel files.
+
+You'll note we used this `c("term1","term1")` construction to feed R a combination of items, which you'll see a lot. The `c` stands for **combine** and we use it to build collections of things we call **vectors**.
+
+*BORING DETAILS:* [**Vectors**](https://www.tutorialspoint.com/r/r_vectors.htm) are collections of elements of like value, like numbers or strings of letters. Everything is a vector in R, really -- a single letter in R is a vector with a length of 1. I would say think of vectors like a list of common things, but a [list](https://www.tutorialspoint.com/r/r_lists.htm) is a special object of its own, a combination of unlike things.
+
+### Using libraries
+
+We're going to start our next RNotebook and set up some of these libraries.
+
+- In the first top toolbar icon, choose RNotebook.
+- In the YAML at the top of the file, change the metadata **title** to "MN Opioid deaths" as that is what we'll be working with.
+- Delete everything after the `---` on the 4th line.
+- Save the file and name it **01-opioid-clean.Rmd**. (We named with `01-` since this is also the first in a series of notebooks that may work together.)
+- Lastly, make sure you have a full blank line after the YAML metadata and add a new code chuck with *Cmd+Option+I*.
+
+Inside this code chunk we are going to add the libraries we'll use for this next lesson:
+
+```r
+library(tidyverse)
+library(janitor)
+```
+
+When you run that chunk of code, you might see this output in your Console:
+
+```r
+> library(tidyverse)
+package ‘tidyverse’ was built under R version 4.0.2Registered S3 methods overwritten by 'dbplyr':
+  method         from
+  print.tbl_lazy     
+  print.tbl_sql      
+── Attaching packages ─────────────────────────────────────────────── tidyverse 1.3.0 ──
+✓ ggplot2 3.3.1     ✓ purrr   0.3.4
+✓ tibble  3.0.1     ✓ dplyr   1.0.0
+✓ tidyr   1.1.0     ✓ stringr 1.4.0
+✓ readr   1.3.1     ✓ forcats 0.5.0
+── Conflicts ────────────────────────────────────────────────── tidyverse_conflicts() ──
+x dplyr::filter() masks stats::filter()
+x dplyr::lag()    masks stats::lag()
+> library(janitor)
+
+Attaching package: ‘janitor’
+
+The following objects are masked from ‘package:stats’:
+
+    chisq.test, fisher.test
+
+```
 
 ## Importing data
 
-- Start a new notebook: 02-opiod-deaths.Rmd
-- Add libraries
-- Create a data folder
-- Download our test data
+OK, let's get to some data, shall we?
+
+### Importing with readr
+
+The tidyverse package [readr](https://readr.tidyverse.org/) (included in the tidyverse library) is our workhorse for importing and exporting of data. There are other tidyverse specialty packages like [jsonlite](https://cran.r-project.org/web/packages/jsonlite/vignettes/json-aaquickstart.html) and [readxl]([readxl](https://readxl.tidyverse.org/reference/read_excel.html)) and some alternatives like  [rio](https://www.rdocumentation.org/packages/rio/).
+
+To save some time we're going to import csv data that is stored on the internet.
+
+Let's practice this first in the tutorial so you see how it works, then you can do it in your project.
+
+```{r prepare-opioid, include=FALSE}
+```
+
+Here we have the data imported as "opioid", but will start looking at it. (The dataframe is called opioid even if you named it something else above.)
+
+```{r opioid-read, exercise=TRUE, exercise.setup = "prepare-opioid"}
+read_csv("https://github.com/utdata/chj-r-introduction/blob/main/data/chj_mn_opiate_deaths_data.csv?raw=true")
+```
+
+```{r opioid-assign, exercise=TRUE, exercise.setup = "prepare-opioid"}
+opioid <- read_csv("https://github.com/utdata/chj-r-introduction/blob/main/data/chj_mn_opiate_deaths_data.csv?raw=true")
+```
+
+```{r opioid-assign-hint}
+opioid <- read_csv("https://github.com/utdata/chj-r-introduction/blob/main/data/chj_mn_opiate_deaths_data.csv?raw=true")
+opioid
+```
+
 - clean names with janitor
 - get `summary()` and use pipe
 
@@ -264,19 +340,6 @@ One of the tenets of the tidyverse is the use of the pipe: ` %>% ` which takes t
 ---
 
 ### We'll figure out importing
-
-Here we have the data imported as "opioid", but will start looking at it. (The dataframe is called opioid even if you named it something else above.)
-
-```{r prepare-opioid, include=FALSE}
-opioid <- read_csv("https://github.com/utdata/chj-r-introduction/blob/main/data/chj_mn_opiate_deaths_data.csv?raw=true")
-
-```
-
-- Use `head()` to view the top of the created dataframe "opioid".
-
-```{r explore, exercise=TRUE, exercise.lines = 5, exercise.setup = "prepare-opioid"}
-
-```
 
 
 TESTY TEST
