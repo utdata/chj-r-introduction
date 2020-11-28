@@ -403,9 +403,10 @@ deaths %&gt;%
 <div id="section-summarizing-data" class="section level2">
 <h2>Summarizing data</h2>
 <p>Summarizing data in R typically takes two steps: 1) Group the rows based on some value in the data, 2) Aggregate those groups by counting the rows or doing math on values.</p>
-<p>The Group and Aggregate combo can be confusing. You might watch this <a href="https://vimeo.com/showcase/7320305/video/435910349">short video</a> to get a visual understanding of the concept.</p>
+<p>The Group and Aggregate combo can be confusing. We’ll watch the video below to get a visual understanding of the concept. It’s part of a series on <a href="https://vimeo.com/showcase/7320305">Basic Data Journalism Function</a>.</p>
+<p><img src="https://vimeo.com/showcase/7320305/video/435910349" /></p>
 <p>The verbs we use in R are <a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a> and <a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a>.</p>
-<p>BORING TIDBIT: Hadley Wickham is from New Zealand, so there are both <code>summarise()</code> and <code>summarize()</code> functions, but they do exactly the same thing. Unfortunately for Americans, summarise arrives first in alphabetical order.</p>
+<p>BORING TIDBIT: Hadley Wickham is from New Zealand, so there are both <code>summarise()</code> and <code>summarize()</code> functions, but they do exactly the same thing. Unfortunately for Americans, summarise arrives first in alphabetical order in type assist.</p>
 <div id="section-basic-group-and-sum" class="section level3">
 <h3>Basic group and sum</h3>
 <p>When we group and sum, we are usually counting records or doing math on a value. We only have one number in our data, so we’ll start with that.</p>
@@ -496,7 +497,7 @@ deaths &lt;- deaths %&gt;%
 </div>
 <div id="section-summaries-on-your-own" class="section level3">
 <h3>Summaries on your own</h3>
-<p>In your own project, use summaries too:</p>
+<p>In your own project, use summaries to:</p>
 <ul>
 <li>Get the average age by hispanic_ethnicity. This will take a traditional <code>group_by()</code> and <code>summarize()</code> combination.</li>
 <li>Get counts by year. You can use <code>count()</code>, but you’ll have to parse the death_clean_date to group by the year.

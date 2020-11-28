@@ -1,0 +1,52 @@
+---
+title: "Data prep"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(janitor)
+library(tidycensus)
+```
+
+## Covid data
+
+Get the most recent county by county for Texas.
+
+```{r}
+covid <- read_csv("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv")
+
+covid_tx <- covid %>% 
+  filter(state == "Texas") %>% 
+  group_by(county) %>% 
+  slice(which.max(date)) %>% 
+  select(-state)
+
+covid_tx %>% write_csv("data/covid-tx.csv")
+
+covid_tx %>% head()
+```
+
+## Population data
+
+Get the tidycensus variables table.
+
+```{r variables-search}
+# v19 <- load_variables(2018, "acs5", cache = TRUE)
+# view(v19)
+```
+
+Get Texas population data by county.
+
+```{r}
+tx_pop_data <- get_acs(geography = "county", variables = "B01003_001",
+                state = "TX",  geometry = FALSE)
+tx_pop <- tx_pop_data %>% 
+  select(-variable) %>% 
+  rename(population = estimate, popmoe = moe)
+
+tx_pop %>% write_csv("data/tx-pop.csv")
+
+tx_pop %>% head()
+```
+

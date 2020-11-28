@@ -12,34 +12,40 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 
-## Topics of the day
+## Our goals for the day
+
+- Bind (stack) data on top of each other
+- Join data next to each other
+- Reshape data
+- Visualize with ggplot
 
 ## Binding rows (stacking data)
 
 ```{r prep-names}
 yob2017 <- read_csv(
-  "yob2017.txt",
+  "https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/yob2017.txt",
   col_types = cols(sex = col_character()
   )
 )
 
 yob2018 <- read_csv(
-  "yob2018.txt",
+  "https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/yob2018.txt",
   col_types = cols(sex = col_character()
   )
 )
 
 yob2019 <- read_csv(
-  "yob2019.txt",
+  "https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/yob2019.txt",
   col_types = cols(sex = col_character()
   )
 )
-
 ```
 
-We assume the multiple data frames have aleady been imported.
+For this lesson, we assume that multiple data frames have already been imported. There are three data sets of baby names that are exactly the same, one from each year.
 
-```{r bind-rows, exercise=T, exercise.setup="prep-names"}
+We'll peek at the 2017 data here:
+
+```{r bind-01, exercise=T, exercise.setup="prep-names"}
 # Available data frames: yob2017, yob2019, yob2019
 
 # peek at yob2017. All dfs have same col names.
@@ -48,6 +54,12 @@ yob2017 %>% head()
 # length of yob2017
 yob2017 %>% nrow()
 
+```
+
+This is the [bind]() step, using `bind_rows()` since we are stacking data on top of each other. All three data frames have the same column names, so they will stack right on top of each other. We'll show the difference by printing the number of rows `nrow()` of the combined data.
+
+```{r bind-02, exercise=T, exercise.setup="prep-names", exercise.lines=16}
+# bind the rows together
 names <- bind_rows(
   "2017" = yob2017,
   "2018" = yob2018,
@@ -55,29 +67,34 @@ names <- bind_rows(
   .id="yr"
 )
 
+# peek at the top of the data frame
+names %>% head(3)
+
+# peek at the bottom of the data frame
+names %>% tail(3)
+
+# get the length of the combined data frame
 names %>% nrow()
 ```
 
+Let's break that down a little.
 
+- Within the `bind_rows()` function, we give each data frame an named value, `"2017" = yob2017`.
+- In the last line, we set the `.id` to use that named value as a column called `yr`.
 
-- bind_rows (with `.id=id` and `"group 1" = one, "group 2" = two, .id = "groups"`)
-
-this might allow stacking dfs by using df's name?
-
-```r
-bind_rows(list_of_DFs, .id = "id") %>% 
-  spread(key = "id", value = "result")
-```
+If we didn't include the names and id, then we would just stack the data and not know where it came from.
 
 ## Joining data frames
 
 
 
-### Andrew
+## Reshaping data
 
 - Reshaping data with tidyr.
-- Introduction to ggplot.
 
+## Visualization with ggplot
+
+- Introduction to ggplot.
 
 ## Examples
 

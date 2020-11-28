@@ -332,11 +332,13 @@ deaths %>%
 
 Summarizing data in R typically takes two steps: 1) Group the rows based on some value in the data, 2) Aggregate those groups by counting the rows or doing math on values.
 
-The Group and Aggregate combo can be confusing. You might watch this [short video](https://vimeo.com/showcase/7320305/video/435910349) to get a visual understanding of the concept.
+The Group and Aggregate combo can be confusing. We'll watch the video below to get a visual understanding of the concept. It's part of a series on [Basic Data Journalism Function](https://vimeo.com/showcase/7320305).
+
+![](https://vimeo.com/showcase/7320305/video/435910349)
 
 The verbs we use in R are [group_by](https://dplyr.tidyverse.org/reference/group_by.html) and [summarize](https://dplyr.tidyverse.org/reference/summarise.html).
 
-BORING TIDBIT: Hadley Wickham is from New Zealand, so there are both `summarise()` and `summarize()` functions, but they do exactly the same thing. Unfortunately for Americans, summarise arrives first in alphabetical order.
+BORING TIDBIT: Hadley Wickham is from New Zealand, so there are both `summarise()` and `summarize()` functions, but they do exactly the same thing. Unfortunately for Americans, summarise arrives first in alphabetical order in type assist.
 
 ### Basic group and sum
 
