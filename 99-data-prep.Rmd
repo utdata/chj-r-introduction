@@ -16,15 +16,15 @@ Get the most recent county by county for Texas.
 ```{r}
 covid <- read_csv("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv")
 
-covid_tx <- covid %>% 
+tx_covid <- covid %>% 
   filter(state == "Texas") %>% 
   group_by(county) %>% 
   slice(which.max(date)) %>% 
   select(-state)
 
-covid_tx %>% write_csv("data/covid-tx.csv")
+tx_covid %>% write_csv("data/tx-covid.csv")
 
-covid_tx %>% head()
+tx_covid %>% head()
 ```
 
 ## Population data

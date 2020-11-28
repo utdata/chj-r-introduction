@@ -86,6 +86,11 @@ If we didn't include the names and id, then we would just stack the data and not
 
 ## Joining data frames
 
+The tidyverse uses SQL-like logic to join data frames. In the interest of time, I'm going to gloss over all the different types of joins and instead point you to a chapter in [R for Data Science](https://r4ds.had.co.nz/relational-data.html#understanding-joins) which you can read later.
+
+For our example, we are going to join a data frame of recent COVID-19 case and death counts with some population data so we can calculate cases per 100,000 for Texas counties. The data has been pre-worked for this lesson and made available to the lesson as
+
+
 
 
 ## Reshaping data
