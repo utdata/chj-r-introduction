@@ -146,7 +146,7 @@ You should get something like this:
 
 ![Cars plot](images/intro-defaultplot.png){width="90%"}
 
-What you've done here is create a plot chart of sample data "cars" that is already embedded inside the R programming language. (FWIW, it is the speed of cars and the distances taken to stop. Note that the data were recorded in the 1920s.) There are other data sets like this embedded in R for examples like this.
+What you've done here is create a plot chart of the sample data "cars" that is already embedded inside the R programming language. (FWIW, it is the speed of cars and the distances taken to stop, but note the data were recorded in the 1920s.) There are other data sets like this embedded in R for examples like this.
 
 But that wasn't a whole lot of code to see there is a relationship with speed vs stopping distance, eh?
 
@@ -240,15 +240,15 @@ You'll see your computer work away and eventually come to a success message sayi
 
 When we install packages, we put the package name in quotes because R doesn't "have" what it is looking for yet and has to look for it. When we "use" libraries later, we won't have the quotes.
 
-### Install janitor and readr
+### Install janitor and lubridate
 
 There are two other packages we are going to install and we'll do it at one time, learning about `c()` along the way.
 
-- In your **Console**, run: `install.packages(c("janitor","readxl"))`
+- In your **Console**, run:
 
-[janitor](https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html) has some data cleaning properties we'll use.
+`install.packages(c("janitor","lubridate"))`
 
-[readxl](https://readxl.tidyverse.org/reference/read_excel.html) is a tidyverse add-on to import Excel files.
+[janitor](https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html) has some data cleaning properties we'll use. [lubridate](https://lubridate.tidyverse.org/) makes dealing with dates and time values a little easier.
 
 You'll note we used this `c("term1","term1")` construction to feed R a combination of items, which you'll see a lot. The `c` stands for **combine** and we use it to build collections of things we call **vectors**.
 

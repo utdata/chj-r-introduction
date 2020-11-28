@@ -2,6 +2,16 @@
 
 A course by Andrew Ba Tran & Christian McDonald for the [Center for Health Journalism Data Fellowship](https://centerforhealthjournalism.org/event/2020-data-fellowship-1).
 
+## Tutorials for each day
+
+- [Day 1: Getting started](https://utdata.shinyapps.io/chj-day1/#section-about-these-lessons)
+- [Day 2: Data wrangling](https://utdata.shinyapps.io/chj-day2/)
+- Day 3: Combining and reshaping
+- Day 4: Visualizations
+- Day 5: Geospacial analysis
+
+---
+
 ## Outline
 
 Idea is to tackle each section in three parts:

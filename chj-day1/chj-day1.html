@@ -254,7 +254,7 @@ $(document).ready(function () {
 <img src="images/intro-defaultplot.png" style="width:90.0%" alt="" />
 <p class="caption">Cars plot</p>
 </div>
-<p>What you’ve done here is create a plot chart of sample data “cars” that is already embedded inside the R programming language. (FWIW, it is the speed of cars and the distances taken to stop. Note that the data were recorded in the 1920s.) There are other data sets like this embedded in R for examples like this.</p>
+<p>What you’ve done here is create a plot chart of the sample data “cars” that is already embedded inside the R programming language. (FWIW, it is the speed of cars and the distances taken to stop, but note the data were recorded in the 1920s.) There are other data sets like this embedded in R for examples like this.</p>
 <p>But that wasn’t a whole lot of code to see there is a relationship with speed vs stopping distance, eh?</p>
 <blockquote>
 <p>Let’s stop here to make sure everyone has gotten to this point.</p>
@@ -342,14 +342,14 @@ This text is related to the above in some way.</code></pre>
 <p>You’ll see your computer work away and eventually come to a success message saying where the packages were installed. You only have to do this once for your computer.</p>
 <p>When we install packages, we put the package name in quotes because R doesn’t “have” what it is looking for yet and has to look for it. When we “use” libraries later, we won’t have the quotes.</p>
 </div>
-<div id="section-install-janitor-and-readr" class="section level3">
-<h3>Install janitor and readr</h3>
+<div id="section-install-janitor-and-lubridate" class="section level3">
+<h3>Install janitor and lubridate</h3>
 <p>There are two other packages we are going to install and we’ll do it at one time, learning about <code>c()</code> along the way.</p>
 <ul>
-<li>In your <strong>Console</strong>, run: <code>install.packages(c("janitor","readxl"))</code></li>
+<li>In your <strong>Console</strong>, run:</li>
 </ul>
-<p><a href="https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html">janitor</a> has some data cleaning properties we’ll use.</p>
-<p><a href="https://readxl.tidyverse.org/reference/read_excel.html">readxl</a> is a tidyverse add-on to import Excel files.</p>
+<p><code>install.packages(c("janitor","lubridate"))</code></p>
+<p><a href="https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html">janitor</a> has some data cleaning properties we’ll use. <a href="https://lubridate.tidyverse.org/">lubridate</a> makes dealing with dates and time values a little easier.</p>
 <p>You’ll note we used this <code>c("term1","term1")</code> construction to feed R a combination of items, which you’ll see a lot. The <code>c</code> stands for <strong>combine</strong> and we use it to build collections of things we call <strong>vectors</strong>.</p>
 <p><em>BORING DETAILS:</em> <a href="https://www.tutorialspoint.com/r/r_vectors.htm"><strong>Vectors</strong></a> are collections of elements of like value, like numbers or strings of letters. Everything is a vector in R, really – a single letter in R is a vector with a length of 1. I would say think of vectors like a list of common things, but a <a href="https://www.tutorialspoint.com/r/r_lists.htm">list</a> is a special object of its own, a combination of unlike things.</p>
 </div>
