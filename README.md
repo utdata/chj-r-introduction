@@ -6,19 +6,13 @@ A course by Andrew Ba Tran & Christian McDonald for the [Center for Health Journ
 
 - [Day 1: Getting started](https://utdata.shinyapps.io/chj-day1/#section-about-these-lessons)
 - [Day 2: Data wrangling](https://utdata.shinyapps.io/chj-day2/)
-- Day 3: Combining and reshaping
+- [Day 3: Combining and reshaping](https://utdata.shinyapps.io/chj-day3/)
 - Day 4: Visualizations
 - Day 5: Geospacial analysis
 
 ---
 
-## Outline
-
-Idea is to tackle each section in three parts:
-
-- Short discussion on concepts.
-- A [learnr](https://rstudio.github.io/learnr/) tutorial to practice the steps.
-- A detailed practice session for the fellow to do on their own.
+## Notes
 
 We can use some COVID data, including from the [covidcast](https://cmu-delphi.github.io/covidcast/covidcastR/) package.
 
@@ -31,14 +25,10 @@ We can use some COVID data, including from the [covidcast](https://cmu-delphi.gi
 - Project management for RStudio
 - Import/Exporting data (readr, etc)
 - Data Wrangling (dplyr)
-
-I'll also apply for a shinnyapps.io educational account.
+- Join and merge data
 
 ### Andrew
 
-In addition to below, figure out how to publish to the shinyapps.io.
-
 - Shaping data (tidyr)
 - Visualizations (ggplot)
-- Census
 - Geoanalysis with census/maps

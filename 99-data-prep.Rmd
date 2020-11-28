@@ -14,7 +14,8 @@ library(tidycensus)
 Get the most recent county by county for Texas.
 
 ```{r}
-covid <- read_csv("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv")
+covid <- read_csv("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv") %>% 
+  clean_names()
 
 tx_covid <- covid %>% 
   filter(state == "Texas") %>% 
@@ -40,7 +41,9 @@ Get Texas population data by county.
 
 ```{r}
 tx_pop_data <- get_acs(geography = "county", variables = "B01003_001",
-                state = "TX",  geometry = FALSE)
+                state = "TX",  geometry = FALSE, year = 2018) %>% 
+  clean_names()
+
 tx_pop <- tx_pop_data %>% 
   select(-variable) %>% 
   rename(population = estimate, popmoe = moe)

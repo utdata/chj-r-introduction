@@ -1751,9 +1751,6 @@ summary {
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-output-begin eyJkYXRhIjoicGFja2FnZSDigJh0aWR5Y2Vuc3Vz4oCZIHdhcyBidWlsdCB1bmRlciBSIHZlcnNpb24gNC4wLjJcbiJ9 -->
-<pre><code>package ‘tidycensus’ was built under R version 4.0.2</code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <div id="covid-data" class="section level2">
@@ -1761,7 +1758,18 @@ summary {
 <p>Get the most recent county by county for Texas.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImdyb3VwZWRfZGYiLCJ0YmxfZGYiLCJ0YmwiLCJkYXRhLmZyYW1lIl0sIm5yb3ciOjYsIm5jb2wiOjV9LCJyZGYiOiJINHNJQUFBQUFBQUFBNDFTelVyRFFCRGV0a2xxQXkwRlgwS0VodjRvMXBNcEZQVXNDajI2SnRzMm1PNlczUzNWbTIvZ2F3aStoRWVQNGtONDl1eWhjVGE3VzlPY0RJUnZ2bTltTTVsdjltbzhHZmdUSHlGVVF3NnFvSm9MSVhKdnJzODdRNFNjS3BBS0pCb0tINkJvWDJVQlc0QmUrSGtRcXZML1l1bURicFJpSVNCb0YwUm5qQ1VCM0JqZE0vcmVpTWFFQzBZTnJ3UG5aQzMrMGpPU0poUnYweHhUZ1czYUcvRm9UcmhoalJGZkNNa1puWldhdUVmRGJyZFhKSU1pT1M2U2t5STVMWkJlRHdMdHo4dDdQblg0L0tIeDlVdmpvN1lqWkxjYUw1Rjk5TG1MSjYwZmFqR2N2R25zRzI2S3o3N3RNZVZyTlN0WjZjZFk0bURLOFlLVW5HOXd0ZzRvNk1yOUpyeFYxVERMc3AveWlteFJPOSs3V1ZHc1ZtU01qZGlLeWtlYm1TWkxzZDB1Rm1UcmYweXduQXU5MTUwT2RiYVVDYU9RcXBxN3RUTkRoWmVFOW9xcWY0bzcwWHhGN3p0OVpiYWY1L1hUTkxGWGlGM2QwOGxLZzNpRXpoSnFSM0ZUZkVkU1ExcmdVRDU3c09RSmxkWlJVRVVnbWNTMnpvOVlhaFY5YVRlL1phdWg2MU1EQUFBPSJ9 -->
+<!-- rnb-output-begin eyJkYXRhIjoiUGFyc2VkIHdpdGggY29sdW1uIHNwZWNpZmljYXRpb246XG5jb2xzKFxuICBkYXRlID0gY29sX2RhdGUoZm9ybWF0ID0gXCJcIiksXG4gIGNvdW50eSA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgc3RhdGUgPSBjb2xfY2hhcmFjdGVyKCksXG4gIGZpcHMgPSBjb2xfY2hhcmFjdGVyKCksXG4gIGNhc2VzID0gY29sX2RvdWJsZSgpLFxuICBkZWF0aHMgPSBjb2xfZG91YmxlKClcbilcbiJ9 -->
+<pre><code>Parsed with column specification:
+cols(
+  date = col_date(format = &quot;&quot;),
+  county = col_character(),
+  state = col_character(),
+  fips = col_character(),
+  cases = col_double(),
+  deaths = col_double()
+)</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImdyb3VwZWRfZGYiLCJ0YmxfZGYiLCJ0YmwiLCJkYXRhLmZyYW1lIl0sIm5yb3ciOjYsIm5jb2wiOjV9LCJyZGYiOiJINHNJQUFBQUFBQUFBNDFTd1U3Q1FCQmRvQzNTQkRUeEo0d0pEWWhHUEZrU29wNk5KaHhkMndVYXl5N1pYWUxjL0FOL3c4U2Y4T2pSK0JHZVBYdWd6blozc2ZSa2srYk5lelBiNmJ6WjYrR281NDk4aEZBTk9haUNhaTZFeUwyOXVXajNFWEtxUUNxUWFDaDhoS0o5bFFWc0FYcmg1MEdveXYrTHBRKzZVWXFGZ0dDdklEcERMQW5nMnVpZTBYY0dOQ1pjTUdwNEhUZ25TL0dYbnBBMG9YaVQ1cGdLYk5QZWdFZFR3ZzFyRFBoTVNNN29wTlRFUGU1M090MGk2UlhKU1pHY0ZzbFpnWFM3RUdoL1h0N3pxY1BuRDQydlh4cFgybzZRM1dtOFF2YlI1eTZmdEg2b3hYRDBwdkhJY0ZOOC9tMlBLVityV2NsS1A4WVNCMk9PWjZUa2ZJT3paVUJCVis0MzRhMnFobG1XL1pSWFpJdjI4cjJiRmNWcVJjYllpQzJvWE5uTU9KbUx6WGF4SUJ2L1k0TGxWT2k5Ym5Xb3M3bE1HSVZVMWR5dHJSa3F2Q1RzTHFqNnA3Z2RUUmYwb2EwYzhmTzBmcG9tOWdxeHExczZXV2tPajlCSlF1MGtib3J2U1dwSUN3ektSdy9tUEtIU0dncXFDQ1NUMk5iNUVVdXRvdS9zK2hjZlNrNlpVZ01BQUE9PSJ9 -->
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["date"],"name":[1],"type":["date"],"align":["right"]},{"label":["county"],"name":[2],"type":["chr"],"align":["left"]},{"label":["fips"],"name":[3],"type":["chr"],"align":["left"]},{"label":["cases"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["deaths"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"2020-11-27","2":"Anderson","3":"48001","4":"3172","5":"47"},{"1":"2020-11-27","2":"Andrews","3":"48003","4":"1018","5":"13"},{"1":"2020-11-27","2":"Angelina","3":"48005","4":"3571","5":"99"},{"1":"2020-11-27","2":"Aransas","3":"48007","4":"404","5":"18"},{"1":"2020-11-27","2":"Archer","3":"48009","4":"251","5":"2"},{"1":"2020-11-27","2":"Armstrong","3":"48011","4":"48","5":"1"}],"options":{"columns":{"min":{},"max":[10],"total":[5]},"rows":{"min":[10],"max":[10],"total":[6]},"pages":{}}}
@@ -1776,11 +1784,6 @@ summary {
 <p>Get the tidycensus variables table.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3I6IGxleGljYWwgZXJyb3I6IGludmFsaWQgY2hhciBpbiBqc29uIHRleHQuXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8aHRtbD48aGVhZD48dGl0bGU+RXJyb3IgcmVwb3J0XG4gICAgICAgICAgICAgICAgICAgICAocmlnaHQgaGVyZSkgLS0tLS0tXlxuIn0= -->
-<pre><code>Error: lexical error: invalid char in json text.
-                                       &lt;html&gt;&lt;head&gt;&lt;title&gt;Error report
-                     (right here) ------^</code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>Get Texas population data by county.</p>
@@ -1790,19 +1793,12 @@ summary {
 <pre><code>Getting data from the 2014-2018 5-year ACS
 Using FIPS code &#39;48&#39; for state &#39;TX&#39;</code></pre>
 <!-- rnb-output-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6NiwibmNvbCI6NH0sInJkZiI6Ikg0c0lBQUFBQUFBQUE0VlNUVS9DTUJndXNFRllBcHI0ZGVWc1pJRWdFVzliQkkwSE5UR1ljRE4xRkZnYzdkSnVBVS82Ujd6NFMvUW5lUFBvRC9EZ3hZc0habHZhWkM0WW16VHYrenhQbi9mdDIrMnlPMmhaQXdzQVVBQUd5SUdDeVZOZ1h2V1A2eDBBakR3SE9TNlVSWnp6UXhzOE1maGU1N3VvQkhPLzAyZzAwNkNWQnUwME9FaUR3eFJvTmpOVnQxMDhSSlFSWERzaU1ZN3U5bXA5TklkTXFWdGNwV2pHVm9yY09rYUJqK0VmVmdveGc2dXRteTcxSm9pdTFIWmNPbVVSSlhpY2tRR29pb3M3SDg2N2VEM25kZlFnNDVjWHl2aG1QOHY0c3J2a0h6K0JXdEozTDJIcDZiL29YRHZLOXV1N21CaE9FVk92WjJqeXBIZHgybFhBT0hmUGVpcTNRaExHQVl4OGdoVlQ1TXlVb0V6Vk1pVXpXMWV1OEowWGQwK1M1RHZiM2dzZzArMDFhUTFoQk8wUjVYNk9GaGxMaVlTaVB6Zmx4ZjlrWnN3NW1pSFdZaXh1TXF4N2t4amYxdHVpZ1pTWHE2THlZaW8zbGkzemlTcGw2bUVSSHZzWTZic0g4QVlGQ2xUNXhISmdPNlEranZRa25HVjJSQ0tvejFrZUNUUWpad09MSCtRZXZKVkdBd0FBIn0= -->
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["GEOID"],"name":[1],"type":["chr"],"align":["left"]},{"label":["NAME"],"name":[2],"type":["chr"],"align":["left"]},{"label":["population"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["popmoe"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"48001","2":"Anderson County, Texas","3":"57863","4":"NA"},{"1":"48003","2":"Andrews County, Texas","3":"17818","4":"NA"},{"1":"48005","2":"Angelina County, Texas","3":"87607","4":"NA"},{"1":"48007","2":"Aransas County, Texas","3":"24763","4":"NA"},{"1":"48009","2":"Archer County, Texas","3":"8789","4":"NA"},{"1":"48011","2":"Armstrong County, Texas","3":"1916","4":"125"}],"options":{"columns":{"min":{},"max":[10],"total":[4]},"rows":{"min":[10],"max":[10],"total":[6]},"pages":{}}}
-  </script>
-</div>
-<!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiRGF0YSBwcmVwIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgpgYGB7cn0KbGlicmFyeSh0aWR5dmVyc2UpCmxpYnJhcnkoamFuaXRvcikKbGlicmFyeSh0aWR5Y2Vuc3VzKQpgYGAKCiMjIENvdmlkIGRhdGEKCkdldCB0aGUgbW9zdCByZWNlbnQgY291bnR5IGJ5IGNvdW50eSBmb3IgVGV4YXMuCgpgYGB7cn0KY292aWQgPC0gcmVhZF9jc3YoImh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9ueXRpbWVzL2NvdmlkLTE5LWRhdGEvbWFzdGVyL3VzLWNvdW50aWVzLmNzdiIpCgp0eF9jb3ZpZCA8LSBjb3ZpZCAlPiUgCiAgZmlsdGVyKHN0YXRlID09ICJUZXhhcyIpICU+JSAKICBncm91cF9ieShjb3VudHkpICU+JSAKICBzbGljZSh3aGljaC5tYXgoZGF0ZSkpICU+JSAKICBzZWxlY3QoLXN0YXRlKQoKdHhfY292aWQgJT4lIHdyaXRlX2NzdigiZGF0YS90eC1jb3ZpZC5jc3YiKQoKdHhfY292aWQgJT4lIGhlYWQoKQpgYGAKCiMjIFBvcHVsYXRpb24gZGF0YQoKR2V0IHRoZSB0aWR5Y2Vuc3VzIHZhcmlhYmxlcyB0YWJsZS4KCmBgYHtyIHZhcmlhYmxlcy1zZWFyY2h9CiMgdjE5IDwtIGxvYWRfdmFyaWFibGVzKDIwMTgsICJhY3M1IiwgY2FjaGUgPSBUUlVFKQojIHZpZXcodjE5KQpgYGAKCkdldCBUZXhhcyBwb3B1bGF0aW9uIGRhdGEgYnkgY291bnR5LgoKYGBge3J9CnR4X3BvcF9kYXRhIDwtIGdldF9hY3MoZ2VvZ3JhcGh5ID0gImNvdW50eSIsIHZhcmlhYmxlcyA9ICJCMDEwMDNfMDAxIiwKICAgICAgICAgICAgICAgIHN0YXRlID0gIlRYIiwgIGdlb21ldHJ5ID0gRkFMU0UpCnR4X3BvcCA8LSB0eF9wb3BfZGF0YSAlPiUgCiAgc2VsZWN0KC12YXJpYWJsZSkgJT4lIAogIHJlbmFtZShwb3B1bGF0aW9uID0gZXN0aW1hdGUsIHBvcG1vZSA9IG1vZSkKCnR4X3BvcCAlPiUgd3JpdGVfY3N2KCJkYXRhL3R4LXBvcC5jc3YiKQoKdHhfcG9wICU+JSBoZWFkKCkKYGBgCgo=</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRGF0YSBwcmVwIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgpgYGB7cn0KbGlicmFyeSh0aWR5dmVyc2UpCmxpYnJhcnkoamFuaXRvcikKbGlicmFyeSh0aWR5Y2Vuc3VzKQpgYGAKCiMjIENvdmlkIGRhdGEKCkdldCB0aGUgbW9zdCByZWNlbnQgY291bnR5IGJ5IGNvdW50eSBmb3IgVGV4YXMuCgpgYGB7cn0KY292aWQgPC0gcmVhZF9jc3YoImh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9ueXRpbWVzL2NvdmlkLTE5LWRhdGEvbWFzdGVyL3VzLWNvdW50aWVzLmNzdiIpCgp0eF9jb3ZpZCA8LSBjb3ZpZCAlPiUgCiAgZmlsdGVyKHN0YXRlID09ICJUZXhhcyIpICU+JSAKICBncm91cF9ieShjb3VudHkpICU+JSAKICBzbGljZSh3aGljaC5tYXgoZGF0ZSkpICU+JSAKICBzZWxlY3QoLXN0YXRlKQoKdHhfY292aWQgJT4lIHdyaXRlX2NzdigiZGF0YS90eC1jb3ZpZC5jc3YiKQoKdHhfY292aWQgJT4lIGhlYWQoKQpgYGAKCiMjIFBvcHVsYXRpb24gZGF0YQoKR2V0IHRoZSB0aWR5Y2Vuc3VzIHZhcmlhYmxlcyB0YWJsZS4KCmBgYHtyIHZhcmlhYmxlcy1zZWFyY2h9CiMgdjE5IDwtIGxvYWRfdmFyaWFibGVzKDIwMTgsICJhY3M1IiwgY2FjaGUgPSBUUlVFKQojIHZpZXcodjE5KQpgYGAKCkdldCBUZXhhcyBwb3B1bGF0aW9uIGRhdGEgYnkgY291bnR5LgoKYGBge3J9CnR4X3BvcF9kYXRhIDwtIGdldF9hY3MoZ2VvZ3JhcGh5ID0gImNvdW50eSIsIHZhcmlhYmxlcyA9ICJCMDEwMDNfMDAxIiwKICAgICAgICAgICAgICAgIHN0YXRlID0gIlRYIiwgIGdlb21ldHJ5ID0gRkFMU0UsIHllYXIgPSAyMDE4KQp0eF9wb3AgPC0gdHhfcG9wX2RhdGEgJT4lIAogIHNlbGVjdCgtdmFyaWFibGUpICU+JSAKICByZW5hbWUocG9wdWxhdGlvbiA9IGVzdGltYXRlLCBwb3Btb2UgPSBtb2UpCgp0eF9wb3AgJT4lIHdyaXRlX2NzdigiZGF0YS90eC1wb3AuY3N2IikKCnR4X3BvcCAlPiUgaGVhZCgpCmBgYAoK</div>
 
 
 
