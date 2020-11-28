@@ -1,28 +1,329 @@
 ---
-title: "Tutorial"
+title: "CHJ R Track Day 2: Data wrangling"
 output: learnr::tutorial
 runtime: shiny_prerendered
 ---
 
 ```{r setup, include=FALSE}
+library(tidyverse)
+library(janitor)
 library(learnr)
+library(lubridate)
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
+## Our goals for the day
 
-## Topics of the day
+> TO DO: Add notes to annotate for own-your-own sessions.
 
-Continuing data wrangling with dplyr. Creating new columns, cleaning data, etc. Datatables.
+About 80% of data journalism consists of simple operations:
 
-- select
-- filter
-- mutate
-- group_by and summarize
+- Selecting columns
+- Filtering data
+- Sorting data
+- Calculating new data
+- Summarizing data (counting and summing)
+
+Oh, and **cleaning data**, where the work really comes in.
+
+>“Cleaning your data is when you’re getting to know it intimately. That’s not something you can hand off to someone else. -- Hadley Wickham
+
+We'll do all that here in day 2, mosting using functions from the [dplyr](https://dplyr.tidyverse.org/) package from the tidyverse.
+
+## Set up a new project
+
+Even though we are starting with data we used yesterday, let's start a new project so you get more practice doing that:
+
+- Launch RStudio
+- If your project opens yesterday's project (it shouldn't if we set your preferences correctly), then go under File > Close project.
+- Use the second toolbar button with the `+R` icon to start a **New project**.
+- Name the project `day2-wrangling` and make sure it is still saving to your `chj` folder.
+- Use the first `+ Document` toolbar icon to start a new **RNotebook**.
+- Update your metadata **title** to "Data wrangling".
+- Save the file as `01-opioid.Rmd`.
+- Remove the boilerplate text BELOW the metadata.
+- Insert a code chunk with *Cmd+Option+i* and add the following libraries:
+
+```r
+library(tidyverse)
+library(janitor)
+```
+
+- Add some Markdown text explaining that you are importing. To save time, you can copy/paste this:
+
+```text
+## Import and clean
+
+This is data of opioid deaths in Minnesota.
+```
+
+- Add an other R chuck with *Cmd+Option+i* and add the following inside the chunk:
+
+```r
+deaths <- read_csv("https://github.com/utdata/chj-r-introduction/blob/main/data/chj_mn_opiate_deaths_data.csv?raw=true") %>% clean_names()
+
+deaths %>% head()
+```
+
+- Now run all the code in your workbook using *Cmd+Option+r*, or go under the **Run** menu at the top-right of the notebook and select **Run all**.
+
+This should load your libraries and run the code to create our data frame.
+
+## Select columns
+
+```{r prepare-deaths}
+# loading the deaths data
+deaths <- read_csv("https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/chj_mn_opiate_deaths_data.csv") %>% clean_names()
+```
+
+The `select()` function allows you to select or exclude columns from your data. Run the code chunk below to see how it works. (The `deaths` data frame has already been created for you.)
+
+```{r deaths-select, exercise=T, exercise.setup = "prepare-deaths"}
+deaths %>% 
+  select(first_name, last_name, gender, race)
+```
+
+While we won't get into all the nuances here, there are [other selection helpers](https://dplyr.tidyverse.org/reference/select.html) you can use within `select()`. Guess what the next code block will do and then run it.
+
+```{r deaths-select-endswith, exercise=T, exercise.setup = "prepare-deaths"}
+deaths %>% 
+  select(ends_with("_date")) %>% 
+  head()
+```
+### On your own
+
+In your project:
+
+- Create a new code chunk.
+- Use `select()` to choose some interesting column to look through in the data.
+- Use Markdown text above the code chunk to explain what you've done.
+
+> Break for a minute to do the activity.
+
+## Filtering data
+
+When you want to capture specific rows in your data based on a value in one or more column, you use [filter()](https://dplyr.tidyverse.org/reference/filter.html).
+
+The `filter()` function works like this:
+
+```{r deaths-filter, exercise=T, exercise.setup = "prepare-deaths"}
+deaths %>% 
+  select(ends_with("name"), gender) %>% 
+  filter(gender == "M") %>% 
+  head()
+```
+### Filter operators
+
+Note that to match a specific value, you need two equal signs: `==`. Here are the other logical tests you can use:
+
+
+![Filter operators](images/filter-logical-test.png){width=60%}
+
+
+### Filtering practice
+
+- Write a filter to get only records where the `age_years` is less than 18 and then selext only the name and age columns in the result. We've started you off with the `deaths` data frame.
+
+```{r try, exercise=T, exercise.setup = "prepare-deaths", exercise.line = 8}
+deaths
+```
+
+
+<div id="try-hint">
+```r
+deaths %>% 
+  filter(age_years < 18) %>% 
+  select(ends_with("_name"), age_years)
+```
+</div>
+
+### Common mistakes with filter()
+
+#### Use two == signs for “true”
+
+Don't oo this:
+
+```r
+deaths %>% 
+  filter(res_county = "CASS")
+```
+
+Do this:
+
+```r
+deaths %>% 
+  filter(res_county == "CASS")
+```
+
+#### Forgetting quotes
+
+Don't do this:
+
+```r
+deaths %>% 
+  filter(county = CASS)
+```
+
+Do this
+
+```r
+deaths %>% 
+  filter(county = "CASS")
+```
+  
+### Combining filters
+
+You can filter for more than one thing at a time by separating more than one test with a comma.
+
+
+```{r filter-multi, exercise=T, exercise.setup = "prepare-deaths", exercise.lines=6}
+deaths %>% 
+  filter(
+    gender == "M",
+    manner_death == "ACCIDENT"
+  ) %>% 
+  select(last_name, gender, manner_death)
+```
+
+Note that we broke up the filter into multiple lines to make it easier to read and understand. This is easy to do in RStudio because it helps you indent the lines properly, unlike the learning environment here.
+
+If you use a comma to separate tests, then both tests have to be true. If you want OR, then you use a pipe | (the shift-key above the backslash.)
+
+```{r filter-or, exercise=T, exercise.setup="prepare-deaths", exercise.lines=8}
+deaths %>% 
+  filter(manner_death == "HOMICIDE" | manner_death == "PENDING INVESTIGATION") %>% 
+  select(manner_death)
+```
+
+Note you have to repeat the column name for each test, even if it is the same.
+
+I'll show you one more because I find it particularly useful: Finding rows for a list of values.
+
+```{r filter-in, exercise=T, exercise.setup="prepare-deaths", exercise.lines=8}
+deaths %>% 
+  filter(manner_death %in% c("HOMICIDE", "PENDING INVESTIGATION")) %>% 
+  select(manner_death)
+```
+
+Note I use the `c()` construction again to combine several values into a vector to search through. I'll often save my list of items into variable, then then filter with that:
+
+```r
+manners_list <- c("HOMICIDE", "PENDING INVESTIGATION")
+
+deaths %>% 
+  filter(manner_death %in% manners_list)
+```
+
+Here are the operators to combine filters:
+
+![Combining filters](images/filters-boolean.png){width=60%}
+
+### Filter on your own
+
+In your project, start a new R chunk and filter to find cases of "African American" women.
+
+> We'll break here for three minute to try that.
+
+## Sorting data
+
+The tidyverse verb for sorting data is `arrange()`. We'll introduce it quicky here, but use it more later.
+
+```{r arrange, exercise=T, exercise.setup="prepare-deaths"}
+deaths %>% 
+  arrange(age_years) %>% 
+  select(age_years)
+```
+
+To get a column to sort in descending order, I add ` %>% desc()` to the column value. (Another way to do it is `arrange(desc(age_years))` but I like using the tidyverse pipe as it is more readable.)
+
+```{r arrange-desc, exercise=T, exercise.setup="prepare-deaths"}
+deaths %>% 
+  arrange(age_years %>% desc()) %>% 
+  select(age_years, manner_death)
+```
+
+You can sort by more than one column using a comma between rules within the `arrange()`.
+
+## Calculating or updating data
+
+The verb to change data in your data frame is [mutate()](https://dplyr.tidyverse.org/reference/mutate.html). You can use this to calculate new data based on other columns, or to replace data with a mutation of the original.
+
+We'll use `mutate()` to convert or dates to real dates. Before we do that, we need to install and add another package to your project.
+
+### Install and prime lubridate
+
+- In your project, go to your **Console** and install the [lubridate]() package by running: 
+
+`install.packages("lubridate")`
+
+- Now go back up to your first chunk with all your libraries and add this line:
+
+`library(lubridate)`
+
+and then run the entire chunk again. This gives us a fancy package that helps us convert dates, which can be a real pain in any programming language.
+
+### Using mutate to convert dates
+
+We'll show this first in this learning environment before fixing the data in your project.
+
+```{r convert-date, exercise=T, exercise.setup="prepare-deaths", exercise.lines=6}
+deaths %>% 
+  mutate(
+    birth_clean_date = birth_date %>% mdy()
+  ) %>% 
+  select(birth_date, birth_clean_date)
+```
+
+I put the value inside the `mutate()` on a line by itself to make it clearly readable what we are doing. I can do multiple mutations by adding a comma and return after line 3 and adding another rule.
+
+Let's break this down a little:
+
+- Within the mutate call, we name the new column first (`birth_clean_date`) and then "fill" it with the right side of the equation. If we wanted to update the existing column, we would use `birth_date` on the left side of the equation, too, but that can be risky because you want to see what the mutation is doing vs the original data in case anything goes awry.
+- On the right side of the equation we are starting with the column we want to convert, `birth_date` but then use a pipe` %>% mdy()` to convert that value.
+- The `mdy()` part on the right side tells lubridate what order the date values are in. If we were starting with 1992/7/18, then we would use `ymd()`.
+
+BORING DETAIL: You might see this written elsewhere as `mutate(birth_date_clean = mdy(birth_date))`, where the column you are converting is inside the `mdy()` function. I like the tidyverse notation using the pipe because nested rules can get confusing if there are more than one. Others may disagree, but they didn't write this tutorial.
+
+### Mutate on your own
+
+In your own project, use the lesson example above to write a mutate rule to convert all three date columns in `deaths` into new "_clean_" columns, but  **assign the result back into the `deaths` dataframe**. After you've reassigned the data frame, start again with `deaths` and then use `select()` to show all six date columns so you can compare them.
+
+I want you to do this in your own project in RStudio because it is easier to write code there than in this learning environment, but I include a practice session below with a hint in case you have trouble.
+
+```{r convert-date-practice, exercise=T, exercise.setup="prepare-deaths", exercise.lines=10}
+
+```
+
+<div id="convert-date-practice-hint">
+```r
+deaths <- deaths %>% 
+  mutate(
+    birth_clean_date = birth_date %>% mdy(),
+    death_clean_date = death_date %>% mdy(),
+    injury_clean_date = injury_date %>% mdy()
+  )
+
+deaths %>% 
+  select(ends_with("_date"))
+```
+</div>
+
+
+## Summarizing data
+
+Summarizing data in R typically takes two steps: 1) Group the rows based on some value in the data, 2) Aggreate those groups by counting the rows or doing math on values.
+
+The Group and Aggregate combo can be confusing. You might watch this [short video](https://vimeo.com/showcase/7320305/video/435910349) to get a visual understanding of the concept.
+
+The verbs we use in R are [group_by](https://dplyr.tidyverse.org/reference/group_by.html) and [summarize](https://dplyr.tidyverse.org/reference/summarise.html).
+
+BORING TIDBIT: Hadley Wickham is from New Zealand, so there are both `summarise()` and `summarize()` functions, but they do exactly the same thing. Unfortunately for Americans, summarise arrives first in alphabetical order.
+
+> More to come
 
 ## Stuff to consider
 
 Import NYTimes covid case numbers
-
 
 ```{r}
 covid <- read_csv("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv")
@@ -58,69 +359,5 @@ Covidtracking.co api
 
 ```{r}
 ctapi <- read_csv("https://api.covidtracking.com/v1/states/current.csv")
-```
-
-
-## Examples
-
-### Exercise 
-
-*Here's a simple exercise with an empty code chunk provided for entering the answer.*
-
-Write the R code required to add two plus two:
-
-```{r two-plus-two, exercise=TRUE}
-
-```
-
-### Exercise with Code
-
-*Here's an exercise with some prepopulated code as well as `exercise.lines = 5` to provide a bit more initial room to work.*
-
-Now write a function that adds any two numbers and then call it:
-
-```{r add-function, exercise=TRUE, exercise.lines = 5}
-add <- function() {
-  
-}
-```
-
-## Topic 2
-
-### Exercise with Hint
-
-*Here's an exercise where the chunk is pre-evaulated via the `exercise.eval` option (so the user can see the default output we'd like them to customize). We also add a "hint" to the correct solution via the chunk immediate below labeled `print-limit-hint`.*
-
-Modify the following code to limit the number of rows printed to 5:
-
-```{r print-limit, exercise=TRUE, exercise.eval=TRUE}
-mtcars
-```
-
-```{r print-limit-hint}
-head(mtcars)
-```
-
-### Quiz
-
-*You can include any number of single or multiple choice questions as a quiz. Use the `question` function to define a question and the `quiz` function for grouping multiple questions together.*
-
-Some questions to verify that you understand the purposes of various base and recommended R packages:
-
-```{r quiz}
-quiz(
-  question("Which package contains functions for installing other R packages?",
-    answer("base"),
-    answer("tools"),
-    answer("utils", correct = TRUE),
-    answer("codetools")
-  ),
-  question("Which of the R packages listed below are used to create plots?",
-    answer("lattice", correct = TRUE),
-    answer("tools"),
-    answer("stats"),
-    answer("grid", correct = TRUE)
-  )
-)
 ```
 
