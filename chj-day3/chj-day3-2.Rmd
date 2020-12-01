@@ -19,8 +19,9 @@ We're going to learn a couple new concepts from a few packages while digging thr
 Let's import the latest raw data from the [Covid Tracking Project](https://covidtracking.com/race/dashboard):
 
 ```{r importing_data_real, include=FALSE, echo=FALSE}
-library(readr)
+library(tidyverse)
 library(learnr)
+library(lubridate)
 
 race <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vS8SzaERcKJOD_EzrtCDK1dX1zkoMochlA9iHoHg_RSw3V8bkpfk1mpw4pfL5RdtSOyx_oScsUtyXyk/pub?gid=43720681&single=true&output=csv")
 
