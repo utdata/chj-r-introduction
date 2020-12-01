@@ -1,5 +1,5 @@
 ---
-title: "Tutorial"
+title: "Day 3, Pt. 1: Combining data"
 output: learnr::tutorial
 runtime: shiny_prerendered
 ---
@@ -9,56 +9,66 @@ library(tidyverse)
 library(learnr)
 library(janitor)
 knitr::opts_chunk$set(echo = FALSE)
-```
 
-
-## Our goals for the day
-
-- Bind (or stack) data on top of each other
-- Join data next to each other
-- Reshape data
-- Visualize with ggplot
-
-## Binding rows (stacking data)
-
-```{r prep-names}
 yob2017 <- read_csv(
-  "https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/yob2017.txt",
+  "yob2017.txt",
   col_types = cols(sex = col_character()
   )
 )
 
 yob2018 <- read_csv(
-  "https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/yob2018.txt",
+  "yob2018.txt",
   col_types = cols(sex = col_character()
   )
 )
 
 yob2019 <- read_csv(
-  "https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/yob2019.txt",
+  "yob2019.txt",
   col_types = cols(sex = col_character()
   )
 )
+
+tx_pop <- read_csv(
+  "tx-pop.csv",
+  col_types = cols(geoid = col_character())
+)
+
+tx_covid <- read_csv(
+  "tx-covid.csv",
+    col_types = cols(fips = col_character())
+)
+
+tx_joined <- tx_covid %>% 
+  left_join(tx_pop, by = c("fips" = "geoid"))
+
 ```
+
+
+## Our goals for this lesson
+
+- Bind (or stack) data on top of each other
+- Join data next to each other
+- After this lesson, we'll turn to Andrew for reshaping data
+
+## Binding rows (stacking data)
 
 For this lesson, we assume that multiple data frames have already been imported. There are three data sets of baby names that are exactly the same, one from each year, 2017-2019.
 
-We'll peek at the 2017 data here:
+We'll glimpse the three data frames and peek at an example:
 
-```{r bind-01, exercise=T, exercise.setup="prep-names"}
-# Available data frames: yob2017, yob2019, yob2019
+```{r bind-01, exercise=T}
+# glimpe the three data frames
+yob2017 %>% glimpse
+yob2018 %>% glimpse
+yob2018 %>% glimpse
 
-# peek at yob2017. All dfs have same col names.
+# peek at yob2017
 yob2017 %>% head()
-
-# length of yob2017
-yob2017 %>% nrow()
-
 ```
 
-In the next step we use  [bind](https://dplyr.tidyverse.org/reference/bind.html) function, using `bind_rows()` since we are stacking data on top of each other. All three data frames have the same column names, so they will stack right on top of each other. We'll show the difference by printing the number of rows `nrow()` of the combined data and then peek at the top and bottom of the combined table.
+In the next step we use the [bind](https://dplyr.tidyverse.org/reference/bind.html) function, using `bind_rows()` since we are stacking data on top of each other. All three data frames have the same column names, so they will stack right on top of each other. We'll glimpse the new dataframe to check the structure, then peek at the top and bottom of the combined table.
 
-```{r bind-02, exercise=T, exercise.setup="prep-names", exercise.lines=16}
+```{r bind-02, exercise=T, exercise.lines=16}
 # bind the rows together
 names <- bind_rows(
   "2017" = yob2017,
@@ -67,45 +77,34 @@ names <- bind_rows(
   .id="yr"
 )
 
+# get the length of the combined data frame
+names %>% glimpse()
+
 # peek at the top of the data frame
 names %>% head(3)
 
 # peek at the bottom of the data frame
 names %>% tail(3)
 
-# get the length of the combined data frame
-names %>% nrow()
+
 ```
 
 Let's break that down a little.
 
-- Within the `bind_rows()` function, we give each data frame an named value, `"2017" = yob2017`.
-- In the last line, we set the `.id` to use that named value as a column called `yr`.
+- Within the `bind_rows()` function, we give each data frame an named value, like this: `"2017" = yob2017`.
+- In the last line, we set the `.id` to use that named value as a column called `yr`. That gives us the first column names `yr`, which is getting it's value from the name we assigned the dataframe in the `bind_rows()` function.
 
-If we didn't include the names and id, then we would just stack the data and not know where it came from.
+If we didn't include the names and id, then we would just stack the data and we wouldn't know know which data set it came from.
 
 ## Joining data frames
 
 The tidyverse uses SQL-like logic to join data frames. In the interest of time, I'm going to gloss over all the different types of joins and instead point you to a chapter in [R for Data Science](https://r4ds.had.co.nz/relational-data.html#understanding-joins) which you can read later.
 
-For our example, we are going to join a data frame of recent COVID-19 case and death counts with some population data so we can calculate cumulative cases per 1000 for Texas counties. The data has been pre-worked for this lesson and made available as `tx_covid` and `tx_pop`. The case information is from 2020-11-27 and the populations are from U.S. Census 2018 ACS 5-year release.
-
-```{r prep-joins}
-# preps datafor joins
-tx_pop <- read_csv(
-  "https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/tx-pop.csv",
-  col_types = cols(geoid = col_character())
-)
-
-tx_covid <- read_csv(
-  "https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/tx-covid.csv",
-    col_types = cols(fips = col_character())
-)
-```
+For our example, we are going to join a data frame of recent COVID-19 case and death counts with some population data so we can calculate cumulative "cases per 1,000" for Texas counties. The data has been pre-worked for this lesson and made available as `tx_covid` and `tx_pop`. The case information is from 2020-11-27 and the populations are from U.S. Census 2018 ACS 5-year release.
 
 Let's take a glimpse at our two data frames.
 
-```{r join-glimpse, exercise=T, exercise.setup="prep-joins"}
+```{r join-glimpse, exercise=T}
 tx_covid %>% glimpse()
 tx_pop %>% glimpse()
 ```
@@ -114,7 +113,7 @@ We can see we have a **county/name** in each dataset, but they are formatted in 
 
 Our goal here is to have a data set that has a row for each county, and then the columns from both data sets. This way we can calculate cases per population.
 
-```{r join-left, exercise=T, exercise.setup="prep-joins"}
+```{r join-left, exercise=T}
 tx_joined <- tx_covid %>% 
   # this is the join line
   left_join(tx_pop, by = c("fips" = "geoid"))
@@ -131,29 +130,13 @@ On the join line noted above:
 - I start with the covid data.
 - I use `left_join` because I want all of the covid data, regardless of match.
 - The first argument is the data frame we are joining on, `tx_pop`.
-- Then we tell it which columns to join on with the `by = ` argument, where we have to use the combine `c()` function because we are using more than one value. The order of the column names have to match the order we named the data frames. If the columns were named the same, we would just have `by = "common_col_name"`.
+- Then we tell it which columns to join on with the `by = ` argument, where we have to use the combine `c()` function because we are feeding R more than one thing. We cite the column names in the same order that we called the data frames: "fips" from `tx_covid` and then "geoid" from `tx_pop`. If the columns were named the same in both data sets, we would just have `by = "common_col_name"` and it would match them.
 
 ### Create our calculation
 
-```{r prep-math}
-# preps data for joins
-tx_pop <- read_csv(
-  "https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/tx-pop.csv",
-  col_types = cols(geoid = col_character())
-)
-
-tx_covid <- read_csv(
-  "https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/tx-covid.csv",
-    col_types = cols(fips = col_character())
-)
-# prep for join
-tx_joined <- tx_covid %>% 
-  left_join(tx_pop, by = c("fips" = "geoid"))
-```
-
 Now we can use `mutate()` to create our "cases per 1000 population". This chunk assumes we've already joined the data.
 
-```{r join-math, exercise=T, exercise.setup="prep-math"}
+```{r join-math, exercise=T}
 tx_joined %>% 
   mutate(
     case_per_pop = (cases / (population / 1000)) %>% round()
@@ -164,13 +147,9 @@ tx_joined %>%
   arrange(case_per_pop %>% desc())
 ```
 
-No on-your-owns on this one as we need to move onto new stuff.
+Note at the end of the mutate equation, I piped the result into a `round()` function. You can take that part out and re-run the code to see what it would've looked like.
 
-## Reshaping data
+---
 
-- Reshaping data with tidyr.
-
-## Visualization with ggplot
-
-- Introduction to ggplot.
+That was our whirlwind tour or merges and joins. Now we turn it over to Andrew to talk about reshaping data.
 

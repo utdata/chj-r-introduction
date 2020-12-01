@@ -311,9 +311,9 @@ Instead of downloading a file to your computer and then importing it, we'll save
 
 Let's **practice this first in the tutorial here** so you see how it works, then we'll practice again in a bit within your own project on your computer.
 
-- Run the code below so you see what happens when we import data.
+The code below shows the `read_csv` function and runs it so you can see the data.
 
-```{r opioid-read, exercise=TRUE}
+```{r opioid-read, exercise=TRUE, exercise.eval=TRUE}
 read_csv("https://github.com/utdata/chj-r-introduction/blob/main/data/chj_mn_opiate_deaths_data.csv?raw=true")
 ```
 
@@ -324,7 +324,7 @@ But that is all it did ... print to our screen. For us to be able to use this da
 We are going to assign the result of the `read_csv()` command into an object called `deaths`. We do the operation from right-to-left, so start we start with the newly-named object, and then "fill" it with the data. This takes a bit getting used to, but it makes for readable code down the line. Go ahead and run the code and then we'll talk about it.
 
 
-```{r opioid-assign, exercise=TRUE}
+```{r opioid-assign, exercise=TRUE, exercise.eval=TRUE}
 # read and assign the data
 deaths <- read_csv("https://github.com/utdata/chj-r-introduction/blob/main/data/chj_mn_opiate_deaths_data.csv?raw=true")
 
@@ -340,9 +340,12 @@ One thing you might notice is some of the column names are two words. While it i
 
 In the process of cleaning these names with the janitor function called `clean_names()` we'll also learn about the tidyverse pipe ` %>% `.
 
-```{r opioid-clean, exercise=TRUE, exercise.lines = 10}
-# import the data
+```{r prep-deaths, include=FALSE}
 deaths <- read_csv("https://github.com/utdata/chj-r-introduction/blob/main/data/chj_mn_opiate_deaths_data.csv?raw=true")
+```
+
+```{r opioid-clean, exercise=TRUE, exercise.setup="prep-deaths"}
+# Assumes csv has been imported and assigned to deaths
 
 # clean the names and then reassign
 deaths <- deaths %>%
@@ -381,12 +384,12 @@ When you assign the data to the `deaths` data frame, you'll notice that the obje
 
 OK, now we have data imported, but what is in it? One way to get a quick look at the field names and data types is with `summary()`. We'll again use our pipe, though on one line. (These examples assume `deaths` is already in your environment.)
 
-```{r prepare-explore}
+```{r prep-explore, include=FALSE}
 deaths <- read_csv("https://github.com/utdata/chj-r-introduction/blob/main/data/chj_mn_opiate_deaths_data.csv?raw=true")
 ```
 
 
-```{r explore-summary, exercise=T, exercise.setup = "prepare-explore"}
+```{r explore-summary, exercise=T, exercise.setup = "prep-explore"}
 deaths %>% summary()
 ```
 
@@ -396,7 +399,7 @@ One thing `summary()` is useful for is to see if all your data types are correct
 
 Another handy way to look at your data is through `glimpse()`. This shows you the names, the data type and some examples from the data, all in one.
 
-```{r explore-glimpse, exercise=T, exercise.setup = "prepare-explore"}
+```{r explore-glimpse, exercise=T, exercise.setup = "prep-explore"}
 deaths %>% glimpse()
 ```
 
