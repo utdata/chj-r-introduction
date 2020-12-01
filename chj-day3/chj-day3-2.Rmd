@@ -3,7 +3,7 @@ title: "tidyr, stringr, and lubridate"
 tutorial:
   id: "code.r-journalism/chapter-3"
   version: .85
-output:
+
   learnr::tutorial:
     progressive: true
     theme: lumen

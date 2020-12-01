@@ -1,0 +1,13 @@
+name: chj-day3-pt2
+title: chj-day3-pt2
+username:
+account: abtran
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3332699
+bundleId: 3928784
+url: https://abtran.shinyapps.io/chj-day3-pt2/
+when: 1606847455.054
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: chj-day3.html|chj-day3.Rmd|tx-covid.csv|tx-pop.csv|yob2017.txt|yob2018.txt|yob2019.txt
