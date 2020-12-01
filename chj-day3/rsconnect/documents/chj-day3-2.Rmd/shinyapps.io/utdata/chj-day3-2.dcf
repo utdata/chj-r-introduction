@@ -1,0 +1,13 @@
+name: chj-day3-2
+title: chj-day3-2
+username:
+account: utdata
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3331279
+bundleId: 3928886
+url: https://utdata.shinyapps.io/chj-day3-2/
+when: 1606848752.40493
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: chj-day3.html|chj-day3.Rmd|tx-covid.csv|tx-pop.csv|yob2017.txt|yob2018.txt|yob2019.txt
