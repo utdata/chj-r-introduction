@@ -1,0 +1,814 @@
+---
+title: "tidyr, stringr, and lubridate"
+tutorial:
+  id: "code.r-journalism/chapter-3"
+  version: .85
+output:
+  learnr::tutorial:
+    progressive: true
+    theme: lumen
+    highlight: espresso
+runtime: shiny_prerendered
+---
+
+
+This is a continuation of the [third session](https://learn.r-journalism.com/en/wrangling/tidyr_joins/tidyr-joins/) of Center for Health Journalism's 2020 [R Introduction course](https://learn.r-journalism.com/).
+
+We're going to learn a couple new concepts from a few packages while digging through this **covid race** database: **tidyr, stringr, and lubridate**. 
+
+Let's import the latest raw data from the [Covid Tracking Project](https://covidtracking.com/race/dashboard):
+
+```{r importing_data_real, include=FALSE, echo=FALSE}
+library(readr)
+library(learnr)
+
+race <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vS8SzaERcKJOD_EzrtCDK1dX1zkoMochlA9iHoHg_RSw3V8bkpfk1mpw4pfL5RdtSOyx_oScsUtyXyk/pub?gid=43720681&single=true&output=csv")
+
+
+
+nospace <- function(a) {
+  b <- gsub(" ","",a) 
+  gsub("\\n", "", b)
+}
+
+
+
+is_bad_code <- function(user_code, check_code, envir_result) {
+
+  is_null <- is.null(eval(parse(text = user_code)))
+  e_rows <- nrow(eval(parse(text = user_code)))
+  r_rows <- nrow(eval(parse(text = check_code), envir = envir_result))
+  e_cols <- ncol(eval(parse(text = user_code)))
+  r_cols <- ncol(eval(parse(text = check_code), envir = envir_result))
+  e_type <- typeof(eval(parse(text = user_code)))
+  r_type <- typeof(eval(parse(text = check_code), envir=envir_result))
+  e_len <- length(eval(parse(text = user_code)))
+  r_len <- length(eval(parse(text = check_code)))
+  if (is_null!=T){
+    if (e_len!=0 & r_len!=0) {
+      if (e_type==r_type) {
+        if (e_type!="character" & e_type!="double" & e_type!="integer" & e_type!="logical") {
+          if (e_rows==r_rows && e_cols==r_cols) {
+            eval(parse(text = user_code)) != eval(parse(text = check_code), envir = envir_result)
+          } else {
+            TRUE
+          }
+        } else { eval(parse(text = user_code)) != eval(parse(text = check_code), envir = envir_result) }
+      } else {
+        TRUE
+      }
+    } else { TRUE }
+  } else { nospace(user_code) != nospace(check_code)}
+}
+
+checker <- function(label, user_code, check_code, envir_result, evaluate_result, ...) {
+  if (is_bad_code(user_code, check_code, envir_result)) {
+    return(list(message = "Code wasn't right!", correct = FALSE, location = "append"))
+  } else {
+    return(list(message = "Great Job!", correct = TRUE, location = "append"))
+  }
+}  
+
+tutorial_options(exercise.timelimit = 30, exercise.checker = checker)
+
+```
+
+
+```{r importing_data, eval=F}
+library(readr)
+
+race <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vS8SzaERcKJOD_EzrtCDK1dX1zkoMochlA9iHoHg_RSw3V8bkpfk1mpw4pfL5RdtSOyx_oScsUtyXyk/pub?gid=43720681&single=true&output=csv")
+
+```
+
+
+## tidyr
+
+Data can be messy but there's an ideal structure for how to stack your data.
+
+And that's with 
+
+1. Each **variable** is in its own **column**
+2. Each **case** is in its own **row**
+3. Each **value** is in its own **cell**
+
+Here's a simple example of a tidy data set (I'm slicing out some specific columns from the imported race data):
+
+```{r tidy1, warning=F, message=F}
+library(dplyr)
+
+race %>% 
+  filter(State=="CA") %>% 
+  select(Date, State, Deaths_Total, Deaths_Black)
+```
+
+This type of data structure is easy to mutate and manipulate (and also is how a lot of data viz tools prefer their data structured).
+
+### Exercise 1
+
+Add a line to the end of this code that will add a column to calculate the `percent_black_deaths` from the code above.
+
+
+```{r tidy2, exercise=TRUE}
+race %>% 
+  filter(State=="CA") %>% 
+  select(Date, State, Deaths_Total, Deaths_Black) %>% 
+
+# add line above
+```
+
+```{r tidy2-check}
+race %>% 
+  filter(State=="CA") %>% 
+  select(Date, State, Deaths_Total, Deaths_Black) %>% 
+  mutate(percent_black_deaths=Deaths_Black/Deaths_Total*100)
+```
+
+
+<div id="tidy2-hint">
+**Hint:** use the `mutate()` function.
+</div>
+
+### Not tidy
+
+On the other hand, the data below is **not** tidy.
+
+![](images/untidy.gif)
+
+Each day gets its own column. It goes on way too wide.
+
+You've probably seen data structured like this-- and it's fine for presentation in a spreadsheet. But for data analysis, it's simply not tidy.
+
+This is what a portion of the data looks like that we just imported from the [Covid Tracking Project](https://docs.google.com/spreadsheets/u/1/d/e/2PACX-1vR_xmYt4ACPDZCDJcY12kCiMiH0ODyx3E1ZvgOHB8ae1tRcjXbs_yWBOA4j4uoCEADVfC1PS2jYO68B/pubhtml#).
+
+
+```{r img0, echo = F, out.width="100%"}
+library(knitr)
+include_graphics("images/race_data_wide.png")
+``` 
+
+I would call it semi-tidy.
+
+Mostly not.
+
+Take a look at all the columns in this data set.
+
+### Exercise 2
+
+Use the **dplyr** function to view a summary of the dataframe (without using the base `summary()` function) so you can get a clean view of the columns.
+
+```{r tidy3, exercise=TRUE}
+_______(race)
+```
+
+```{r tidy3-check, warning=F}
+glimpse(race)
+```
+
+
+<div id="tidy3-hint">
+**Hint:** The function starts with a "g".
+</div>
+
+### Wide groups
+
+Wow, there are 41 columns in this dataframe.
+
+You can see how it's meant to be interpreted as parts of different groups. How do we turn this data long?
+
+There are too many differing types-- *Cases_*, *Deaths_*, and *Hosp_* should not be on the same column.
+
+But sometimes you'll get data from sources this way or your analysis will generate data like that. How's the phrase go? *85 percent of data analysis is cleaning up data*?
+
+Let's take a look at the **race** dataframe again.
+
+*Goal: Analyze percents of deaths by race in a state*
+
+We're going to use the **DT** package to help work through this data. It brings in the [DataTables](https://www.google.com/search?q=datatables+plugin&rlz=1C5CHFA_enUS749US749&oq=datatables+plug&aqs=chrome.0.69i59j69i57j0l4.3719j0j1&sourceid=chrome&ie=UTF-8) jquery plug-in that makes it easier to interact with tables in R. 
+
+
+Let's start to wrangle the data from wide to long.
+
+### pivot_longer()
+
+```{r img1, echo = F, out.width="100%"}
+library(knitr)
+include_graphics("images/pivot_longer_chart.png")
+```
+
+The `pivot_longer()` function in the **tidyr** package moves values into column names. We can finally load that package.
+
+
+```{r img2, echo = F, out.width="100%"}
+include_graphics("images/pivot_longer_diagram.png")
+```
+
+Three reasons why you should attempt to structure your data in long (tall) form:
+
+* If you have many columns, it’s difficult to summarize it at a glance and see if there are any mistakes in the data.
+* Key-value pairs facilitates conceptual clarity
+* Long-form datasets are required for graphing and advanced statistical analysis
+
+```{r investigate0, warning=F, message=F}
+# If you don't have DT installed yet, uncomment the line below and run it
+
+#install.packages("DT")
+
+library(DT)
+
+library(tidyr)
+
+race_long <- race %>% 
+  pivot_longer(cols=3:41,
+               names_to="type",
+               values_to="total") %>% 
+  # we need to limit it to only the most recent day of data
+  # or it could get very long
+  group_by(State, type) %>% 
+  slice(1)
+
+datatable(race_long)
+```
+
+Scroll through the results. 
+
+We went from 41 columns to 4.
+
+Let's clean it up some more.
+
+There is a pattern we can break up type into:
+
+For all the different types, aside from race, they're preceded by the Cases_/Deaths/Hosp_ prefix.
+
+Let's create a new column that will split up the race with the count type.
+
+We'll use the `separate()` function.
+
+This will create two new columns: count_type and race_ethnicity based on the `_` separator. Any following `_` will be combined into the race_ethnicity column.
+
+### Exercise 3
+
+Try to figure it out. Use the hint.
+
+```{r investigate3, exercise=TRUE}
+race_longer <- race_long %>% 
+  ________(____, c("count_type", "race_ethnicity"), 
+                 sep=___,
+                 extra="merge")
+
+race_longer
+```
+
+```{r investigate3-check}
+race_longer <- race_long %>% 
+  separate(type, c("count_type", "race_ethnicity"), 
+                 sep="_",
+                 extra="merge")
+race_longer
+```
+
+
+<div id="investigate3-hint">
+**Hint:** Use the function I mentioned above on the `type` column. Also, strings are in quotations, remember?
+</div>
+
+```{r investigate3-real, echo=F}
+race_longer <- race_long %>% 
+  separate(type, c("count_type", "race_ethnicity"), 
+                 sep="_",
+                 extra="merge")
+```
+
+
+
+### Tidy data now
+
+Congrats!
+
+To make it workable, we can just filter and focus on the count_type we want.
+
+Next, we need to filter the data frame:
+
+ * Deaths only
+ 
+ * We can exclude Totals
+ 
+ * We'll exclude Ethnicity counts because that's a separate group and could throw things off if we include them when calculating percents
+ 
+There are three different Ethnicity types in the race_ethnicity column. To catch all the ones that start with "Ethnicity_", we'll use the `str_detect()` function from **stringr**.
+
+Let's load that package first.
+
+```{r install_stringr0, warning=F, message=F}
+library(stringr)
+```
+
+### Exercise 4
+
+Fix lines 4 and 5.
+
+```{r investigate2, exercise=TRUE}
+race_long_deaths <- race_longer %>% 
+  filter(__________==________) %>% 
+  filter(race_ethnicity__"Total") %>% 
+  filter(!str_detect(race_ethnicity, "Ethnicity_"))
+
+race_long_deaths  
+```
+
+
+```{r investigate2-check}
+race_long_deaths <- race_longer %>% 
+  filter(count_type=="Deaths") %>% 
+  filter(race_ethnicity!="Total") %>% 
+  filter(!str_detect(race_ethnicity, "Ethnicity_"))
+
+race_long_deaths
+```
+
+<div id="investigate2-hint">
+**Hint:** != means doesn't equal
+</div>
+
+
+```{r investigate2-real, echo=F}
+race_long_deaths <- race_longer %>% 
+  filter(count_type=="Deaths") %>% 
+  filter(race_ethnicity!="Total") %>% 
+  filter(!str_detect(race_ethnicity, "Ethnicity_"))
+```
+
+### Calculate percents by state
+
+Alright, now we can go about calculating the percent of deaths by race in each state.
+
+```{r investigate4}
+race_long_deaths <- race_long_deaths %>% 
+  group_by(State) %>% 
+  mutate(percent_deaths=round(total/sum(total, na.rm=T)*100,2))
+
+datatable(race_long_deaths)
+```
+
+Okay, this is looking good.
+
+This data structure is perfect for making visualizations with.
+
+But before we move on to that, let's reformat the dataframe for table display.
+
+At the moment, we have six columns and 504 rows-- that's a lot to scroll through.
+
+Let's create a percent-only table for each state and have the race be the columns.
+
+For that, well need to use:
+
+### pivot_wider()
+
+
+```{r img3, echo = F, out.width="100%"}
+#library(knitr)
+include_graphics("images/pivot_wider_chart.png")
+```
+
+The `spread()` function in the **tidyr** package moves values into column names.
+
+
+```{r img4, echo = F, out.width="100%"}
+include_graphics("images/pivot_wider_diagram.png")
+```
+
+We need to be choosy with the columns we use and display. Because space is limited.
+
+Also, we don't need count_type because they're all Deaths.
+
+### Exercise 5
+
+Fill in the columns to pull names_from and values_from.
+
+```{r investigate5, exercise=TRUE}
+race_wide_deaths_percent <- race_long_deaths %>% 
+  select(State, race_ethnicity, percent_deaths) %>% 
+  pivot_wider(names_from=______________,
+              values_from=______________) %>% 
+  # and let's sort by state with the highest percent of Black deaths from covid-19
+  arrange(desc(Black))
+  
+  
+race_wide_deaths_percent
+```
+
+
+```{r investigate5-check}
+race_wide_deaths_percent <- race_long_deaths %>% 
+  select(State, race_ethnicity, percent_deaths) %>% 
+  pivot_wider(names_from=race_ethnicity,
+              values_from=percent_deaths) %>% 
+  # and let's sort by state with the highest percent of Black deaths from covid-19
+  arrange(desc(Black))
+  
+race_wide_deaths_percent
+```
+
+
+```{r investigate5-real, echo=F}
+race_wide_deaths_percent <- race_long_deaths %>% 
+  select(State, race_ethnicity, percent_deaths) %>% 
+  pivot_wider(names_from=race_ethnicity,
+              values_from=percent_deaths) %>% 
+  # and let's sort by state with the highest percent of Black deaths from covid-19
+  arrange(desc(Black))
+```
+
+### Next steps?
+
+Alright, there we go. 
+
+It looks like DC and Mississippi have the largest population.
+
+Next steps? How about joining it with state population breakdowns to see which states have the biggest disparity among races?
+
+**Caveat about ranking states:** We've conveniently ignored the *Ethnicity_* columns for this exercise, but they are important to include. Some states do not differentiate between LatinX and White deaths. That's what the Hispanic designation in Ethnicity is used for in those states. It's too difficult to break that out in the aggregate form we've received the data. So my advice is don't compare states to each other. But compare individual state stats to their population percents.
+
+Before we move on, I want to point out that `pivot_wider()` and `pivot_longer()` are way more powerful in reshaping data than what I've shown you. Look them up [the documentation](https://tidyr.tidyverse.org/reference/pivot_wider.html) when you have time.
+
+Here's one more example that allows you to create column names from multiple variables and fills in the blank values (NA) that show up as a result of a pivot with zeroes using the values_fill argument in the function:
+
+
+```{r investigate6}
+race_wide_deaths_total_percent <- race_long_deaths %>% 
+  select(State, race_ethnicity, percent_deaths, total) %>% 
+  filter(!is.na(total)) %>% 
+  filter(!is.na(percent_deaths)) %>% 
+  pivot_wider(names_from=race_ethnicity,
+              values_from=c(total,percent_deaths),
+              values_fill = 0)
+  
+  
+datatable(race_wide_deaths_total_percent)
+```
+
+## stringr
+
+Sometimes, you're going need to deal with weird text.
+
+Here are some tools from the **stringr** package that should be useful.
+
+First, we'll load the library and some data, assigning it to the object "messy."
+
+```{r install_stringr, warning=F, message=F}
+#install.packages("stringr")
+library(stringr)
+
+messy <- data.frame(name=c("Bill Smith", "jane doe", "John Forest-William"),
+                    email=c("bsmith@themail.com", "jdoe@themail.com", 
+                            "jfwilliams$geemail.com"),
+                    income=c("$90,000", "$140,000", "E8500"),
+                    phone=c("(203) 847-334", "207-999-1122", "2128487345"),
+                    activites=c("fishing, sailing, planting flowers", "reading, 
+                                raising flowers, biking", "hiking, fishing"))
+
+datatable(messy)
+
+```
+
+
+What problems do you see?
+
+**Tasks**
+
+1. Split name into First name and Last name
+2. Convert names to title case
+3. Create a new variable identifying bad email addresses
+4. Convert income to a new number in US dollars
+5. Create a new variable containing area code
+6. Creating a new variable counting how many activities each person is engaged in
+7. Break activities into a set of useful dummy codes
+
+
+| Function | What function does |
+| ------ | ------------------------ |
+| `str_length()` | figure out length of string |
+| `str_c()` | combine strings |
+| `str_sub()`    | substitute string |
+| `str_detect()`    | detect string in string |
+| `str_count()`    | count strings |
+| `str_to_upper()`   | convert string to upper case |
+| `str_to_lower()`   | convert string to lower case |
+| `str_to_title()`   | convert the first letter of each word to upper case |
+| `str_trim()`   | eliminate trailing white space |
+
+
+
+
+### String length
+
+`str_length(string)` counts the number of characters in each element of a string or character vector.
+
+```{r str_length}
+x <- c("Bill", "Bob", "William")
+str_length(x)
+```
+
+Why do you need to know this? Well, sometimes you have county FIPS codes that are 4 characters instead of 5. This will help locate them and let you change them easier.
+
+### Combine strings
+
+`str_c(strings, sep="")`
+
+It's like the equivalent of =concatenate in Excel.
+
+But there are a couple of quirks
+
+```{r str_c}
+data <- data.frame(place=c("HQ", "HQ", "HQ"),
+                   id=c("A", "B", "C"),
+                   number=c("001", "002", "003"))
+
+datatable(data)
+```
+
+We can add a string to each value in the *number* column this way:
+
+```{r str_c2}
+data <- data %>% 
+  mutate(combined=str_c("Num: ", number))
+
+datatable(data)
+```
+
+
+### subset strings
+
+`str_sub(strings, start, end)` extracts and replaces substrings
+
+```{r str_sub}
+x <- "Dr. James"
+
+str_sub(x, 1, 3)
+
+```
+
+```{r str_sub2}
+str_sub(x, 1, 3) <- "Mr."
+x
+```
+
+Negative numbers count from the right.
+
+```{r str_sub3}
+x <- "baby"
+str_sub(x, -3, -1)
+str_sub(x, -1, -1) <- "ies"
+```
+
+
+### detect matches
+
+`str_detect(strings, pattern)` returns T/F
+
+```{r str_detect1}
+x <- c("Bill", "Bob", "David.Williams")
+x
+str_detect(x, "il")
+```
+
+### count matches
+
+`str_count(strings, pattern)` count number of matches in a string
+
+```{r str_count}
+x <- c("Assault/Robbery/Kidnapping")
+x
+str_count(x, "/")
+
+# How many offenses
+str_count(x, "/") + 1
+```
+
+
+### extract matches
+
+```{r str_extract}
+x <- c("bsmith@microsoft.com", "jdoe@google.com", "jfwilliams@google.com")
+str_extract(x, "@.+\\.com$")
+```
+
+
+
+### replace a pattern
+
+`str_replace(strings, pattern, replacement)` replace a pattern in a string with another string
+
+```{r str_replace}
+x <- c("john smith", "mary todd", "bill holis")
+str_replace(x, "[aeiou]", "-")
+
+str_replace_all(x, "[aeiou]", "-")
+```
+
+### change case
+
+`str_to_upper(strings)` is upper case
+`str_to_lower(strings)` is lower case
+`str_to_title(strings)` is title case
+
+```{r x_case}
+x <- c("john smith", "Mary Todd", "BILL HOLLIS")
+
+str_to_upper(x)
+str_to_lower(x)
+```
+
+### Exercise 6
+
+Change this to title case
+
+```{r x_case_test, exercise=TRUE}
+x <- c("john smith", "Mary Todd", "BILL HOLLIS")
+
+____________(x)
+```
+
+```{r x_case_test-check}
+str_to_title(x)
+```
+
+
+### trim strings
+
+`str_trim(strings)` remove white space at the beginning and end of string
+
+```{r str_trim}
+x <- c(" Assault", "Burglary ", " Kidnapping ")
+str_trim(x)
+```
+
+### Exercise 7
+
+One last **stringr** test: Remember the ` race_long_deaths` data frame?
+
+```{r race_long_deaths}
+datatable(race_long_deaths)
+```
+
+Please swap out "AIAN" with "American Indian and Alaska Native" and "NHPI" with "Native Hawaiian and Pacific Islander"
+
+```{r str_replace_test, exercise=TRUE}
+race_long_deaths %>% 
+  mutate(race_ethnicity= str________(race_ethnicity, "____", "____")) %>% 
+  mutate(race_ethnicity= str________(race_ethnicity, "____", "____"))
+
+race_long_deaths
+```
+
+```{r str_replace_test-check}
+race_long_deaths %>% 
+  mutate(race_ethnicity= str_replace(race_ethnicity, "AIAN", "American Indian and Alaska Native")) %>% 
+  mutate(race_ethnicity= str_replace(race_ethnicity, "NHPI", "Native Hawaiian and Pacific Islander"))
+
+race_long_deaths
+```
+
+
+## lubridate
+
+
+Dates come in as characters, most of the time.
+
+You'll need to convert them into a date variable
+
+We'll be using the **lubridate** package.
+
+Here's an example of a **character variable** that might be in a data frame.
+
+```{r ex1}
+some_date <- "12-31-1999"
+```
+
+Convert that date into a **date variable** with the function **mdy()**
+
+```{r ex2, warning=F, message=F}
+# If you don't have lubridate installed yet uncomment the line below and run it
+#install.packages("lubridate")
+
+# NOTE: IF YOU GET AN ERROR ABOUTZ NOT HAVING A PACKAGE CALLED stringi
+# UNCOMMENT AND RUN THE LINES BELOW IF YOU HAVE A WINDOWS MACHINE
+
+#install.packages("glue", type="win.binary")
+#install.packages("stringi", type="win.binary")
+#install.packages("stringr", type="win.binary")
+#install.packages("lubridate", type="win.binary")
+
+# UNCOMMENT AND RUN THE LINES BELOW IF YOU HAVE A MAC MACHINE
+
+#install.packages("glue", type="mac.binary")
+#install.packages("stringi", type="mac.binary")
+#install.packages("stringr", type="mac.binary")
+#install.packages("lubridate", type="mac.binary")
+
+library(lubridate)
+
+mdy(some_date)
+```
+
+The `mdy()` function is very versatile. It stand for month-date-year.
+
+And it'll be able to parse any version of that (with slashes or commas, or dashes) as long as that's the order of the information. 
+
+Check it out:
+
+```{r ex3}
+
+data <- data.frame(First=c("Charlie", "Lucy", "Peppermint"),
+                   Last=c("Brown", "van Pelt", "Patty"),
+                   birthday=c("10-31-06", "2/4/2007", "June 1, 2005"))
+
+data <- data %>% 
+  mutate(DOB = mdy(birthday))
+
+datatable(data)
+
+```
+
+### Reading dates
+
+| Order of elements in date-time | Parse function |
+| ------ | ------------------------ |
+| year, month, day | `ymd()` |
+| year, day, month | `ydm()` |
+| month, day, year    | `mdy()` |
+| day, month, year    | `dmy()` |
+| hour, minute    | `hm()` |
+| hour, minute, second    | `hms()` |
+| year, month, day, hour, minute, second    | `ymd_hms()` |
+
+### Accessing date parts
+
+| Date component | Function |
+| ------ | ------------------------ |
+| Year | `year()` |
+| Month | `month()` |
+| Week    | `week()` |
+| Day of year  | `yday()` |
+| Day of month  | `mday()` |
+| Day of week | `wday()` |
+| Hour  | `hour()` |
+| Minute  | `minute()` |
+| Second  | `ymd_hms()` |
+| Time zone  | `ymd_hms()` |
+
+Now that we have the date in the right format, we can extract data from it with the functions above.
+
+```{r example_more}
+data <- data %>% 
+  mutate(year=year(DOB),
+         month=month(DOB, label=TRUE),
+         day=day(DOB),
+         weekday=wday(DOB, label=TRUE, abbr=FALSE))
+
+datatable(data)
+```
+
+### Date arithmetic
+
+The function `difftime()` extracts the number of days between two dates that are passed to it
+
+```{r math}
+# We're going to use the now() function which brings in the date for today
+
+today <- now()
+
+data <- data %>% 
+  mutate(age=difftime(today, DOB))
+
+datatable(data)
+```
+
+And how does that translate into years? 
+
+With some math. We'll have to turn the column into a number, first.
+
+```{r math2}
+data %>% 
+  mutate(age_years=as.numeric(age)/365.25) #.25 because of leap years
+
+datatable(data)
+```
+
+That's a pretty good start for now. To see more functions and examples, check out [the vignette](https://cran.r-project.org/web/packages/lubridate/vignettes/lubridate.html) for **lubridate**.
+
+## Your turn
+
+Bring this code into an R script in your RStudio session.
+
+```{r your_turn, eval=F}
+library(tidyverse)
+
+race <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vS8SzaERcKJOD_EzrtCDK1dX1zkoMochlA9iHoHg_RSw3V8bkpfk1mpw4pfL5RdtSOyx_oScsUtyXyk/pub?gid=43720681&single=true&output=csv")
+```
+
+Pick a single state and look at the cases this time (in this exercise we looked at deaths). What's the percent break down among races?
+
+Quickly look up the percent of the races as a population in that state.
+
+Is there disparity?
