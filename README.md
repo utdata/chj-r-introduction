@@ -22,5 +22,5 @@ Once you've set your working directory (with maybe `setwd()`) then you can run t
 
 and then
 
-`usethis::use_course("https://github.com/utdata/chj-r-introduction/archive/master.zip")`
+`usethis::use_course("https://github.com/utdata/chj-r-introduction/archive/main.zip")`
 
