@@ -1,0 +1,647 @@
+---
+title: "Visualizations with ggplot2"
+tutorial:
+  id: "code.r-journalism/chapter-3"
+  version: .85
+output:
+  learnr::tutorial:
+    progressive: true
+    theme: lumen
+    highlight: espresso
+runtime: shiny_prerendered
+---
+
+
+<style>
+.cell-left {
+  text-align: left;
+}
+
+.cell-right {
+  text-align: right;
+}
+
+.cell-center {
+  text-align: center;
+}
+
+table {
+    margin: auto;
+    border-top: 1px solid rgb(102, 102, 102);
+    border-bottom: 1px solid rgb(102, 102, 102);
+    display: table;
+    border-collapse: separate;
+    box-sizing: border-box;
+    border-spacing: 2px;
+    border-color: grey;
+}
+
+</style>
+
+```{r importing_data_real, include=FALSE, echo=FALSE}
+library(tidyverse)
+library(learnr)
+library(lubridate)
+library(readxl)
+library(DT)
+library(flair)
+
+sd <- read_csv("san_diego.csv")
+
+
+scented <- read_excel("Scented_all.xlsx", sheet=1)
+unscented <- read_excel("Unscented_all.xlsx", sheet=1)
+
+scented <- scented %>% 
+  mutate(type="scented")
+  
+unscented <- unscented %>% 
+  mutate(type="unscented")
+
+scented <- bind_rows(scented, unscented)
+
+scented_summary <- scented %>%
+  arrange(Date) %>%
+  filter(Date >= "2017-01-01") %>%
+  mutate(Date=ymd(Date)) %>% 
+  filter(CandleID <= 3) %>%
+  group_by(Date, type) %>%
+  summarise(Average_Rating=mean(Rating),
+            Reviews=n())
+  
+
+nospace <- function(a) {
+  b <- gsub(" ","",a) 
+  gsub("\\n", "", b)
+}
+
+
+
+is_bad_code <- function(user_code, check_code, envir_result) {
+
+  is_null <- is.null(eval(parse(text = user_code)))
+  e_rows <- nrow(eval(parse(text = user_code)))
+  r_rows <- nrow(eval(parse(text = check_code), envir = envir_result))
+  e_cols <- ncol(eval(parse(text = user_code)))
+  r_cols <- ncol(eval(parse(text = check_code), envir = envir_result))
+  e_type <- typeof(eval(parse(text = user_code)))
+  r_type <- typeof(eval(parse(text = check_code), envir=envir_result))
+  e_len <- length(eval(parse(text = user_code)))
+  r_len <- length(eval(parse(text = check_code)))
+  if (is_null!=T){
+    if (e_len!=0 & r_len!=0) {
+      if (e_type==r_type) {
+        if (e_type!="character" & e_type!="double" & e_type!="integer" & e_type!="logical") {
+          if (e_rows==r_rows && e_cols==r_cols) {
+            eval(parse(text = user_code)) != eval(parse(text = check_code), envir = envir_result)
+          } else {
+            TRUE
+          }
+        } else { eval(parse(text = user_code)) != eval(parse(text = check_code), envir = envir_result) }
+      } else {
+        TRUE
+      }
+    } else { TRUE }
+  } else { nospace(user_code) != nospace(check_code)}
+}
+
+checker <- function(label, user_code, check_code, envir_result, evaluate_result, ...) {
+  if (is_bad_code(user_code, check_code, envir_result)) {
+    return(list(message = "Code wasn't right!", correct = FALSE, location = "append"))
+  } else {
+    return(list(message = "Great Job!", correct = TRUE, location = "append"))
+  }
+}  
+
+tutorial_options(exercise.timelimit = 30, exercise.checker = checker)
+
+```
+
+
+## Data introduction
+
+Before we begin, let's bring in some data. 
+
+Download these files to your project folder.
+
+```{r download}
+# https://github.com/kateptrv/Candles/raw/main/Scented_all.xlsx
+# https://github.com/kateptrv/Candles/raw/main/Unscented_all.xlsx
+```
+
+These are Excel files and not CSVs, so we need a special package to import those tricky files in. We'll use one called **readxl**.
+
+```{r import_fake, eval=F}
+library(readxl)
+
+scented <- read_excel("Scented_all.xlsx", sheet=1)
+unscented <- read_excel("Unscented_all.xlsx", sheet=1)
+```
+
+Let's take a look at what were working with:
+
+```{r view_unscented}
+library(DT)
+library(dplyr)
+
+scented <- read_excel("Scented_all.xlsx", sheet=1)
+unscented <- read_excel("Unscented_all.xlsx", sheet=1)
+
+scented <- scented %>% 
+  mutate(type="scented")
+  
+unscented <- unscented %>% 
+  mutate(type="unscented")
+
+scented <- bind_rows(scented, unscented)
+
+scented %>% 
+  head(4) %>% 
+  datatable()
+```
+
+These are more than 21,000 reviews for the top 5 rated scented and unscented candles on Amazon. It goes back years.
+
+Let's quickly filter this data to the top 3 candles only and figure out the `Average_Rating` for each day. And also count the total `Reviews` for each day. And we should convert the dates in the `Date` column with a **lubridate** function.
+
+```{r lub, echo=F}
+library(lubridate)
+```
+
+### Exercise 1
+
+Fill in the blanks with the right code.
+
+```{r scented, exercise=TRUE, warning=F, message=F}
+scented_summary <- scented %>%
+  arrange(Date) %>%
+  filter(Date >= "2017-01-01") %>%
+  # convert the String Date into a date format using lubridate function
+  mutate(Date=___(Date)) %>% 
+  filter(CandleID <= 3) %>%
+  group_by(Date, type) %>% 
+  # Now how do we aggregate average and count?
+  _________(Average_Rating=____(Rating),
+            Reviews=___)
+  
+scented_summary
+```
+
+
+```{r scented-check, warning=F, message=F}
+scented_summary <- scented %>%
+  arrange(Date) %>%
+  filter(Date >= "2017-01-01") %>%
+  mutate(Date=ymd(Date)) %>% 
+  filter(CandleID <= 3) %>%
+  group_by(Date, type) %>%
+  summarise(Average_Rating=mean(Rating),
+            Reviews=n())
+
+scented_summary
+```
+
+
+<div id="scented-hint">
+**Hint:** ymd(), group_by(), summarize(), mean(), n()
+</div>
+
+We've narrowed down 21,000 rows of data to a more workable 2,471.
+
+This summarized data set will be our entry to the:
+
+## Grammar of Graphics
+
+Here's a quick chart. You may not understand the code yet, but I'll break it down for you after we talk about some concepts.
+
+```{r first_chart}
+ggplot(data= scented_summary) +
+  geom_point(mapping=aes(x= Date, y= Average_Rating, colour=type)) +
+  geom_vline(xintercept= ymd("2020-01-20")) +
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "6 month")
+```
+
+### Mapping data to aesthetics
+
+**Aesthetic**
+
+* Visual property of a graph
+
+* Position, shape, color, etc.
+
+**Data**
+
+* A column in a dataset
+
+Here's are the core components of this chart:
+
+<table>
+  <tr>
+    <th class="cell-left">Data</th>
+    <th class="cell-left">Aesthetic</th>
+    <th class="cell-left">Graphic/Geometry</th>
+  </tr>
+  <tr>
+    <td class="cell-left">Dates</td>
+    <td class="cell-left">Position (x-axis)&emsp;</td>
+    <td class="cell-left">Point</td>
+  </tr>
+  <tr>
+    <td class="cell-left">Rating</td>
+    <td class="cell-left">Position (y-axis)</td>
+    <td class="cell-left">Point</td>
+  </tr>
+    <tr>
+    <td class="cell-left">Candle type</td>
+    <td class="cell-left">Color</td>
+    <td class="cell-left">Point</td>
+  </tr>
+  <tr>
+    <td class="cell-left">Single date</td>
+    <td class="cell-left">Position (x-intercept)</td>
+    <td class="cell-left">Line</td>
+  </tr>
+</table>
+
+Here's how it's interpreted in ggplot2 code
+
+<table>
+  <tr>
+    <th class="cell-left">Data</th>
+    <th class="cell-left">aes()</th>
+    <th class="cell-left">geom</th>
+  </tr>
+  <tr>
+    <td class="cell-left">Dates</td>
+    <td class="cell-left">x</td>
+    <td class="cell-left">geom_point()</td>
+  </tr>
+  <tr>
+    <td class="cell-left">Average_Rating</td>
+    <td class="cell-left">y</td>
+    <td class="cell-left">geom_point()</td>
+  </tr>
+  <tr>
+    <td class="cell-left">type</td>
+    <td class="cell-left">color</td>
+    <td class="cell-left">geom_point()</td>
+  </tr>
+  <tr>
+    <td class="cell-left">1/20/2020</td>
+    <td class="cell-left">xintercept</td>
+    <td class="cell-left">geom_vline()</td>
+  </tr>
+</table>
+
+
+
+### ggplot() template
+
+Here's the dataframe called `scented_summary` as a reminder:
+
+```{r preview}
+scented_summary %>% head(5)
+```
+
+
+```{r show-ggplot-template, echo=FALSE, tidy=FALSE}
+decorate('
+ggplot(data = DATA) +
+  GEOM_FUNCTION(mapping = aes(AESTHETIC MAPPINGS))
+', eval = FALSE) %>% 
+  flair("DATA", background = "#CBB5FF", before = "<b>", after = "</b>") %>% 
+  flair("GEOM_FUNCTION", background = "#FFDFD1", before = "<b>", after = "</b>") %>% 
+  flair("AESTHETIC MAPPINGS", background = "#FFD0CF", before = "<b>", after = "</b>") %>% 
+  knit_print.with_flair()
+```
+
+--
+
+```{r ggplot-template-example, echo=FALSE}
+decorate('
+ggplot(data = scented_summary) +
+  geom_point(mapping = aes(x = Date, y = Average_Rating, color = type)) +
+  geom_vline(xintercept=ymd("2020-01-20")) 
+', eval = FALSE) %>%
+  flair("scented_summary", background = "#CBB5FF", before = "<b>", after = "</b>") %>% 
+  flair("geom_point", background = "#FFDFD1", before = "<b>", after = "</b>") %>% 
+  flair("geom_vline", background = "#FFDFD1", before = "<b>", after = "</b>") %>% 
+  flair_rx('x = Date|y = Average_Rating|color = type|xintercept= ymd("2020-01-20")', 
+           background = "#FFD0CF", before = "<b>", after = "</b>") %>% 
+  knit_print.with_flair()
+```
+
+---
+
+```{r img0, echo = F, out.width="100%"}
+library(knitr)
+include_graphics("images/ggplot1.png")
+``` 
+
+### Grammatical layers
+
+So far we know about data, aesthetics, and geometries.
+
+Think of these components as **layers**.
+
+
+
+```{r img1a, echo = F, out.width="50%"}
+include_graphics("images/ggplot1a.png")
+``` 
+
+Add them to foundational `ggplot()` with +
+
+**Possible aesthetics**
+
+```{r img2a, echo = F, out.width="100%"}
+include_graphics("images/ggplot2a.png")
+``` 
+
+
+**Possible geoms**
+
+```{r img3a, echo = F, out.width="60%"}
+include_graphics("images/ggplot3a.png")
+``` 
+
+THERE ARE [SO MANY GEOMS](https://twitter.com/search?q=geom_%20%23rstats&src=typed_query&f=image) for different visualizations. Here are the [official ones](https://ggplot2.tidyverse.org/reference/index.html#section-layer-geoms).
+
+### Additional layers
+
+There are many of other grammatical layers we can use to describe graphs.
+
+We sequentially add layers onto the foundational `ggplot()` plot to create complex figures.
+
+
+```{r img4a, echo = F, out.width="50%"}
+include_graphics("images/ggplot4a.png")
+``` 
+
+Scales change the properties of the variable mapping.
+
+<table>
+  <tr>
+    <th class="cell-left">Example layer</th>
+    <th class="cell-left">What it does</th>
+  </tr>
+  <tr>
+    <td class="cell-left"><code class="remark-inline-code">scale_x_continuous()</code></td>
+    <td class="cell-left">Make the x-axis continuous</td>
+  </tr>
+  <tr>
+    <td class="cell-left"><code class="remark-inline-code">scale_x_continuous(breaks = 1:5)&ensp;</code></td>
+    <td class="cell-left">Manually specify axis ticks</td>
+  </tr>
+  <tr>
+    <td class="cell-left"><code class="remark-inline-code">scale_x_date()</code></td>
+    <td class="cell-left">Considers x-axis dates</td>
+  </tr>
+  <tr>
+    <td class="cell-left"><code class="remark-inline-code">scale_color_gradient()</code></td>
+    <td class="cell-left">Use a gradient</td>
+  </tr>
+  <tr>
+    <td class="cell-left"><code class="remark-inline-code">scale_fill_viridis_d()</code></td>
+    <td class="cell-left">Fill with discrete viridis colors</td>
+  </tr>
+</table>
+
+----
+
+Look at the difference between these two charts without and with a scales function. 
+
+```{r second_chart}
+ggplot(data= scented_summary) +
+  geom_point(mapping=aes(x= Date, y= Average_Rating, color=type)) +
+  geom_vline(xintercept= ymd("2020-01-20"))
+```
+
+Check out the x-axis.
+
+Now add `scale_x_date(date_labels = "%m-%Y", date_breaks = "6 month")` to the bottom of the code
+
+
+```{r scented2, exercise=TRUE, warning=F, message=F}
+ggplot(data= scented_summary) +
+  geom_point(mapping=aes(x= Date, y= Average_Rating, color=type)) +
+  geom_vline(xintercept= ymd("2020-01-20")) +
+
+```
+
+
+### Facets
+
+Facets show subplots for different subsets of data.
+
+<table>
+  <tr>
+    <th class="cell-left">Example layer</th>
+    <th class="cell-left">What it does</th>
+  </tr>
+  <tr>
+    <td class="cell-left"><code class="remark-inline-code">facet_wrap(vars(type))</code></td>
+    <td class="cell-left">Plot for each candle type</td>
+  </tr>
+  <tr>
+    <td class="cell-left"><code class="remark-inline-code">facet_wrap(vars(type, year))</code>&emsp;</td>
+    <td class="cell-left">Plot for each candle type/year</td>
+  </tr>
+  <tr>
+    <td class="cell-left"><code class="remark-inline-code">facet_wrap(..., ncol = 1)</code></td>
+    <td class="cell-left">Put all facets in one column</td>
+  </tr>
+  <tr>
+    <td class="cell-left"><code class="remark-inline-code">facet_wrap(..., nrow = 1)</code></td>
+    <td class="cell-left">Put all facets in one row</td>
+  </tr>
+</table>
+
+
+```{r facet_example1, warning=F, message=F}
+ggplot(data= scented_summary) +
+  geom_point(mapping=aes(x= Date, y= Average_Rating, color=type)) +
+  geom_vline(xintercept= ymd("2020-01-20")) +
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "6 month") +
+  facet_wrap(vars(type))
+```
+
+Now, try it with nrow=1 or ncol=1
+
+```{r facet_example2, exercise=T, warning=F, message=F}
+ggplot(data= scented_summary) +
+  geom_point(mapping=aes(x= Date, y= Average_Rating, color=type)) +
+  geom_vline(xintercept= ymd("2020-01-20")) +
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "6 month") +
+  facet_wrap(vars(type), ___ = 1)
+```
+
+
+### Labels
+
+
+<table>
+  <tr>
+    <th class="cell-left">Example layer</th>
+    <th class="cell-left">What it does</th>
+  </tr>
+  <tr>
+    <td class="cell-left"><code class="remark-inline-code">labs(title = "Neat title")</code></td>
+    <td class="cell-left">Title</td>
+  </tr>
+  <tr>
+    <td class="cell-left"><code class="remark-inline-code">labs(caption = "Something")</td>
+    <td class="cell-left">Caption</td>
+  </tr>
+  <tr>
+    <td class="cell-left"><code class="remark-inline-code">labs(y = "Something")</td>
+    <td class="cell-left">y-axis</td>
+  </tr>
+  <tr>
+    <td class="cell-left"><code class="remark-inline-code">labs(color = "Type")</code></td>
+    <td class="cell-left">Title of size legend</td>
+  </tr>
+</table>
+
+```{r labels-example, tidy=FALSE, message=FALSE}
+ggplot(data= scented_summary) +
+  geom_point(mapping=aes(x= Date, y= Average_Rating, color=type)) +
+  geom_vline(xintercept= ymd("2020-01-20")) +
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "6 month") +
+  labs(title = "Candle reviews on Amazon.com",
+       subtitle = "Top 3 most popular candles 2017-2020",
+       x = "Date",
+       y = "Average daily rating (1-5)",
+       color = "Type",
+       caption = "Source: Kate Petrova")
+```
+
+### Theme
+
+Change the appearance of anything in the plot.
+
+There are many built-in themes.
+
+
+<table>
+  <tr>
+    <th class="cell-left">Example layer</th>
+    <th class="cell-left">What it does</th>
+  </tr>
+  <tr>
+    <td class="cell-left"><code class="remark-inline-code">theme_grey()</code></td>
+    <td class="cell-left">Default grey background</td>
+  </tr>
+  <tr>
+    <td class="cell-left"><code class="remark-inline-code">theme_bw()</td>
+    <td class="cell-left">Black and white</td>
+  </tr>
+  <tr>
+    <td class="cell-left"><code class="remark-inline-code">theme_dark()</td>
+    <td class="cell-left">Dark</td>
+  </tr>
+  <tr>
+    <td class="cell-left"><code class="remark-inline-code">theme_minimal()</code></td>
+    <td class="cell-left">Minimal</td>
+  </tr>
+</table>
+
+Try out the different themes listed above in the code below.
+
+```{r themes-example, exercise=TRUE, tidy=FALSE, message=FALSE}
+ggplot(data= scented_summary) +
+  geom_point(mapping=aes(x= Date, y= Average_Rating, color=type)) +
+  geom_vline(xintercept= ymd("2020-01-20")) +
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "6 month") +
+  labs(title = "Candle reviews on Amazon.com",
+       subtitle = "Top 3 most popular candles",
+       x = "Date",
+       y = "Average rating",
+       color = "Type",
+       caption = "Source: Kate Petrova") +
+  theme______
+```
+
+There are a collections of pre-built themes online, like the [ggthemes package](https://jrnold.github.io/ggthemes/).
+
+Organizations often make their own custom themes, like [the BBC](https://bbc.github.io/rcookbook/).
+
+
+```{r img10, echo = F, out.width="100%"}
+include_graphics("images/bbc-cookbook.png")
+``` 
+
+### Theme adjustments
+
+Make theme adjustments with `theme()`
+
+There are a billion options here!
+
+Add this chunk of code in the exercise below it:
+
+```
+theme_bw() + 
+theme(legend.position = "bottom",
+      plot.title = element_text(face = "bold"),
+      panel.grid = element_blank(),
+      axis.title.y = element_text(face = "italic"))
+```
+
+
+```{r themes-example2, exercise=TRUE, tidy=FALSE, message=FALSE}
+ggplot(data= scented_summary) +
+  geom_point(mapping=aes(x= Date, y= Average_Rating, color=type)) +
+  geom_vline(xintercept= ymd("2020-01-20")) +
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "6 month") +
+  labs(title = "Candle reviews on Amazon.com",
+       subtitle = "Top 3 most popular candles",
+       x = "Date",
+       y = "Average rating",
+       color = "Type",
+       caption = "Source: Kate Petrova") +
+  theme______
+```
+
+These were just a few examples of layers.
+
+```{r img11, echo = F, out.width="50%"}
+include_graphics("images/ggplot5.png")
+``` 
+
+See the [ggplot2 documentation](https://ggplot2.tidyverse.org/reference/index.html) for complete examples of everything you can do
+
+One last thing: I want to add one more geom_ so that it's more obvious what the pattern is.
+
+`geom_smooth()`
+
+I'm also going to move the mapping to the first line so it will be consistent for all `geoms_` after.
+
+```{r themes-example-last, idy=FALSE, message=FALSE, fig.width=8}
+ggplot(data= scented_summary, 
+       mapping=aes(x= Date, y= Average_Rating)) +
+  geom_point(alpha = 0.2, colour = "goldenrod3") +
+geom_smooth(method = "loess", size = 1.5, colour = "goldenrod3", fill = "goldenrod3") +
+  geom_vline(xintercept= ymd("2020-01-20")) +
+  facet_wrap(vars(type), ncol=2) +
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "12 month") +
+  labs(title = "Candle reviews on Amazon.com",
+       subtitle = "Top 3 most popular candles",
+       x = "Date",
+       y = "Average rating",
+       color = "Type",
+       caption = "Source: Kate Petrova") +
+  theme_minimal()
+```
+
+ It seems obvious that there's a trend here, right?
+ 
+ Why do you think that is?
+ 
+
+## Putting it all together
+
+Usually we'd next go over all the different `geom_` visualizations you can create using a single data set.
+
+But we're going to use more real-life data that I think will be relevant to your journalism.
+
+The data set is raw deaths data from San Diego. It's a combination of 1997-2019 data from San Diego's [data portal](https://data.sandiegocounty.gov/Safety/Medical-Examiner-Cases/jkvb-n4p7/data) and 2020 data from a public information reqeust on [MuckRock](https://www.muckrock.com/foi/santa-clara-county-732/santa-clara-county-medical-examiner-coroner-case-details-104835/).
