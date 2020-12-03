@@ -12,4 +12,15 @@ A course by Andrew Ba Tran & Christian McDonald for the [Center for Health Journ
 - Day 5: Geospatial analysis
 
 
+## Download these files
+
+Hopefully, you've created folder on your computer, maybe in your Documents folder called "CHJ" or something like that.
+
+Once you've set your working directory (with maybe `setwd()`) then you can run these commands in your console to download the correct folders and data:
+
+`install.packages("usethis")`
+
+and then
+
+`usethis::use_course("https://github.com/utdata/chj-r-introduction/archive/master.zip")`
 
