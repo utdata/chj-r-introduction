@@ -1,0 +1,438 @@
+---
+title: "CHJ Day 4 Exercises"
+output: html_document
+---
+
+```{r importing_data_real, include=FALSE, echo=FALSE}
+library(tidyverse)
+library(learnr)
+library(lubridate)
+library(readxl)
+library(DT)
+library(flair)
+library(janitor)
+
+sd <- read_csv("san_diego.csv")
+
+sd <- clean_names(sd)
+
+
+sd_adjusted <- sd %>% 
+  mutate(death_date=mdy(death_date)) %>% 
+  mutate(month=month(death_date, label=TRUE, abbr=TRUE)) 
+
+sd_month <- sd_adjusted %>% 
+  count(year, month, manner_of_death, name="deaths") %>% 
+  mutate(date=mdy(paste0(month, " 1, ", year)))
+
+scented <- read_excel("Scented_all.xlsx", sheet=1)
+unscented <- read_excel("Unscented_all.xlsx", sheet=1)
+
+scented <- scented %>% 
+  mutate(type="scented")
+  
+unscented <- unscented %>% 
+  mutate(type="unscented")
+
+scented <- bind_rows(scented, unscented)
+
+scented_summary <- scented %>%
+  arrange(Date) %>%
+  filter(Date >= "2017-01-01") %>%
+  mutate(Date=ymd(Date)) %>% 
+  filter(CandleID <= 3) %>%
+  group_by(Date, type) %>%
+  summarise(Average_Rating=mean(Rating),
+            Reviews=n())
+
+
+no_scent_analysis <- scented %>% 
+  # filter the reviews so we're only looking at scented candles
+  filter(type=="scented") %>% 
+  arrange(Date) %>% 
+  # only focus on the reviews from this year
+  filter(Date >= mdy("01-01-2020")) %>% 
+  # create a new column no_scent that will fill a 1 if No Scent is mentioned
+  mutate(no_scent=case_when(
+    str_detect(Review, "[Nn]o scent") ~ 1, 
+    str_detect(Review, "[Nn]o smell") ~ 1,
+    str_detect(Review, "[Dd]oes not smell like") ~ 1,
+    str_detect(Review, "[Dd]oesn't smell like") ~ 1,
+    str_detect(Review, "[Cc]an't smell") ~ 1,
+    str_detect(Review, "[Cc]annot smell") ~ 1,
+    str_detect(Review, "[Ff]aint smell") ~ 1,
+    str_detect(Review, "[Ff]aint scent") ~ 1,
+    str_detect(Review, "[Dd]on't smell") ~ 1,
+    str_detect(Review, "[Ll]ike nothing") ~ 1,
+    TRUE ~ 0
+  )) %>% 
+  # create a new month column
+  mutate(month=month(Date, label=TRUE)) %>% 
+  # let's aggregate around month
+  group_by(month) %>% 
+  # we just need to add up the 1s in no_scent and count up the total reviews with n()
+  summarize(no_scent=sum(no_scent), reviews=n()) %>% 
+  # and do some math
+  mutate(percent=no_scent/reviews*100)
+
+
+```
+
+
+## Data introduction
+
+Let's take a look at what were working with:
+
+```{r view_unscented}
+library(DT)
+library(dplyr)
+
+scented <- read_excel("Scented_all.xlsx", sheet=1)
+unscented <- read_excel("Unscented_all.xlsx", sheet=1)
+
+scented <- scented %>% 
+  mutate(type="scented")
+  
+unscented <- unscented %>% 
+  mutate(type="unscented")
+
+scented <- bind_rows(scented, unscented)
+
+scented %>% 
+  head(4) %>% 
+  datatable()
+```
+
+These are more than 21,000 reviews for the top 5 rated scented and unscented candles on Amazon. It goes back years.
+
+Let's quickly filter this data to the top 3 candles only and figure out the `Average_Rating` for each day. And also count the total `Reviews` for each day. And we should convert the dates in the `Date` column with a **lubridate** function.
+
+### Exercise 1
+
+Fill in the blanks with the right code.
+
+```{r Exercise-1, warning=F, message=F}
+scented_summary <- scented %>%
+  arrange(Date) %>%
+  filter(Date >= "2017-01-01") %>%
+  # convert the String Date into a date format using lubridate function
+  mutate(Date=___(Date)) %>% 
+  filter(CandleID <= 3) %>%
+  group_by(Date, type) %>% 
+  # Now how do we aggregate average and count?
+  _________(Average_Rating=____(Rating),
+            Reviews=___)
+  
+scented_summary
+```
+
+We've narrowed down 21,000 rows of data to a more workable 2,471.
+
+This summarized data set will be our entry to the:
+
+## Grammar of Graphics
+
+Look at the difference between these two charts without and with a scales function. 
+
+```{r second_chart}
+ggplot(data= scented_summary) +
+  geom_point(mapping=aes(x= Date, y= Average_Rating, color=type)) +
+  geom_vline(xintercept= ymd("2020-01-20"))
+```
+
+Check out the x-axis.
+
+### Exercise 2
+
+Now add `scale_x_date(date_labels = "%m-%Y", date_breaks = "6 month")` to the bottom of the code
+
+
+```{r Exercise-2, warning=F, message=F}
+ggplot(data= scented_summary) +
+  geom_point(mapping=aes(x= Date, y= Average_Rating, color=type)) +
+  geom_vline(xintercept= ymd("2020-01-20")) +
+
+```
+
+### Exercise 3
+
+Now, try it with nrow=1 or ncol=1
+
+```{r Exercise-3, warning=F, message=F}
+ggplot(data= scented_summary) +
+  geom_point(mapping=aes(x= Date, y= Average_Rating, color=type)) +
+  geom_vline(xintercept= ymd("2020-01-20")) +
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "6 month") +
+  facet_wrap(vars(type), ___ = 1)
+```
+
+
+
+### Theme
+
+Change the appearance of anything in the plot.
+
+There are many built-in themes.
+
+* theme_grey()
+* theme_bw()
+* theme_dark()
+
+### Exercise 4
+
+Try out the different themes listed above in the code below.
+
+```{r exercise-4, tidy=FALSE, message=FALSE}
+ggplot(data= scented_summary) +
+  geom_point(mapping=aes(x= Date, y= Average_Rating, color=type)) +
+  geom_vline(xintercept= ymd("2020-01-20")) +
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "6 month") +
+  labs(title = "Candle reviews on Amazon.com",
+       subtitle = "Top 3 most popular candles",
+       x = "Date",
+       y = "Average rating",
+       color = "Type",
+       caption = "Source: Kate Petrova") +
+  theme______
+```
+
+
+
+
+### Exercise 5
+
+Add this chunk of code in the exercise below it:
+
+```
+theme_bw() + 
+theme(legend.position = "bottom",
+      plot.title = element_text(face = "bold"),
+      panel.grid = element_blank(),
+      axis.title.y = element_text(face = "italic"))
+```
+
+```{r Exercise-5, tidy=FALSE, message=FALSE}
+ggplot(data= scented_summary) +
+  geom_point(mapping=aes(x= Date, y= Average_Rating, color=type)) +
+  geom_vline(xintercept= ymd("2020-01-20")) +
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "6 month") +
+  labs(title = "Candle reviews on Amazon.com",
+       subtitle = "Top 3 most popular candles",
+       x = "Date",
+       y = "Average rating",
+       color = "Type",
+       caption = "Source: Kate Petrova") +
+  theme______
+```
+
+
+ 
+```{r no_scent, warning=F, message=F}
+ 
+no_scent_analysis <- scented %>% 
+  # filter the reviews so we're only looking at scented candles
+  filter(type=="scented") %>% 
+  arrange(Date) %>% 
+  # only focus on the reviews from this year
+  filter(Date >= mdy("01-01-2020")) %>% 
+  # create a new column no_scent that will fill a 1 if No Scent is mentioned
+  mutate(no_scent=case_when(
+    str_detect(Review, "[Nn]o scent") ~ 1, 
+    str_detect(Review, "[Nn]o smell") ~ 1,
+    str_detect(Review, "[Dd]oes not smell like") ~ 1,
+    str_detect(Review, "[Dd]oesn't smell like") ~ 1,
+    str_detect(Review, "[Cc]an't smell") ~ 1,
+    str_detect(Review, "[Cc]annot smell") ~ 1,
+    str_detect(Review, "[Ff]aint smell") ~ 1,
+    str_detect(Review, "[Ff]aint scent") ~ 1,
+    str_detect(Review, "[Dd]on't smell") ~ 1,
+    str_detect(Review, "[Ll]ike nothing") ~ 1,
+    TRUE ~ 0
+  )) %>% 
+  # create a new month column
+  mutate(month=month(Date, label=TRUE)) %>% 
+  # let's aggregate around month
+  group_by(month) %>% 
+  # we just need to add up the 1s in no_scent and count up the total reviews with n()
+  summarize(no_scent=sum(no_scent), reviews=n()) %>% 
+  # and do some math
+  mutate(percent=no_scent/reviews*100)
+
+no_scent_analysis
+```
+
+**Make me a chart of your choice using the data above**
+
+### Exercise 6
+   
+```{r exercise-6, tidy=FALSE, message=FALSE}
+## whatever you like (okay, I prefer if you use the percent column)
+ggplot(no_scent_analysis) +
+
+```
+
+
+## Putting it all together
+
+
+```{r sd1, eval=F}
+library(tidyverse)
+library(janitor)
+library(lubridate)
+
+sd <- read_csv("san_diego.csv")
+
+sd <- clean_names(sd)
+
+sd_adjusted <- sd %>% 
+  mutate(death_date=mdy(death_date)) %>% 
+  mutate(month=month(death_date, label=TRUE, abbr=TRUE)) 
+
+sd_adjusted
+```
+
+Let's start summarizing the data so we can start looking for trends.
+
+### Exercise 7
+
+Can you `count` up the number of `deaths` by manner_of_death by month and year, please?
+
+```{r exercise-7, warning=F, message=F}
+sd_month <- sd_adjusted %>% 
+  _____(year, month, manner_of_death, name="______") %>% 
+  # we'll also add a new date column in the proper format for good charting
+  mutate(date=mdy(paste0(month, " 1, ", year)))
+
+
+sd_month
+```
+
+
+### Exercise 8
+
+Now, fill in the blank below to create a line chart for each type of death
+
+```{r exercise-8, fig.width=8, warning=F, message=F}
+sd_month %>% 
+  ggplot(aes(x=date, y=deaths, color=manner_of_death, group=manner_of_death)) +
+  geom_____() +
+  labs(title="Monthly deaths in San Diego",
+       caption="Source; San Diego Medical Examiner")
+```
+
+
+### By year
+
+I went ahead and created a new `sd_year` dataframe counting up the deaths by year (while excluding October, November, and December) so we can compare prior years to this year.
+
+```{r sd_year_data}
+sd_year <- sd_adjusted %>% 
+  # if we're going to compare this year to previous years, we need to exclude data we don't have yet
+  filter(!month %in% c("Oct", "Nov", "Dec")) %>% 
+  count(year, manner_of_death, name="deaths") 
+
+datatable(sd_year)
+```
+
+### Exercise 9
+
+Okay, your turn to make a chart.
+
+Make me a faceted chart that breaks out all the individual manner_of_deaths into its own chart, small-multiple style.
+
+```{r exercise-9, fig.width=8}
+sd_year %>% ggplot(aes(x=year, y=deaths)) +
+  geom_col() +
+  ______wrap(vars(_______________), ncol=4)
+```
+
+
+We're going to use a function called `case_when` to create a new column called **year_type**. If the year is 2020, then it will be "2020" otherwise it will be "1997-2020". And then we find the average number of deaths for each month for those two groups.
+
+```{r sd_group, warning=F, message=F}
+sd_group <- sd_adjusted %>% 
+  filter(!month %in% c("Oct", "Nov", "Dec")) %>% 
+  count(year, month, manner_of_death, name="deaths") %>% 
+  mutate(year_type=case_when(
+    year==2020 ~ "2020",
+    TRUE ~ "1997-2019"
+  )) %>% 
+  group_by(month, manner_of_death, year_type) %>% 
+  summarize(avg_deaths=mean(deaths, na.rm=T)) %>% 
+  filter(!is.na(month))
+
+datatable(sd_group)
+```
+
+
+Let's chart it.
+
+### Exercise 10
+
+Can you please create a faceted line chart of the data above? But with year_type as two different lines?
+
+Fill in the three blanks to generate the chart.
+
+```{r exercise-10,  fig.width=8, fig.height=5, warning=F, message=F}
+ggplot(sd_group, aes(x=_____, y=__________, color=year_type, group=year_type)) +
+  geom_____() +
+  facet_wrap(vars(manner_of_death), scales="free_y", ncol=2)
+```
+
+Let's compare that overall instead of by month.
+
+Here's the code. We're also excluding September based on what we discovered in the chart above.
+
+```{r sd_group_compare}
+sd_group_compare <- sd_adjusted %>% 
+  filter(!month %in% c("Sep", "Oct", "Nov", "Dec")) %>% 
+  count(year, manner_of_death, name="deaths") %>% 
+  mutate(year_type=case_when(
+    year==2020 ~ "2020",
+    TRUE ~ "1997-2019"
+  )) %>% 
+  group_by(manner_of_death, year_type) %>% 
+  summarize(avg_deaths=round(mean(deaths, na.rm=T)))
+
+datatable(sd_group_compare)
+```
+
+
+### Exercise 11
+
+Run the code below with `manner_of_death` as x and `avg_deaths` as y.
+
+Then swap them.
+
+Which do you prefer and why?
+
+```{r exercise-11, fig.width=8}
+ggplot(sd_group_compare, aes(x=________, y=______, fill=year_type)) +
+  geom_bar(position="dodge", stat="identity") 
+```
+
+
+
+I want to get rid of the manners of death that have barely any and I want to reorder the labels so that it's in alphabetical order.
+
+### Exercise 12
+
+Take a look at the code below. Absorb it.
+
+Then generate the code and see what pops up.
+
+```{r exercise-12}
+sd_group_compare %>% 
+  filter(!manner_of_death %in% c("Other", "Family Paid Autopsy")) %>% 
+  filter(!is.na(manner_of_death)) %>% 
+  ggplot(aes(x=avg_deaths, y=forcats::fct_rev(manner_of_death),  fill=year_type)) +
+  geom_bar(position="dodge", stat="identity") +
+  labs(title="Manner of death in San Diego",
+       subtitle="January and August deaths in 2020 compared to average deaths between 1997 and 2019",
+       caption="Source: San Diego Medical Examiner",
+       y="Manner of death",
+       x="Average deaths",
+       fill="Year") +
+  theme_minimal()
+
+```
