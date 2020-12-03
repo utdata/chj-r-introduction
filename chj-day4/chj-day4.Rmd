@@ -56,6 +56,9 @@ sd_adjusted <- sd %>%
   mutate(death_date=mdy(death_date)) %>% 
   mutate(month=month(death_date, label=TRUE, abbr=TRUE)) 
 
+sd_month <- sd_adjusted %>% 
+  count(year, month, manner_of_death, name="deaths") %>% 
+  mutate(date=mdy(paste0(month, " 1, ", year)))
 
 scented <- read_excel("Scented_all.xlsx", sheet=1)
 unscented <- read_excel("Unscented_all.xlsx", sheet=1)
@@ -200,9 +203,11 @@ scented_summary
 scented_summary <- scented %>%
   arrange(Date) %>%
   filter(Date >= "2017-01-01") %>%
+  # convert the String Date into a date format using lubridate function
   mutate(Date=ymd(Date)) %>% 
   filter(CandleID <= 3) %>%
   group_by(Date, type) %>%
+  # Now how do we aggregate average and count?
   summarise(Average_Rating=mean(Rating),
             Reviews=n())
 
@@ -427,6 +432,8 @@ ggplot(data= scented_summary) +
 
 Check out the x-axis.
 
+### Exercise 2
+
 Now add `scale_x_date(date_labels = "%m-%Y", date_breaks = "6 month")` to the bottom of the code
 
 
@@ -473,6 +480,8 @@ ggplot(data= scented_summary) +
   scale_x_date(date_labels = "%m-%Y", date_breaks = "6 month") +
   facet_wrap(vars(type))
 ```
+
+### Exercise 3
 
 Now, try it with nrow=1 or ncol=1
 
@@ -554,6 +563,8 @@ There are many built-in themes.
   </tr>
 </table>
 
+### Exercise 4
+
 Try out the different themes listed above in the code below.
 
 ```{r themes-example, exercise=TRUE, tidy=FALSE, message=FALSE}
@@ -597,6 +608,7 @@ theme(legend.position = "bottom",
       axis.title.y = element_text(face = "italic"))
 ```
 
+### Exercise 5
 
 ```{r themes-example2, exercise=TRUE, tidy=FALSE, message=FALSE}
 ggplot(data= scented_summary) +
@@ -685,9 +697,11 @@ no_scent_analysis <- scented %>%
   mutate(percent=no_scent/reviews*100)
 
 no_scent_analysis
- ```
+```
 
 **Make me a chart of your choice using the data above**
+
+### Exercise 6
    
 ```{r no-smell-example2, exercise=TRUE, tidy=FALSE, message=FALSE}
 ## whatever you like (okay, I prefer if you use the percent column)
@@ -735,6 +749,8 @@ There's some really great data here. It's got gender, race, and several levels o
 
 Let's start summarizing the data so we can start looking for trends.
 
+### Exercise 7
+
 Can you `count` up the number of `deaths` by manner_of_death by month and year, please?
 
 ```{r sd_month1, exercise=TRUE, warning=F, message=F}
@@ -750,7 +766,7 @@ sd_month
 
 ```{r sd_month1-check}
 sd_month <- sd_adjusted %>% 
-  separate(year, month, manner_of_death, name="deaths") %>% 
+  count(year, month, manner_of_death, name="deaths") %>% 
   mutate(date=mdy(paste0(month, " 1, ", year)))
 
 sd_month
@@ -758,8 +774,10 @@ sd_month
 
 
 <div id="sd_month1-hint">
-**Hint:** separate / deaths
+**Hint:** count / deaths
 </div>
+
+### Exercise 8
 
 Now, fill in the blank below to create a line chart for each type of death
 
@@ -787,6 +805,8 @@ sd_year <- sd_adjusted %>%
 
 datatable(sd_year)
 ```
+
+### Exercise 9
 
 Okay, your turn to make a chart.
 
@@ -837,6 +857,8 @@ Looking very smooth.
 
 Let's chart it.
 
+### Exercise 10
+
 Can you please create a faceted line chart of the data above? But with year_type as two different lines?
 
 Fill in the three blanks to generate the chart.
@@ -877,6 +899,9 @@ sd_group_compare <- sd_adjusted %>%
 datatable(sd_group_compare)
 ```
 
+
+### Exercise 11
+
 Run the code below with `manner_of_death` as x and `avg_deaths` as y.
 
 Then swap them.
@@ -892,7 +917,9 @@ Alright, before we go, I want to clean things up some.
 
 I want to get rid of the manners of death that have barely any and I want to reorder the labels so that it's in alphabetical order.
 
-Take a look at the code below. Absorbe it.
+### Exercise 12
+
+Take a look at the code below. Absorb it.
 
 Then generate the code and see what pops up.
 
