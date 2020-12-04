@@ -9,7 +9,7 @@ A course by Andrew Ba Tran & Christian McDonald for the [Center for Health Journ
 - [Day 3, Pt. 1: Combining data](https://utdata.shinyapps.io/chj-day3/)
 - [Day 3, Pt. 2: Tidying data](https://utdata.shinyapps.io/chj-day3-2/)
 - [Day 4: Visualizations](https://utdata.shinyapps.io/chj-day4/)
-- Day 5: Geospatial analysis
+- [Day 5: Geospatial analysis](https://github.com/utdata/chj-r-introduction/blob/main/chj-day5/chj-day5-1-geospatial.Rmd)
 
 
 ## Download these files
