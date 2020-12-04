@@ -1,5 +1,5 @@
 ---
-title: '1: Geospatial introduction
+title: Geospatial introduction
 author: "Andrew Ba Tran"
 output: html_document
 ---
@@ -337,7 +337,7 @@ Same structure as the file we loaded from our local drive.
 
 ## Mapping California
 
-```{r tigris_map, warning=F, message=F, quietly=T, echo=T, results='hide'}
+```{r tigris_map, warning=F, message=F, quietly=T, echo=T}
 ggplot(ca) + 
   geom_sf() +
   theme_void() +
@@ -354,7 +354,7 @@ Try this again with one of those [other map types](https://github.com/walkerke/t
 * `school_districts()`
 * `roads()`
 
-```{r tigris_map_custom, warning=F, message=F, quietly=T, echo=T, results='hide'}
+```{r tigris_map_custom, warning=F, message=F, quietly=T, echo=T, eval=F}
 
 ca_test <- ______("CA", cb=T)
 
@@ -510,7 +510,7 @@ census_api_key("YOUR API KEY GOES HERE")
 
 ## Getting unmployment figures
 
-```{r racejobvars, warning=F, message=F, quietly=T, echo=T, results='hide'}
+```{r racejobvars, warning=F, message=F, quietly=T, echo=T}
 jobs <- c(labor_force = "B23025_005E", 
               unemployed = "B23025_002E")
 
@@ -549,7 +549,7 @@ ggplot(aes(fill=percent_unemployed)) +
 
 Look up another county in whatever state you want and map it again.
 
-```{r unemployed_new_county, warning=F, message=F}
+```{r unemployed_new_county, warning=F, message=F, eval=F}
 jobs <- c(labor_force = "B23025_005E", 
               unemployed = "B23025_002E")
 
@@ -578,7 +578,7 @@ ggplot(aes(fill=percent_unemployed)) +
 ## Faceting maps (Small multiples)
 
 
-```{r facet, warning=F, message=F, quietly=T, echo=T, results='hide'}
+```{r facet, warning=F, message=F, quietly=T, echo=T}
 racevars <- c(White = "B03002_003", 
               Black = "B03002_004", 
               Asian = "B03002_006",
@@ -617,7 +617,7 @@ county_race_pop %>%
 
 Try it with a county in a state of your choice:
 
-```{r facet2, warning=F, message=F, quietly=T, echo=T, results='hide'}
+```{r facet2, warning=F, message=F, quietly=T, echo=T, eval=F}
 racevars <- c(White = "B03002_003", 
               Black = "B03002_004", 
               Asian = "B03002_006",

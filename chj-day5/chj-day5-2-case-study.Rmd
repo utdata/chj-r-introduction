@@ -1,5 +1,5 @@
 ---
-title: "Coronavirus racial disparities"
+title: "Geospatial case study"
 author: "Andrew Ba Tran"
 output: html_document
 ---
@@ -20,7 +20,7 @@ library(knitr)
 library(readxl)
 library(DT)
 # Sub in your Census API key here
-census_api_key("YOURKEYGOESHERE")
+census_api_key("YOURKEYHERE")
 ```
 
 Let's import some Covid-19 data. 
