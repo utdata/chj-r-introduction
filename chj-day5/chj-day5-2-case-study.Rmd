@@ -1,0 +1,181 @@
+---
+title: "Coronavirus racial disparities"
+author: "Andrew Ba Tran"
+output: html_document
+---
+
+
+What happens when you don't have race data? But you have data by county?
+
+Well, you could use demographic data from the Census as a proxy.
+
+Let's load up some libraries.
+
+```{r setup, warning=F, message=F}
+# Loading libraries
+library(tidyverse)
+library(tidycensus)
+library(viridis)
+library(knitr)
+library(readxl)
+library(DT)
+# Sub in your Census API key here
+census_api_key("YOURKEYGOESHERE")
+```
+
+Let's import some Covid-19 data. 
+
+```{r covid_import, warning=F, message=F}
+# From... The New York Times. Don't tell anyone on me.
+
+corona <- read_csv("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv")
+
+corona
+```
+
+Looks like we have data by county and date.
+
+Let's bring in race population data by county from the Census with our new fancy API function from **tidycensus**..
+
+```{r census_import}
+# Downloading race table from the Census and calculating white percent of population
+county_race <- get_acs(geography = "county",
+                       variables = c("B03002_003", "B03002_004", "B03002_006", "B03002_012", "B03002_007"),
+                       summary_var = "B03002_001",
+                       geometry = TRUE,
+                       shift_geo = TRUE) %>% 
+  mutate(pct = round(100 * (estimate/summary_est),2)) %>% 
+  mutate(race=case_when(
+    variable=="B03002_003" ~"White",
+    variable=="B03002_004" ~"Black",
+    variable=="B03002_006" ~"Asian",
+    variable=="B03002_012" ~"Hispanic",
+    variable=="B03002_007" ~"American Indian",
+    TRUE ~ "Other"
+  ))
+
+county_race_wide <- county_race %>% 
+  ungroup() %>% 
+  select(GEOID, summary_est, pct, race) 
+
+# let's get rid of the geometry column for now...
+county_race_wide$geometry <- NULL
+
+county_race_wide
+```
+
+Okay, we have the **corona** table, which has county cases and deaths by day.
+
+And we have county_race_wide data, which we used to calculate the percent of race population in each county.
+
+We need to filter these two data sets:
+
+* corona: We only want the most recent date of data
+
+* county_race_wide: We only want the row with the plurality race
+
+```{r simplify}
+# Filtering by the latest dated entry for the most up-to-date figures by county
+corona_latest <- corona %>% 
+  group_by(fips) %>% 
+  arrange(fips, date) %>% 
+  slice(n())
+
+# Filtering race county data so the plurality race is the only row per county
+county_race_wide <- county_race_wide %>% 
+  group_by(GEOID) %>% 
+  arrange(desc(pct)) %>% 
+  slice(1)
+
+county_race_wide
+```
+
+```{r prep_join}
+# prepping county race 
+# joining the county results data to the corona data
+# calculating per capita cases and deaths for each county
+corona_race_join_save <- corona_latest %>% 
+  left_join(county_race_wide, by=c("fips"="GEOID")) %>% 
+  mutate(cases_per_capita=cases/summary_est*100000,
+         deaths_per_capita=deaths/summary_est*100000) %>% 
+  filter(!is.na(race))
+
+# Calculating median and average cases/deaths per capita by race group
+# This excludes counties with no cases and no deaths
+corona_race_table <- corona_latest %>% 
+  left_join(county_race_wide, by=c("fips"="GEOID")) %>% 
+  group_by(race) %>%
+  filter(!is.na(race)) %>% 
+  summarize(counties=n(),
+            population=sum(summary_est),
+            cases=sum(cases, na.rm=T),
+            deaths=sum(deaths, na.rm=T),
+            cases_per_capita=round(cases/population*100000,2),
+            deaths_per_capita=round(deaths/population*100000,2))
+
+corona_race_table
+```
+
+```{r nchs, warning=F, message=F}
+
+nchs <- read_excel("data/NCHSURCodes2013.xlsx")
+
+nchs <- nchs %>% 
+  mutate(`FIPS code` = as.character(`FIPS code`),
+         `FIPS code` = case_when(
+           nchar(`FIPS code`)==4 ~ paste0("0",`FIPS code`),
+           TRUE ~ `FIPS code`
+         )) %>% 
+  mutate(county_category=case_when(
+    `2013 code`==1 ~ "Large central metro",
+    `2013 code`==2 ~ "Large fringe metro",
+    `2013 code`==3 ~ "Medium metro",
+    `2013 code`==4 ~ "Small metro",
+    `2013 code`==5 ~ "Micropolitan",
+    `2013 code`==6 ~ "Non-core"
+  ))
+
+# prepping county race 
+# joining the county results data to the 
+corona_race_join <- corona_latest %>% 
+  left_join(county_race_wide, by=c("fips"="GEOID")) %>% 
+  select(-pct, -race) %>% 
+  left_join(nchs, by=c("fips"="FIPS code")) %>% 
+  # calculating minority percent by subtracting percent white from 100
+  mutate(cases_per_capita=cases/summary_est*100000,
+         deaths_per_capita=deaths/summary_est*100000#,
+         ) %>% 
+  filter(!is.na(cases_per_capita))
+
+# Calculating median and average cases/deaths per capita by county group
+# This excludes counties with no cases and no deaths
+
+corona_nchs_table <- corona_race_join %>% 
+  rename(code=`2013 code`) %>% 
+  group_by(code, county_category) %>% 
+  summarize(counties=n(),
+            population=sum(summary_est),
+            cases=sum(cases, na.rm=T),
+            deaths=sum(deaths, na.rm=T),
+            cases_per_capita=round(cases/population*100000,2),
+            deaths_per_capita=round(deaths/population*100000,2)) %>% 
+    select(-population)
+
+corona_nchs_table
+```
+
+## Look up cases and deaths by county
+
+Use the filter field and sort buttons, please.
+
+```{r counties_drilldown}
+corona_race_join_save %>% 
+  ungroup() %>% 
+  mutate(cases_per_capita=round(cases_per_capita,2),
+         deaths_per_capita=round(deaths_per_capita,2)) %>% 
+  select(state, county, majority=race, pct, cases, deaths, population=summary_est, `Cases per 100k`=cases_per_capita, `Deaths per 100k`=deaths_per_capita) %>%
+  arrange(desc(`Deaths per 100k`)) %>% 
+  datatable(filter='top')
+```
+
+

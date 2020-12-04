@@ -5,11 +5,8 @@ output: html_document
 
 ```{r importing_data_real, include=FALSE, echo=FALSE}
 library(tidyverse)
-library(learnr)
 library(lubridate)
 library(readxl)
-library(DT)
-library(flair)
 library(janitor)
 
 sd <- read_csv("san_diego.csv")
@@ -99,8 +96,7 @@ unscented <- unscented %>%
 scented <- bind_rows(scented, unscented)
 
 scented %>% 
-  head(4) %>% 
-  datatable()
+  head(4)
 ```
 
 These are more than 21,000 reviews for the top 5 rated scented and unscented candles on Amazon. It goes back years.
@@ -330,7 +326,7 @@ sd_year <- sd_adjusted %>%
   filter(!month %in% c("Oct", "Nov", "Dec")) %>% 
   count(year, manner_of_death, name="deaths") 
 
-datatable(sd_year)
+sd_year
 ```
 
 ### Exercise 9
@@ -359,7 +355,7 @@ sd_group <- sd_adjusted %>%
   summarize(avg_deaths=mean(deaths, na.rm=T)) %>% 
   filter(!is.na(month))
 
-datatable(sd_group)
+sd_group
 ```
 
 
@@ -392,7 +388,7 @@ sd_group_compare <- sd_adjusted %>%
   group_by(manner_of_death, year_type) %>% 
   summarize(avg_deaths=round(mean(deaths, na.rm=T)))
 
-datatable(sd_group_compare)
+sd_group_compare
 ```
 
 

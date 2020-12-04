@@ -1,5 +1,6 @@
 ---
 title: "tidyr, stringr, and lubridate"
+author: "Andrew Ba Tran"
 tutorial:
   id: "code.r-journalism/chapter-3"
   version: .85

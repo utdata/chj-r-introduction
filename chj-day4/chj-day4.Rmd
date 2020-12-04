@@ -1,5 +1,6 @@
 ---
 title: "Visualizations with ggplot2"
+author: "Andrew Ba Tran"
 tutorial:
   id: "code.r-journalism/chapter-3"
   version: .85
@@ -128,6 +129,7 @@ tutorial_options(exercise.timelimit = 30, exercise.checker = checker)
 
 ```
 
+Note: All answers to exercises can be found [here](https://github.com/utdata/chj-r-introduction/blob/main/chj-day4/chj-day4-answers.Rmd).
 
 ## Data introduction
 
@@ -600,7 +602,7 @@ There are a billion options here!
 
 Add this chunk of code in the exercise below it:
 
-```
+```{r eval=F}
 theme_bw() + 
 theme(legend.position = "bottom",
       plot.title = element_text(face = "bold"),
@@ -739,7 +741,9 @@ sd <- clean_names(sd)
 sd_adjusted <- sd %>% 
   mutate(death_date=mdy(death_date)) %>% 
   mutate(month=month(death_date, label=TRUE, abbr=TRUE)) 
+```
 
+```{r view_sd}
 sd_adjusted
 ```
 
