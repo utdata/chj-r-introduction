@@ -1,8 +1,16 @@
 ---
 title: "CHJ R Track Day 1: Getting started"
-output: learnr::tutorial
+tutorial:
+  id: "chj-r-introduction/day1"
+  version: .9
+output:
+  learnr::tutorial:
+    progressive: true
+    theme: lumen
+    highlight: espresso
 runtime: shiny_prerendered
 ---
+
 
 ```{r setup, include=FALSE}
 library(tidyverse)

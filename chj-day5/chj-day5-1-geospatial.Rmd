@@ -118,8 +118,8 @@ library(ggspatial)
 # If you're using a Mac, you may want to uncomment and run the lines below
 # It makes loading maps more efficient
 # If you get a warning or error, don't worry about it
-#options(device = "X11") 
-#X11.options(type = "cairo")
+options(device = "X11") 
+X11.options(type = "cairo")
 ```
 
 ## Mapping a familiar shape file
@@ -356,7 +356,7 @@ Try this again with one of those [other map types](https://github.com/walkerke/t
 
 ```{r tigris_map_custom, warning=F, message=F, quietly=T, echo=T, eval=F}
 
-ca_test <- ______("CA", cb=T)
+ca_test <- counties("CA", cb=T)
 
 ggplot(ca_test) + 
   geom_sf() +
@@ -391,7 +391,7 @@ Replace YOURKEYHERE with your Census API key.
 
 ```{r census_key, eval=F}
 # Add key to .Renviron
-Sys.setenv(CENSUS_KEY="YOURKEYHERE")
+#Sys.setenv(CENSUS_KEY="YOURKEYHERE")
 # Reload .Renviron
 readRenviron("~/.Renviron")
 # Check to see that the expected key is output in your R console
@@ -504,7 +504,7 @@ library(tidycensus)
 ```{r key}
 # Pass it the census key you set up before
 
-census_api_key("YOUR API KEY GOES HERE")
+# census_api_key("YOUR API KEY GOES HERE")
 ```
 
 
@@ -554,8 +554,8 @@ jobs <- c(labor_force = "B23025_005E",
               unemployed = "B23025_002E")
 
 county_unemployment <- get_acs(geography="tract", year=2018, 
-                  variables= jobs, county = "_________", 
-                  state="__", geometry=T)
+                  variables= jobs, county = "Travis", 
+                  state="TX", geometry=T)
 
 county_unemployment %>% 
   mutate(variable=case_when(
