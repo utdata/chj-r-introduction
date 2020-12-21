@@ -11,7 +11,6 @@ A course by Andrew Ba Tran & Christian McDonald for the [Center for Health Journ
 - [Day 4: Visualizations](https://utdata.shinyapps.io/chj-day4/)
 - [Day 5: Geospatial analysis](https://github.com/utdata/chj-r-introduction/blob/main/chj-day5/chj-day5-1-geospatial.Rmd)
 
-
 ## Download these files
 
 Hopefully, you've created folder on your computer, maybe in your Documents folder called "CHJ" or something like that.
@@ -23,4 +22,18 @@ Once you've set your working directory (with maybe `setwd()`) then you can run t
 and then
 
 `usethis::use_course("https://github.com/utdata/chj-r-introduction/archive/main.zip")`
+
+## For Christian
+
+Docker build:
+
+`docker build -t chj-r-introduction .`
+
+Docker run:
+
+`docker run --rm -d -p 3838:3838 chj-r-introduction`
+
+Check server logs:
+
+`/var/log/shiny-server/`
 

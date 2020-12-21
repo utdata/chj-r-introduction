@@ -1,0 +1,260 @@
+---
+title: "Chapter 1"
+tutorial:
+  id: "code.r-journalism/chapter-1"
+  version: .9
+output:
+  learnr::tutorial:
+    progressive: true
+    theme: lumen
+    highlight: espresso
+runtime: shiny_prerendered
+---
+
+
+```{r setup, include=FALSE}
+library(learnr)
+library(tidyverse)
+
+knitr::opts_chunk$set(echo = FALSE)
+
+years <- c(301, 978, 101)
+burgers <- data.frame(id=c(60006,60007,60008,60009, 60010), name=c("Bob", "Linda", "Louise", "Tina", "Gene"), age=c(45, 44, 12, 13, 11), shirt=c("White", "Red", "Pink", "Blue", "Yellow"))
+burgers$shirt<- factor(burgers$shirt)
+burgers$id <- factor(burgers$id)
+burgers$name <- as.character(burgers$name)
+
+nospace <- function(a) {
+  b <- gsub(" ","",a) 
+  gsub("\\n", "", b)
+}
+
+
+
+
+is_bad_code <- function(user_code, check_code, envir_result) {
+
+  is_null <- is.null(eval(parse(text = user_code)))
+  e_rows <- nrow(eval(parse(text = user_code)))
+  r_rows <- nrow(eval(parse(text = check_code), envir = envir_result))
+  e_cols <- ncol(eval(parse(text = user_code)))
+  r_cols <- ncol(eval(parse(text = check_code), envir = envir_result))
+  e_type <- typeof(eval(parse(text = user_code)))
+  r_type <- typeof(eval(parse(text = check_code), envir=envir_result))
+  e_len <- length(eval(parse(text = user_code)))
+  r_len <- length(eval(parse(text = check_code)))
+  if (is_null!=T){
+    if (e_len!=0 & r_len!=0) {
+      if (e_type==r_type) {
+        if (e_type!="character" & e_type!="double" & e_type!="integer" & e_type!="logical") {
+          if (e_rows==r_rows && e_cols==r_cols) {
+            eval(parse(text = user_code)) != eval(parse(text = check_code), envir = envir_result)
+          } else {
+            TRUE
+          }
+        } else { eval(parse(text = user_code)) != eval(parse(text = check_code), envir = envir_result) }
+      } else {
+        TRUE
+      }
+    } else { TRUE }
+  } else { nospace(user_code) != nospace(check_code)}
+}
+
+checker <- function(label, user_code, check_code, envir_result, evaluate_result, ...) {
+  if (is_bad_code(user_code, check_code, envir_result)) {
+    return(list(message = "Code wasn't right!", correct = FALSE, location = "append"))
+  } else {
+    return(list(message = "Great Job!", correct = TRUE, location = "append"))
+  }
+}  
+
+tutorial_options(exercise.timelimit = 30, exercise.checker = checker)
+#tutorial_options(exercise.checker = checkthat::check_exercise)
+
+
+```
+
+
+## Intro to R
+
+
+### Objects
+
+Assign the number 17 to the object **ub**
+
+
+```{r filter, exercise=TRUE}
+ub
+
+ub
+```
+
+
+```{r filter-check}
+ub <- 17
+
+ub
+``` 
+
+### Array
+
+Create an array of numbers: 301, 978, and 101.
+
+Assign it to the object "years"
+
+```{r y1, exercise=TRUE}
+years #replace this with your code 
+
+years
+```
+
+
+```{r y1-check}
+years <- c(301, 978, 101)
+
+years
+``` 
+
+
+### Functions
+
+
+What's the average of the array of numbers assigned to "years"?
+
+```{r a1, exercise=TRUE}
+(years)
+```
+
+
+```{r a1-check}
+mean(years)
+``` 
+
+### Classes
+
+Take a look at the structure of **burgers**:
+
+
+```{r st1, exercise=TRUE}
+
+```
+
+
+```{r st1-check}
+str(burgers)
+``` 
+
+
+```{r first_quiz}
+quiz(
+  question("What kind of class is the variable id?",
+    answer("character"),
+    answer("number"),
+    answer("factor", correct = TRUE),
+    answer("date"),
+    random_answer_order= TRUE
+  ))
+```
+
+## Data structures in R
+
+
+### Pulling a column of data
+
+Consider this data frame **burgers**
+
+```{r burger_show}
+burgers
+```
+
+
+How do you refer to the the *shirt* variable/column with **[]**?
+
+
+```{r v1, exercise=TRUE}
+# Add to the line below 
+
+burgers
+```
+
+
+
+```{r v1-check}
+burgers[,4]
+``` 
+
+
+How do you refer to the the *shirt* variable/column with $?
+
+```{r v2, exercise=TRUE}
+# Add to the line below 
+
+burgers
+```
+
+```{r v2-check}
+burgers$shirt
+``` 
+
+
+
+### Pulling a row of data
+
+Extract entire row for Linda using [].
+
+```{r v4, exercise=TRUE}
+# Add to the line below 
+
+burgers
+```
+
+```{r v4-check}
+burgers[2,]
+```   
+
+
+### Converting data classes
+
+Convert the *id* variable of the **burgers** data frame to numeric.
+
+
+```{r v3, exercise=TRUE}
+# Add to the line below 
+
+burgers$id <- 
+
+burgers$id
+class(burgers$id)
+```
+
+```{r v3-check}
+burgers$id <- as.numeric(as.character(burgers$id))
+
+burgers$id
+class(burgers$id)
+```   
+
+*Note:* Is the answer the same as above (correct) or is it 1-5 (false)? 
+
+### Boolean logic
+
+Check if Gene's age is 11.
+
+
+**Note**: This is the last question in the section. And there is a bug that only some correct answers are recognized.
+
+```{r b, exercise=TRUE}
+# Replace __ with the correct characters
+
+age_test <- burgers$age[5]  __  11
+
+age_test
+```
+
+```{r b-check}
+# Replace __ with the correct characters
+
+age_test <- burgers$age[5] == 11
+
+age_test
+```   

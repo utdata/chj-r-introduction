@@ -30,14 +30,21 @@ RUN export JAVA_HOME
 # RUN Rscript depends.r
 # COPY start.sh /srv/shiny-server/
 
-RUN R -e "install.packages(c('shiny', 'shinydashboard', 'tidyverse', 'learnr', 'rmarkdown', 'lubridate', 'stringr', 'forcats', 'wesanderson', 'ggrepel', 'viridis', 'leaflet', 'sf'), repos='http://cran.rstudio.com/')"
+RUN R -e "install.packages(c('shiny', 'shinydashboard', 'tidyverse', 'learnr', 'rmarkdown', 'lubridate', 'stringr', 'forcats', 'wesanderson', 'ggrepel', 'viridis', 'leaflet', 'sf', 'janitor'), repos='http://cran.rstudio.com/')"
 
-# test copy
-COPY /test.txt /srv/shiny-server/
+# copy lessons
+RUN mkdir -p /srv/shiny-server/rmd-test
+COPY rmd-test/index.Rmd /srv/shiny-server/rmd-test/index.Rmd
 
 RUN mkdir -p /srv/shiny-server/day1
 COPY day1/index.Rmd /srv/shiny-server/day1
 COPY day1/index.html /srv/shiny-server/day1
+
+
+RUN mkdir -p /srv/shiny-server/chapter-1
+COPY chapter-1/index.Rmd /srv/shiny-server/chapter-1
+COPY chapter-1/index.html /srv/shiny-server/chapter-1
+COPY chapter-1/_navbar.html /srv/shiny-server/chapter-1
 
 # COPY shiny-server.conf /etc/shiny-server/shiny-server.conf
 #COPY first_toot /srv/shiny-server/
@@ -48,5 +55,7 @@ EXPOSE 3838
 
 # COPY shiny-server.sh /usr/bin/shiny-server.sh
 # CMD ["/usr/bin/shiny-server.sh"]
+# see https://github.com/rocker-org/shiny/issues/32
+# RUN ["chmod", "+x", "/usr/bin/shiny-server.sh"]
 
 # docker-compose down && docker-compose rm && docker-compose up --force-recreate --build
