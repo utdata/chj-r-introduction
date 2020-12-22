@@ -48,7 +48,7 @@ library(DT)
 library(flair)
 library(janitor)
 
-sd <- read_csv("san_diego.csv")
+sd <- read_csv("data/san_diego.csv")
 
 sd <- clean_names(sd)
 
@@ -61,8 +61,8 @@ sd_month <- sd_adjusted %>%
   count(year, month, manner_of_death, name="deaths") %>% 
   mutate(date=mdy(paste0(month, " 1, ", year)))
 
-scented <- read_excel("Scented_all.xlsx", sheet=1)
-unscented <- read_excel("Unscented_all.xlsx", sheet=1)
+scented <- read_excel("data/Scented_all.xlsx", sheet=1)
+unscented <- read_excel("data/Unscented_all.xlsx", sheet=1)
 
 scented <- scented %>% 
   mutate(type="scented")
@@ -147,8 +147,8 @@ These are Excel files and not CSVs, so we need a special package to import those
 ```{r import_fake, eval=F}
 library(readxl)
 
-scented <- read_excel("Scented_all.xlsx", sheet=1)
-unscented <- read_excel("Unscented_all.xlsx", sheet=1)
+scented <- read_excel("data/Scented_all.xlsx", sheet=1)
+unscented <- read_excel("data/Unscented_all.xlsx", sheet=1)
 ```
 
 Let's take a look at what were working with:
@@ -157,8 +157,8 @@ Let's take a look at what were working with:
 library(DT)
 library(dplyr)
 
-scented <- read_excel("Scented_all.xlsx", sheet=1)
-unscented <- read_excel("Unscented_all.xlsx", sheet=1)
+scented <- read_excel("data/Scented_all.xlsx", sheet=1)
+unscented <- read_excel("data/Unscented_all.xlsx", sheet=1)
 
 scented <- scented %>% 
   mutate(type="scented")

@@ -11,7 +11,7 @@ library(learnr)
 library(lubridate)
 knitr::opts_chunk$set(echo = FALSE)
 
-deaths <- read_csv("chj_mn_opiate_deaths_data.csv") %>% clean_names()
+deaths <- read_csv("data/chj_mn_opiate_deaths_data.csv") %>% clean_names()
 
 deaths_clean <- deaths %>% 
   mutate(

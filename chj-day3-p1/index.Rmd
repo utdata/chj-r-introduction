@@ -11,30 +11,30 @@ library(janitor)
 knitr::opts_chunk$set(echo = FALSE)
 
 yob2017 <- read_csv(
-  "yob2017.txt",
+  "data/yob2017.txt",
   col_types = cols(sex = col_character()
   )
 )
 
 yob2018 <- read_csv(
-  "yob2018.txt",
+  "data/yob2018.txt",
   col_types = cols(sex = col_character()
   )
 )
 
 yob2019 <- read_csv(
-  "yob2019.txt",
+  "data/yob2019.txt",
   col_types = cols(sex = col_character()
   )
 )
 
 tx_pop <- read_csv(
-  "tx-pop.csv",
+  "data/tx-pop.csv",
   col_types = cols(geoid = col_character())
 )
 
 tx_covid <- read_csv(
-  "tx-covid.csv",
+  "data/tx-covid.csv",
     col_types = cols(fips = col_character())
 )
 

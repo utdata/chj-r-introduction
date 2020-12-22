@@ -20,7 +20,7 @@ library(knitr)
 library(readxl)
 library(DT)
 # Sub in your Census API key here
-census_api_key("YOURKEYHERE")
+# census_api_key("YOURKEYHERE")
 ```
 
 Let's import some Covid-19 data. 
