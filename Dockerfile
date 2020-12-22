@@ -30,25 +30,39 @@ RUN export JAVA_HOME
 # RUN Rscript depends.r
 # COPY start.sh /srv/shiny-server/
 
-RUN R -e "install.packages(c('shiny', 'shinydashboard', 'tidyverse', 'learnr', 'rmarkdown', 'lubridate', 'stringr', 'forcats', 'wesanderson', 'ggrepel', 'viridis', 'leaflet', 'sf', 'janitor'), repos='http://cran.rstudio.com/')"
+RUN R -e "install.packages(c('shiny', 'shinydashboard', 'tidyverse', 'learnr', 'rmarkdown', 'lubridate', 'janitor', 'DT', 'readxl', 'flair', 'sf'), repos='http://cran.rstudio.com/')"
 
 # copy lessons
-RUN mkdir -p /srv/shiny-server/rmd-test
-COPY rmd-test/index.Rmd /srv/shiny-server/rmd-test/index.Rmd
+RUN mkdir -p /srv/shiny-server/chj-day1
+COPY chj-day1/index.Rmd /srv/shiny-server/chj-day1
+COPY chj-day1/index.html /srv/shiny-server/chj-day1
+ADD chj-day1/images/ /srv/shiny-server/chj-day1/images/
 
-RUN mkdir -p /srv/shiny-server/day1
-COPY day1/index.Rmd /srv/shiny-server/day1
-COPY day1/index.html /srv/shiny-server/day1
+RUN mkdir -p /srv/shiny-server/chj-day2
+COPY chj-day2/index.Rmd /srv/shiny-server/chj-day2
+COPY chj-day2/index.html /srv/shiny-server/chj-day2
+ADD chj-day2/images/ /srv/shiny-server/chj-day2/images/
+ADD chj-day2/data/ /srv/shiny-server/chj-day2/data/
 
+RUN mkdir -p /srv/shiny-server/chj-day3-p1
+COPY chj-day3-p1/index.Rmd /srv/shiny-server/chj-day3-p1
+COPY chj-day3-p1/index.html /srv/shiny-server/chj-day3-p1
+ADD chj-day3-p1/data/ /srv/shiny-server/chj-day3-p1/data/
 
-RUN mkdir -p /srv/shiny-server/chapter-1
-COPY chapter-1/index.Rmd /srv/shiny-server/chapter-1
-COPY chapter-1/index.html /srv/shiny-server/chapter-1
-COPY chapter-1/_navbar.html /srv/shiny-server/chapter-1
+RUN mkdir -p /srv/shiny-server/chj-day3-p2
+COPY chj-day3-p2/index.Rmd /srv/shiny-server/chj-day3-p2
+COPY chj-day3-p2/index.html /srv/shiny-server/chj-day3-p2
+ADD chj-day3-p2/images/ /srv/shiny-server/chj-day3-p2/images/
+
+RUN mkdir -p /srv/shiny-server/chj-day4
+COPY chj-day4/index.Rmd /srv/shiny-server/chj-day4/
+COPY chj-day4/index.html /srv/shiny-server/chj-day4/
+ADD chj-day4/images/ /srv/shiny-server/chj-day4/images/
+ADD chj-day4/data/ /srv/shiny-server/chj-day4/data/
+ADD chj-day4/chj-day4_files/figure-html/ /srv/shiny-server/chj-day4/chj-day4_files/figure-html/
 
 # COPY shiny-server.conf /etc/shiny-server/shiny-server.conf
 #COPY first_toot /srv/shiny-server/
-
 
 
 EXPOSE 3838
