@@ -37,6 +37,7 @@ RUN mkdir -p /srv/shiny-server/chj-day1
 COPY chj-day1/index.Rmd /srv/shiny-server/chj-day1
 COPY chj-day1/index.html /srv/shiny-server/chj-day1
 ADD chj-day1/images/ /srv/shiny-server/chj-day1/images/
+ADD chj-day1/data/ /srv/shiny-server/chj-day1/data/
 
 RUN mkdir -p /srv/shiny-server/chj-day2
 COPY chj-day2/index.Rmd /srv/shiny-server/chj-day2
