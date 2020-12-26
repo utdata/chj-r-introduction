@@ -1,5 +1,7 @@
 # Center for Health Journalism: R Introduction
 
+> Trying to change to digitalocean with docker
+
 A course by Andrew Ba Tran & Christian McDonald for the [Center for Health Journalism Data Fellowship](https://centerforhealthjournalism.org/event/2020-data-fellowship-1).
 
 ## Tutorials for each day
@@ -36,4 +38,3 @@ Docker run:
 Check server logs:
 
 `/var/log/shiny-server/`
-
