@@ -27,4 +27,3 @@ After this point, it's probably best to use the downloaded data.
 ~~- Day 3, Pt. 2: Tidying data~~
 ~~- Day 4: Visualizations~~
 ~~- Day 5: Geospatial analysis~~
-
