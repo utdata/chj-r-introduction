@@ -321,7 +321,7 @@ The tidyverse package [readr](https://readr.tidyverse.org/) (included in the tid
 The code below shows the `read_csv` function and runs it so you can see the data.
 
 ```{r opioid-read, exercise=T}
-read_csv("https://raw.githubusercontent.com/utdata/chj-r-introduction/shiny/data/mn_opiate_short.csv")
+read_csv("https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/mn_opiate_short.csv")
 ```
 
 When we use `read_csv()` and give it a path (in quotes), R will print the result below the R chunk. You can click on the arrows and page navigation to peek through the data. In this case, the _path_ was to a small file on the internet. If we were to import a file from our own computer, we would put in a path relative to project directory, perhaps:
@@ -338,7 +338,7 @@ We are going to assign the result of the `read_csv()` command into an object cal
 
 ```{r opioid-assign, exercise=T}
 # read and assign the data
-deaths <- read_csv("https://raw.githubusercontent.com/utdata/chj-r-introduction/shiny/data/mn_opiate_short.csv")
+deaths <- read_csv("https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/mn_opiate_short.csv")
 
 # peek at the result
 deaths %>% head()
@@ -354,7 +354,7 @@ In the process of cleaning these names with the janitor function called `clean_n
 
 ```{r opioid-clean, exercise=TRUE}
 # clean the names and then reassign
-deaths <- read_csv("https://raw.githubusercontent.com/utdata/chj-r-introduction/shiny/data/mn_opiate_short.csv") %>%
+deaths <- read_csv("https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/mn_opiate_short.csv") %>%
   clean_names()
 
 # peek at the top of the updated data frame with head()
@@ -381,7 +381,7 @@ Take a moment to go into your own `01-opioid-deaths.Rmd` RNotebook and add a cod
 > Update to main branch
 
 ```{r your_project, eval=F, echo=T}
-deaths <- read_csv("https://raw.githubusercontent.com/utdata/chj-r-introduction/shiny/data/mn_opiate_short.csv") %>%
+deaths <- read_csv("https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/mn_opiate_short.csv") %>%
   clean_names()
 
 deaths %>% head()
@@ -401,7 +401,7 @@ When you assign the data to the `deaths` data frame, you'll notice that the obje
 OK, now we have data imported, but what is in it? One way to get a quick look at the field names and data types is with `summary()`. We'll again use our pipe, though on one line. (These examples assume `deaths` is already in your environment.)
 
 ```{r prep-explore, include=FALSE, warning=F, message=F}
-deaths <- read_csv("https://raw.githubusercontent.com/utdata/chj-r-introduction/shiny/data/mn_opiate_short.csv") %>% clean_names()
+deaths <- read_csv("https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/mn_opiate_short.csv") %>% clean_names()
 ```
 
 
