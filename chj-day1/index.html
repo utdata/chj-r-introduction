@@ -468,7 +468,7 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
 <p>The tidyverse package <a href="https://readr.tidyverse.org/">readr</a> (included in the tidyverse library) is our workhorse for importing and exporting of data. There are other tidyverse specialty packages for importing and working with data like <a href="https://cran.r-project.org/web/packages/jsonlite/vignettes/json-aaquickstart.html">jsonlite</a> and <a href="%5Breadxl%5D(https://readxl.tidyverse.org/reference/read_excel.html)">readxl</a> and some alternatives like <a href="https://www.rdocumentation.org/packages/rio/">rio</a>.</p>
 <p>The code below shows the <code>read_csv</code> function and runs it so you can see the data.</p>
 <div class="tutorial-exercise" data-label="opioid-read" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
-<pre class="text"><code>read_csv(&quot;https://raw.githubusercontent.com/utdata/chj-r-introduction/shiny/data/mn_opiate_short.csv&quot;)</code></pre>
+<pre class="text"><code>read_csv(&quot;https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/mn_opiate_short.csv&quot;)</code></pre>
 <script type="application/json" data-opts-chunk="1">{"fig.width":6.5,"fig.height":4,"fig.retina":2,"fig.align":"default","fig.keep":"high","fig.show":"asis","out.width":624,"warning":true,"error":false,"message":true,"exercise.df_print":"paged","exercise.checker":"NULL"}</script>
 </div>
 <p>When we use <code>read_csv()</code> and give it a path (in quotes), R will print the result below the R chunk. You can click on the arrows and page navigation to peek through the data. In this case, the <em>path</em> was to a small file on the internet. If we were to import a file from our own computer, we would put in a path relative to project directory, perhaps:</p>
@@ -477,7 +477,7 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
 <p>We are going to assign the result of the <code>read_csv()</code> command into an object called <code>deaths</code>. We do the operation from right-to-left, so start we start with the newly-named object, and then “fill” it with the data. This takes a bit getting used to, but it makes for readable code down the line. Go ahead and run the code and then we’ll talk about it.</p>
 <div class="tutorial-exercise" data-label="opioid-assign" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code># read and assign the data
-deaths &lt;- read_csv(&quot;https://raw.githubusercontent.com/utdata/chj-r-introduction/shiny/data/mn_opiate_short.csv&quot;)
+deaths &lt;- read_csv(&quot;https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/mn_opiate_short.csv&quot;)
 
 # peek at the result
 deaths %&gt;% head()</code></pre>
@@ -491,7 +491,7 @@ deaths %&gt;% head()</code></pre>
 <p>In the process of cleaning these names with the janitor function called <code>clean_names()</code> we’ll also learn about the tidyverse pipe <code>%&gt;%</code>.</p>
 <div class="tutorial-exercise" data-label="opioid-clean" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code># clean the names and then reassign
-deaths &lt;- read_csv(&quot;https://raw.githubusercontent.com/utdata/chj-r-introduction/shiny/data/mn_opiate_short.csv&quot;) %&gt;%
+deaths &lt;- read_csv(&quot;https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/mn_opiate_short.csv&quot;) %&gt;%
   clean_names()
 
 # peek at the top of the updated data frame with head()
@@ -517,7 +517,7 @@ deaths %&gt;%
 <blockquote>
 <p>Update to main branch</p>
 </blockquote>
-<div class="sourceCode" id="section-cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>deaths &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/utdata/chj-r-introduction/shiny/data/mn_opiate_short.csv&quot;</span>) <span class="op">%&gt;%</span></span>
+<div class="sourceCode" id="section-cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>deaths &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/mn_opiate_short.csv&quot;</span>) <span class="op">%&gt;%</span></span>
 <span id="cb10-2"><a href="#cb10-2"></a><span class="st">  </span><span class="kw">clean_names</span>()</span>
 <span id="cb10-3"><a href="#cb10-3"></a></span>
 <span id="cb10-4"><a href="#cb10-4"></a>deaths <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">head</span>()</span></code></pre></div>
@@ -536,7 +536,7 @@ deaths %&gt;%
 <h2>Exploring data</h2>
 <p>OK, now we have data imported, but what is in it? One way to get a quick look at the field names and data types is with <code>summary()</code>. We’ll again use our pipe, though on one line. (These examples assume <code>deaths</code> is already in your environment.)</p>
 <div class="tutorial-exercise-support" data-label="prep-explore" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
-<pre class="text"><code>deaths &lt;- read_csv(&quot;https://raw.githubusercontent.com/utdata/chj-r-introduction/shiny/data/mn_opiate_short.csv&quot;) %&gt;% clean_names()</code></pre>
+<pre class="text"><code>deaths &lt;- read_csv(&quot;https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/mn_opiate_short.csv&quot;) %&gt;% clean_names()</code></pre>
 </div>
 <div class="tutorial-exercise" data-label="explore-summary" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code>deaths %&gt;% summary()</code></pre>
