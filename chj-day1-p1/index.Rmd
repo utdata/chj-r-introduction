@@ -29,8 +29,6 @@ This lesson was written by Christian McDonald. I use a Mac so any keyboard comma
 
 As we go through this week of training, we will use interactive tutorials like this one to describe and practice key concepts and then provide directions on how you can practice similar steps on your own computer.
 
-During some practice sessions, we may ask half of the class to join a separate Zoom breakout room so that Andrew and Christian can help within smaller groups. When we are done with the practice period, we'll all return to the main R Teaching room. (When you leave the practice breakout you will return to the main fellowship session and will then need to re-join the R Teaching room.)
-
 Here is an example interactive code block where you can write R code directly in the browser and run it. R is a programming language that allows you to do simple math, with common operators like `+`, `-`, `*` and `\`.
 
 ### Exercise 
@@ -51,7 +49,7 @@ You'll see once you put in the answer and click **Run code** the executed answer
 
 ## Learning RStudio
 
-This first day -- only an hour, really -- we'll be learning about RStudio, RMarkdown and how to use them. It's a lot of setup and not a lot of practice. I promise we'll get to the data quickly in future sessions.
+This first session on the first day we'll be learning about RStudio, RMarkdown and how to use them. It's a lot of setup and not a lot of practice. I promise we'll get to the data quickly in future sessions.
 
 ### Create a chj folder for your work
 

@@ -1,0 +1,13 @@
+name: chj-day1
+title: chj-day1
+username:
+account: utdata
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3289773
+bundleId: 5112206
+url: https://utdata.shinyapps.io/chj-day1/
+when: 1633561221.27187
+lastSyncTime: 1633561221.27188
+asMultiple: FALSE
+asStatic: FALSE
