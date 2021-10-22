@@ -28,7 +28,7 @@ library(lubridate)
 We read in the data from a saved csv file. Could also do this with the [RSocrata](https://github.com/Chicago/RSocrata) package.
 
 ```{r }
-raw_data <- read_csv("data-raw/Austin_Animal_Center_Intakes.csv") %>% clean_names()
+raw_data <- read_csv("https://github.com/utdata/chj-r-introduction/blob/main/data-prep/chj-aac/data-raw/Austin_Animal_Center_Intakes.csv?raw=true") %>% clean_names()
 
 # peek at table
 raw_data %>% head()
