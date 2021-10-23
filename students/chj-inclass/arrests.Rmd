@@ -1,31 +1,37 @@
 ---
-title: "R Notebook"
+title: "APD Pot Arrests"
 output: html_notebook
 ---
 
 ```{r setup}
 library(tidyverse)
+library(janitor)
 library(readxl)
 ```
 
 ## Download the data
 
-```{r}
+```{r download}
 # download arrests file
 download.file("https://raw.githubusercontent.com/utdata/chj-r-introduction/main/chj-day1-p2/data-raw/APD_marijuana_arrests_2016-2020_data.xlsx", "data-raw/apd-pot-arrests.xlsx")
 ```
 
-## First import try
 
-```{r}
+## Importing from Excel
+
+These are the steps outlined as they are in lesson, but the chunk called `{r read-arrests}` is the finished one.
+
+### First import try
+
+```{r read}
 read_excel(
   "data-raw/apd-pot-arrests.xlsx"
 )
 ```
 
-## Adding the sheet designation
+### Adding the sheet designation
 
-```{r}
+```{r read-sheet}
 read_excel(
   "data-raw/apd-pot-arrests.xlsx",
   sheet = "Results"
@@ -33,9 +39,9 @@ read_excel(
 ```
 
 
-## Add the column types
+### Add the column types
 
-```{r import}
+```{r read-types}
 read_excel(
   "data-raw/apd-pot-arrests.xlsx",
   sheet = "Results",
@@ -54,9 +60,9 @@ read_excel(
   glimpse()
 ```
 
-## Clean the names
+### Clean the names
 
-```{r}
+```{r read-clean}
 read_excel(
   "data-raw/apd-pot-arrests.xlsx",
   sheet = "Results",
@@ -76,9 +82,9 @@ read_excel(
   glimpse()
 ```
 
-## Save the tibble
+### Save into the arrests object
 
-```{r}
+```{r read-arrests}
 arrests <- read_excel(
   "data-raw/apd-pot-arrests.xlsx",
   sheet = "Results",
@@ -100,6 +106,12 @@ arrests %>%
   glimpse()
 ```
 
+## Export the data
 
+This writes out the fixed data.
+
+```{r export}
+arrests %>% write_rds("data-processed/apd-pot-arrests.rds")
+```
 
 

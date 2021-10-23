@@ -198,7 +198,7 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
 <div id="section-managing-your-project" class="section level2">
 <h2>Managing your project</h2>
 <p>Typically you create an new R project for each “subject” you are working on. You might use more than one dataset and have multiple notebooks, but they should all be related.</p>
-<p>(We’ll break that convention today by mixing unrelated data, but our “subject” here is to learn about importing data so it is all kinda related.)</p>
+<p>(We’ll break that convention today by mixing unrelated data, but our “subject” here is learning so it is all kinda related.)</p>
 <p>We want to be careful not to overwrite our original data, so I create a folder to keep all original data and then another to hold all the data files I create. This might be a little anal-retentive, but that is a good trait for a data journalist.</p>
 <p>I will often have a separate R Notebook to download and clean data vs analyzing or visualizing data. You may not want to re-download data every time you re-run your notebook, and you’ll do that a lot. You also might have multiple analysis notebooks that focus on different things. Separating the download/cleaning steps means you only have to do that part once.</p>
 <div id="section-in-rstudio-start-a-new-project" class="section level3">
@@ -208,7 +208,7 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
 <li>Make sure you have RStudio open, but close any open projects using File &gt; Close Project. Save your work if asked.</li>
 <li>Select the second toolbar icon +R to create a new project (Or File &gt; New project).</li>
 <li>Choose <strong>New Directory</strong>, then <strong>New Project</strong>.</li>
-<li>For the directory name, call it <code>chj-imports</code>.</li>
+<li>For the directory name, call it <code>chj-inclass</code>.</li>
 <li>You shouldn’t have to update the “subdirectory of” part, but if you do you should <strong>Browse</strong> to the <code>chj</code> folder we created earlier and set that.</li>
 </ol>
 <p>This will create a new R project. Now, within this project we will create folders for our data.</p>
@@ -219,7 +219,7 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
 </ol>
 <div class="figure">
 <img src="images/folder-structure.png" alt="" />
-<p class="caption">Folder strucdture</p>
+<p class="caption">Folder structure</p>
 </div>
 </div>
 <div id="section-in-rstudio-start-up-a-notebook" class="section level3">
@@ -228,7 +228,7 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
 <li>In the first top toolbar icon with the <code>+</code> and document, choose R Notebook.</li>
 <li>In the YAML at the top of the file, change the metadata <strong>title</strong> to “MN Opioid deaths” as that is what we’ll be working with.</li>
 <li>Delete everything after the <code>---</code> on the 4th line.</li>
-<li>Save the file and name it <strong>01-opioid-clean.Rmd</strong>. (We named with <code>01-</code> since this is also the first in a series of notebooks that may work together.)</li>
+<li>Save the file and name it <strong>opioids.Rmd</strong>.</li>
 </ul>
 </div>
 </div>
@@ -279,17 +279,20 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
 <div id="section-importing-with-readr" class="section level3">
 <h3>Importing with readr</h3>
 <p>The tidyverse package <a href="https://readr.tidyverse.org/">readr</a> (included in the tidyverse library) is our workhorse for importing and exporting of data. There are other tidyverse specialty packages for importing and working with data like <a href="https://cran.r-project.org/web/packages/jsonlite/vignettes/json-aaquickstart.html">jsonlite</a> and <a href="%5Breadxl%5D(https://readxl.tidyverse.org/reference/read_excel.html)">readxl</a> and some alternatives like <a href="https://www.rdocumentation.org/packages/rio/">rio</a>.</p>
-<p>The code below shows the <code>read_csv</code> function and runs it so you can see the data.</p>
+<blockquote>
+<p>The code below shows the <code>read_csv</code> function and runs it so you can see the data. Don’t add this to your notebook, just run it here on the site.</p>
+</blockquote>
 <div class="tutorial-exercise" data-label="opioid-read" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code>read_csv(&quot;https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/mn_opiate_short.csv&quot;)</code></pre>
 <script type="application/json" data-opts-chunk="1">{"fig.width":6.5,"fig.height":4,"fig.retina":2,"fig.align":"default","fig.keep":"high","fig.show":"asis","out.width":624,"warning":true,"error":false,"message":true,"exercise.df_print":"paged","exercise.checker":"NULL"}</script>
 </div>
-<p>When we use <code>read_csv()</code> and give it a path (in quotes), R will print the result below the R chunk. You can click on the arrows and page navigation to peek through the data. In this case, the <em>path</em> is to a small file on the internet. If we were to import a file from our own computer, we would put in a path relative to project directory, perhaps:</p>
-<div class="sourceCode" id="section-cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="section-cb3-1"><a href="#section-cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">&quot;data-raw/chj_mn_opiate_deaths_data.csv&quot;</span>)</span></code></pre></div>
-<p>But all this does is print the data to our screen. For us to be able to use this data later, we need to assign it to an R object. A table like this in R is called a <strong>data frame</strong> or (<strong>tibble</strong> as they are known in the tidyverse). We use the <code>&lt;-</code> assignment operator to assign the data to the object, which we name ourselves.</p>
+<p>When we use <code>read_csv()</code> and give it a path (in quotes), R will print the result below the R chunk. You can click on the arrows and page through the columns and rows to peek through the data. In this case above, the <em>path</em> is to a sample file on the internet. If we were to import a file from our own computer, we would put in a path relative to project directory, perhaps:</p>
+<div class="sourceCode" id="section-cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="section-cb3-1"><a href="#section-cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this is just an example</span></span>
+<span id="section-cb3-2"><a href="#section-cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">&quot;data-raw/chj_mn_opiate_deaths_data.csv&quot;</span>)</span></code></pre></div>
+<p>But all this does is print the data to our screen. For us to be able to use this data later, we need to assign it to an R object. A table like this in R is called a <strong>data frame</strong> or <strong>tibble</strong> (as they are known in the tidyverse). We use the <code>&lt;-</code> assignment operator to assign the data to the object. We choose what to name the new object, and they should be one word or words_with_underscores or words-with-dashes. Use a descriptive name, not <code>my_data</code>.</p>
 <p>We are going to assign the result of the <code>read_csv()</code> command into an object called <code>deaths</code>. We <strong>name the new object first</strong> then “fill” it with the data. This takes a bit getting used to, but it makes for more readable code down the line. Go ahead and run the code and then we’ll talk about it.</p>
 <blockquote>
-<p>For our tutorial examples, we have to import our files direct from the internet. When you do this on your own, you’ll access the relative path like outlined above.</p>
+<p>Again, run this in the tutorial here. We’ll do this in your notebook in a minute.</p>
 </blockquote>
 <div class="tutorial-exercise" data-label="opioid-assign" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code># read and assign the data
@@ -315,9 +318,12 @@ deaths %&gt;% head()</code></pre>
 </div>
 <div id="section-cleaning-up-names" class="section level3">
 <h3>Cleaning up names</h3>
-<p>One thing you might notice in the column above is some of the column names are two words. While it is possible to keep working this way, it is much easier if all our column names are lowercase and multi-word names are connected with underscores <code>_</code>.</p>
+<p>One thing you might notice in the data above is some of the column names are two words. While it is possible to keep working this way, it is much easier if all our column names are lowercase and multi-word names are connected with underscores <code>_</code>.</p>
 <p>We’ll “clean” our column names using a function in the <a href="http://sfirke.github.io/janitor/">janitor package</a> called <code>clean_names()</code>.</p>
 <p>As we do this it illustrates another point: While our code chunks may end up being multiple lines, we <em>build</em> them one line at a time, often editing to make additional changes.</p>
+<blockquote>
+<p>Just run this in the tutorial</p>
+</blockquote>
 <div class="tutorial-exercise" data-label="opioid-clean" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <pre class="text"><code># clean the names and then reassign
 deaths &lt;- read_csv(&quot;https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/mn_opiate_short.csv&quot;) %&gt;%
@@ -328,6 +334,7 @@ deaths %&gt;%
   head()</code></pre>
 <script type="application/json" data-opts-chunk="1">{"fig.width":6.5,"fig.height":4,"fig.retina":2,"fig.align":"default","fig.keep":"high","fig.show":"asis","out.width":624,"warning":true,"error":false,"message":true,"exercise.df_print":"paged","exercise.checker":"NULL"}</script>
 </div>
+<p>Now look at the columns names. They are nice and tidy, like <code>first_name</code>.</p>
 </div>
 <div id="section-in-rstudio-download-and-import-deaths" class="section level3">
 <h3>In RStudio: Download and Import deaths</h3>
@@ -340,7 +347,7 @@ deaths %&gt;%
 <ol style="list-style-type: decimal">
 <li>Go into your own <code>01-opioid-deaths.Rmd</code> RNotebook and add a Markdown headline that you are downloading data. Like this: <code>## Downloading opioid deaths data</code>. Make sure you have blank lines above and below the headline.</li>
 <li>Use <strong>Cmd+Option+i</strong> to add a new code chunk</li>
-<li>Insert the following code and run it, then I’ll explain it.</li>
+<li>Copy/paste the following code and run it, then I’ll explain it.</li>
 </ol>
 <div class="sourceCode" id="section-cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="section-cb6-1"><a href="#section-cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(</span>
 <span id="section-cb6-2"><a href="#section-cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/chj_mn_opiate_deaths_data.csv&quot;</span>,</span>
@@ -355,7 +362,7 @@ deaths %&gt;%
 <li>Then add the <code>clean_names()</code> function and run it again.</li>
 <li>Then assign it to <code>deaths</code> and pipe it into <code>head()</code> and run it.</li>
 </ol>
-<div class="sourceCode" id="section-cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="section-cb7-1"><a href="#section-cb7-1" aria-hidden="true" tabindex="-1"></a>deaths <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/mn_opiate_short.csv&quot;</span>) <span class="sc">%&gt;%</span></span>
+<div class="sourceCode" id="section-cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="section-cb7-1"><a href="#section-cb7-1" aria-hidden="true" tabindex="-1"></a>deaths <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data-raw/opioid_deaths.csv&quot;</span>) <span class="sc">%&gt;%</span></span>
 <span id="section-cb7-2"><a href="#section-cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>()</span>
 <span id="section-cb7-3"><a href="#section-cb7-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="section-cb7-4"><a href="#section-cb7-4" aria-hidden="true" tabindex="-1"></a>deaths <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
@@ -364,7 +371,9 @@ deaths %&gt;%
 <img src="images/import-opioids.gif" style="width:90.0%" alt="" />
 <p class="caption">Import data</p>
 </div>
-<p>Now that you have the code, above the code chunk, write text in your own words to describe what is happening in the code chunk. These kind of annotations are as important to your future self as anyone else.</p>
+<ol style="list-style-type: decimal">
+<li>Now that you have the code, above the code chunk, write text in your own words to describe what is happening in the code chunk. These kind of annotations are as important to your future self as anyone else.</li>
+</ol>
 <p>When you assign the data to the <code>deaths</code> data frame, you’ll notice that the object shows up in your <strong>Environment</strong> tab at the top right of RStudio. Any object you create is “saved” into the environment to use later.</p>
 <div class="figure">
 <img src="images/intro-environment.png" style="width:60.0%" alt="" />
@@ -404,7 +413,7 @@ deaths %&gt;%
 </div>
 <div id="section-in-rstudio-explore-your-data" class="section level3">
 <h3>In RStudio: Explore your data</h3>
-<p>In your notebook:</p>
+<p>In your opioids notebook:</p>
 <ol style="list-style-type: decimal">
 <li>Add an R chunk to glimpse your full data set.</li>
 <li>Add another chunk to get summary statistics.</li>
@@ -417,7 +426,7 @@ deaths %&gt;%
 <h2>Importing Excel</h2>
 <p>As noted when we started this session, you can import data from any number of formats and there are some packages/libraries specific to the type of data you are importing. Since journalists often get data in Excel, we’ll explore the <a href="https://readxl.tidyverse.org/">readxl</a> library.</p>
 <p>Since readxl is part of the tidyverse, it works similar to other packages.</p>
-<p>The function to import is <code>read_excel()</code> can take a number of arguments:</p>
+<p>The function to import is <code>read_excel()</code> and it can take a number of arguments:</p>
 <ul>
 <li>The first argument (required) is the path to the file. This is in quotes.</li>
 <li><code>sheet =</code> is an optional argument to name which sheet to pull from the document. The default is the first sheet.</li>
@@ -432,15 +441,16 @@ deaths %&gt;%
 <li>Start a new R Notebook. Save it as <code>arrests.Rmd</code>.</li>
 <li>Update your Notebook title to something like “APD Pot Arrests”.</li>
 <li>In your Console, install the readxl package: <code>install.packages("readxl")</code>.</li>
-<li>Add a chunk and load libraries for tidyverse, readxl, janitor.</li>
+<li>Add an R chunk and load libraries for tidyverse, readxl and janitor.</li>
 <li>In Markdown, add a section that says you are downloading the data.</li>
-<li>Add an R chunk with the following:</li>
+<li>Add an R chunk and copy/paste the following:</li>
 </ol>
 <div class="sourceCode" id="section-cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="section-cb11-1"><a href="#section-cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># download arrests file</span></span>
 <span id="section-cb11-2"><a href="#section-cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">&quot;https://raw.githubusercontent.com/utdata/chj-r-introduction/main/chj-day1-p2/data-raw/APD_marijuana_arrests_2016-2020_data.xlsx&quot;</span>, <span class="st">&quot;data-raw/apd-pot-arrests.xlsx&quot;</span>)</span></code></pre></div>
 <ul>
 <li>This downloads the file from the internet into your <code>data-raw</code> folder and then names the file as <code>apd-pot-arrests.xlsx</code>. Note the file path and name are together.</li>
 </ul>
+<p>This spreadsheet is the response for an open records request to the Austin Police Department for marijuana arrests.</p>
 <p>This is what the data looks like in Excel:</p>
 <div class="figure">
 <img src="images/excel-pot-peek.png" style="width:90.0%" alt="" />
@@ -448,7 +458,7 @@ deaths %&gt;%
 </div>
 <p>A couple of things to note about this file:</p>
 <ul>
-<li>The data is in a sheet names <strong>Results</strong>. We have to specify that sheet or we’ll get the <strong>Summary</strong> sheet by default.</li>
+<li>The data is in a sheet named <strong>Results</strong>. We have to specify that sheet or we’ll get the first <strong>Summary</strong> sheet by default.</li>
 <li>If we do not specify column types, then we’ll have problems. We’ll walk through that.</li>
 </ul>
 </div>
@@ -462,8 +472,12 @@ deaths %&gt;%
 <span id="section-cb12-2"><a href="#section-cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;data-raw/apd-pot-arrests.xlsx&quot;</span></span>
 <span id="section-cb12-3"><a href="#section-cb12-3" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <ul>
-<li>You’ll see here we are importing the <strong>Summary</strong> tab, which doesn’t work for us.</li>
+<li>You’ll see in the result that we are importing the <strong>Summary</strong> tab from the spreadsheet, which doesn’t work for us.</li>
 </ul>
+<div class="figure">
+<img src="images/excel-summary-tab.png" alt="" />
+<p class="caption">Summary tab results</p>
+</div>
 </div>
 <div id="section-in-rstudio-add-the-sheet-value" class="section level3">
 <h3>In RStudio: Add the sheet value</h3>
@@ -482,7 +496,7 @@ Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :
 Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :</code></pre>
 <p>This is telling us that the first column has errors, though I admit it is not very telling. What is wrong is the “Arrest Primary Key” is being considered a number, but some values have a dash in it, which is text. We will need to fix that.</p>
 <p>The second tab is the table that is returned. It did import, just with the problems noted above.</p>
-<p>If you tab through the columns in the table, you’ll note another issue: <strong>The ZIP is imported as a number</strong>. Not a big issue in Texas, but a real problem for ZIPs that start with zero. We need to change that to text. Always convert ZIPs to text. We’ll do that when we fix the arrest ID.</p>
+<p>If you tab through the columns in the table, you’ll note another issue: <strong>The ZIP is imported as a number</strong>. Not a big issue in Texas, but a real problem on the East Coast for ZIPs that start with zero. We need to change that to text. Always convert ZIPs to text. We’ll do that when we fix the arrest ID.</p>
 </div>
 <div id="section-in-rstudio-fix-column-types" class="section level3">
 <h3>In RStudio: Fix column types</h3>
@@ -508,7 +522,12 @@ Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :<
 <span id="section-cb15-16"><a href="#section-cb15-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glimpse</span>()</span></code></pre></div>
 <p>The <code>col_type()</code> argument/function works two ways: We can either change all the columns to text, or we can specify all of them. Luckily we can still tell it to “guess” if it does so correctly, so we are really only fixing our Arrests Primary Key and the ZIP.</p>
 <p>We set these column types based on their order in the data. The first and seventh field should be “text”. We just use “guess” for the rest of them because they were OK.</p>
-<p>The glimpse allows us to see the results in an easy way. We’ll have to remove that later.</p>
+<p>Here is what the glimpse looked like for me:</p>
+<div class="figure">
+<img src="images/excel-arrests-glimpse.png" alt="" />
+<p class="caption">Arrests glimpse</p>
+</div>
+<p>The glimpse allows us to see the results in an easy way. <strong>We’ll have to move that later.</strong></p>
 </div>
 <div id="section-in-rstudio-clean-the-names" class="section level3">
 <h3>In RStudio: Clean the names</h3>
@@ -562,8 +581,8 @@ Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :<
 <span id="section-cb17-18"><a href="#section-cb17-18" aria-hidden="true" tabindex="-1"></a>arrests <span class="sc">%&gt;%</span> </span>
 <span id="section-cb17-19"><a href="#section-cb17-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glimpse</span>()</span></code></pre></div>
 </div>
-<div id="section-in-rstudio-write-out-the-data" class="section level3">
-<h3>In RStudio: Write out the data</h3>
+<div id="section-in-rstudio-export-the-data" class="section level3">
+<h3>In RStudio: Export the data</h3>
 <p>R has a filetype called <code>.rds</code> that saves data types. This is useful because after we clean our data, we can save it to our computer in a format that will import cleanly in future notebooks.</p>
 <p>We’ll save this clean data so we can use it later.</p>
 <ol style="list-style-type: decimal">
@@ -571,18 +590,22 @@ Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :<
 <li>Add an R chunk that writes the data as <code>.rds</code> to your data-processed folder.</li>
 </ol>
 <div class="sourceCode" id="section-cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="section-cb18-1"><a href="#section-cb18-1" aria-hidden="true" tabindex="-1"></a>arrests <span class="sc">%&gt;%</span> <span class="fu">write_rds</span>(<span class="st">&quot;data-processed/apd-pot-arrests.rds&quot;</span>)</span></code></pre></div>
+<p>After you run this you should use your <strong>Files</strong> explorer at bottom right to peek inside your <code>data-processed</code> folder to make sure the data was written there.</p>
 <p>We may use this data in a future lesson.</p>
 </div>
 </div>
 <div id="section-other-importing-packages" class="section level2">
 <h2>Other importing packages</h2>
-<p>As noted earlier, there are other packages like that read in data of different types and from different sources.</p>
-<p><a href="https://cran.r-project.org/web/packages/rio/vignettes/rio.html">rio</a> is a package/library designed to simplify importing and exporting data. We are going to stick with the tidyverse readr and readxl libraries, but rio is worth exploring.</p>
-<p>There are also packages developed for specific Application Programming Interfaces (APIs) like the U.S. Census bureau (<a href="https://walker-data.com/tidycensus/index.html">tidycensus</a>, <a href="https://www.hrecht.com/censusapi/">censusapi</a>, <a href="https://github.com/walkerke/tigris">tigris</a>) or <a href="https://github.com/Chicago/RSocrata">Socrata</a>.</p>
+<p>As noted earlier, there are other packages like that read in data of different types and from different sources. To many to list them all, but a couple of notes:</p>
+<ul>
+<li><a href="https://cran.r-project.org/web/packages/rio/vignettes/rio.html">rio</a> is a package/library designed to simplify importing and exporting common data types. We are going to stick with the tidyverse readr and readxl libraries, but rio is worth exploring.</li>
+<li>There are also packages developed for specific Application Programming Interfaces (APIs) like the U.S. Census bureau (<a href="https://walker-data.com/tidycensus/index.html">tidycensus</a>, <a href="https://www.hrecht.com/censusapi/">censusapi</a>, <a href="https://github.com/walkerke/tigris">tigris</a>) or <a href="https://github.com/Chicago/RSocrata">Socrata</a>.</li>
+</ul>
 </div>
 <div id="section-on-your-own" class="section level2">
 <h2>On your own</h2>
-We’ve put together some exercises to practice importing and exporting data. 
+<p>We’ve put together <a href="https://github.com/utdata/chj-r-introduction/blob/main/students/day1-p2-practice.md">some exercises to practice</a> importing and exporting data. They will build on each other each day.</p>
+
 <script type="application/shiny-prerendered" data-context="server-start">
 library(tidyverse)
 library(janitor)

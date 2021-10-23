@@ -21,13 +21,14 @@ deaths <- read_csv("data-raw/opioid_deaths.csv") %>% clean_names()
 
 deaths %>% head()
 ```
-Glimpse the data
+
+### Glimpse the data
 
 ```{r}
 deaths %>% glimpse()
 ```
 
-Get a summary
+## Get summary stats
 
 ```{r}
 deaths %>% summary()

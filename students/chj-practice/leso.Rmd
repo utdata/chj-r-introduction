@@ -1,0 +1,34 @@
+---
+title: "Law Enforcement Support Office"
+output: html_notebook
+---
+
+## Day 1 Practice
+
+```{r setup, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(janitor)
+library(lubridate)
+```
+
+### Import csv from URL
+
+```{r import}
+leso <- read_csv("https://github.com/utdata/rwdir/blob/main/data-raw/leso.csv?raw=true") %>% clean_names()
+
+leso %>% head()
+```
+
+### glimpse it
+
+```{r glimpse}
+leso %>% glimpse()
+```
+
+### Get summary stats
+
+```{r summary}
+leso %>% summary()
+```
+
+
