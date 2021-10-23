@@ -1,0 +1,35 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r setup}
+library(tidyverse)
+library(readxl)
+```
+
+## Download the data
+
+> This will need to be updated
+
+## Import the data
+
+```{r import}
+read_excel(
+  "data-raw/APD_marijuana_arrests_2016-2020_data.xlsx",
+  sheet = "Results",
+  col_types = c(
+    "text",
+    "date",
+    "guess",
+    "guess",
+    "guess",
+    "guess",
+    "text",
+    "guess",
+    "guess"
+    )
+  ) %>% 
+  glimpse()
+```
+

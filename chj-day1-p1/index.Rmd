@@ -1,7 +1,7 @@
 ---
 title: "CHJ R Track Day 1: Getting started"
 tutorial:
-  id: "chj-r-introduction/day1"
+  id: "chj-r-introduction/chj-day1-p1"
   version: .9
 output:
   learnr::tutorial:
@@ -25,11 +25,11 @@ deaths <- read_csv("data/chj_mn_opiate_deaths_data.csv")
 
 ## About these lessons
 
-This lesson was written by Christian McDonald. I use a Mac so any keyboard commands that are *Cmd+whatever* might be *Ctrl+whatever* on a PC.
+> These lessons were prepared by Christian McDonald and Andrew Ba Tran. We use Macs so any keyboard commands that are *Cmd+whatever* might be *Ctrl+whatever* on a PC. Some keyboard shortcuts might be different, but you can find them from the appropriate menu item in RStudio.
 
-As we go through this week of training, we will use interactive tutorials like this one to describe and practice key concepts and then provide directions on how you can practice similar steps on your own computer.
+As we go through this week of training, we will use interactive tutorials like this one to describe and practice key concepts about R and the [tidyverse](https://www.tidyverse.org/). We'll then provide directions on how you can practice similar steps on your own computer using RStudio.
 
-Here is an example interactive code block where you can write R code directly in the browser and run it. R is a programming language that allows you to do simple math, with common operators like `+`, `-`, `*` and `\`.
+Here is an example exercise to show how you can write R code directly in the browser and run it. Since R is a programming language that allows you to do simple math, we can do so here with common operators like `+`, `-`, `*` and `\`.
 
 ### Exercise 
 
@@ -45,11 +45,13 @@ Write the R code required to add two plus two. Use the **Hint** button if you ne
 2 + 2
 ```
 
-You'll see once you put in the answer and click **Run code** the executed answer will appear below the code chunk.
+You'll see once you put in the answer and click **Run code** the executed answer will appear below the code chunk. 
 
 ## Learning RStudio
 
-This first session on the first day we'll be learning about RStudio, RMarkdown and how to use them. It's a lot of setup and not a lot of practice. I promise we'll get to the data quickly in future sessions.
+This first session on the first day we'll be learning about RStudio, R Markdown and how to use them. It's a lot of setup and not a lot of practice. I promise we'll get to the data quickly in future sessions.
+
+With this, you'll be working in RStudio on your computer and then flipping back to this page for the directions.
 
 ### Create a chj folder for your work
 
@@ -59,13 +61,13 @@ Before we even launch RStudio, I would like you to create a folder on your compu
 
 ### What is R vs RStudio
 
-While R and RStudio are technically two programs installed on your computer, you will only really launch and use RStudio. R is the programming language, and RStudio is an IDE (Integrated Development Environment) -- which is essentially a fancy code editor -- developed specifically for R programming.
+While R and RStudio are technically two programs installed on your computer, you will only launch and use RStudio. R is the programming language, and RStudio is an IDE (Integrated Development Environment) -- which is essentially a fancy code editor -- developed specifically for R programming.
 
-There are two main ways to write an R program, either in an R script (files with a `.R` ending) or as an RNotebook (which has an `.Rmd` ending because it is written in RMarkdown.) We like using **RNotebooks** because we can interweave our code chunks with text explaining what we are tying to do. This is important as journalists because we want to be transparent about our work. It also helps us remember what the heck we were doing three weeks ago when we last used our code. *Remember, the most important audience of your code is your future self!*
+There are two main ways to write an R program, either in an R script (files with a `.R` ending) or as an R Notebook (which has an `.Rmd` ending because it is written in R Markdown.) We like using **R Notebooks** because we can interweave our code chunks with text explaining what we are tying to do. This is important as journalists because we want to be transparent about our work. It also helps us remember what the heck we were doing three weeks ago when we last used our code. *Remember, the most important audience of your code is your future self!*
 
 ### Launching RStudio
 
-- Go ahead and launch RStudio if you haven't already.
+1. Go ahead and launch RStudio if you haven't already.
 
 When you launch RStudio, you will get a screen like this:
 
@@ -75,10 +77,10 @@ When you launch RStudio, you will get a screen like this:
 
 There are some preferences in RStudio that I would like you to change. By default, the program wants to save the state of your work (all the variables and such) when you close a project, but that is not good practice. We'll change that.
 
-- Go to the **RStudio** menu and choose **Preferences**
-- Under the **General** tab, uncheck the first four boxes.
-- On the option "Save Workspace to .Rdata on exit", change that to **Never**.
-- Click *OK* to close the box.
+1. Go to the **RStudio** menu and choose **Preferences**
+1. Under the **General** tab, uncheck the first four boxes.
+1. On the option "Save Workspace to .Rdata on exit", change that dropdown to **Never**.
+1. Click *OK* to close the box.
 
 ![Updating preferences](images/r-preferences.png){width="90%"}
 
@@ -88,11 +90,13 @@ We only have to do this once for each computer.
 
 When we work in RStudio, we will create "Projects" to hold all the files related to one another. This sets the "working directory", which is a sort of home base for the project.
 
-- In the top toolbar for RStudio, click on the second button that has a green `+R` sign.
-- That brings up a box to create the project with several options. You want **New Directory** (unless you already have a folder for this specific project, which you don't yet.)
-- For **Project Type**, choose **New Project**.
-- Next, for the **Directory name**, choose a new name for your project folder. For this project, use "first-project".
-- For **Create project as a subdirectory of:** I want you to click on the **Browse** button and go find the `chj` folder you created earlier.
+We will now go through the directions to create a new project. Please follow these steps on your computer.
+
+1. In the top toolbar for RStudio, click on the second button that has a green `+R` sign.
+1. That brings up a box to create the project with several options. You want **New Directory** (unless you already have a folder for this specific project, which you don't yet.)
+1. For **Project Type**, choose **New Project**.
+1. Next, for the **Directory name**, choose a new name for your project folder. For this project, use "first-project".
+1. For **Create project as a subdirectory of:** I want you to click on the **Browse** button and go find the `chj` folder you created earlier.
 
 I am pretty anal-retentive about naming folders because they can become URLs in the future. It's a good programming habit.
 
@@ -104,23 +108,23 @@ I am pretty anal-retentive about naming folders because they can become URLs in 
 When you hit **Create Project**, your RStudio window will refresh and you'll see the `first-project.Rproj` file in your Files list.
 
 
-## Projects and RNotebooks
+## Projects and R Notebooks
 
 You should consider each R project as a self-contained unit. Each R session should run one project at a time. The `first-project.Rproj` file helps RStudio understand this one-project world. Every other file you need for your project should be stored inside your project folder.
 
-For this class, we will almost always use R Notebooks. This format allows us to write text in between our blocks of code. The text is written in a language called [R Markdown](https://rmarkdown.rstudio.com/lesson-1.html), a juiced-up version of the common documentation syntax used by programmers, Markdown. It's not hard to learn.
+For this class, we will almost always use R Notebooks. This format allows us to write text in between our blocks of code. The text is written in a language called [R Markdown](https://R Markdown.rstudio.com/lesson-1.html), a juiced-up version of the common documentation syntax used by programmers, Markdown. It's not hard to learn.
 
 ### Create your first notebook
 
-- Click on the button at the top-left of RStudio that has just the green `+` sign with a document behind it.
-- Choose the item **R Notebook**.
+1. Click on the button at the top-left of RStudio that has just the green `+` sign with a document behind it.
+1. Choose the item **R Notebook**.
 
 This will open a new file with some boilerplate R Markdown code.
 
 ![R code chunk](images/intro-rcodechunk.png){width="90%"}
 
-- At the top between the `---` marks, is the **metadata**. This is written using YAML, and what is inside are commands for the RNotebook. Don't sweat the YAML syntax too much right now, as we won't be editing it often.
-- Next, you'll see a couple of paragraphs of text that describe how to use an RNotebooks. It is written in R Markdown, and has some inline links and bold commands, which you will learn.
+- At the top between the `---` marks, is the **metadata**. This is written using YAML, and what is inside are commands for the R Notebook. Don't sweat the YAML syntax too much right now, as we won't be editing it often.
+- Next, you'll see a couple of paragraphs of text that describe how to use an R Notebooks. It is written in R Markdown, and has some inline links and bold commands, which you will learn.
 - Then you will see an R code chunk.
 
 Let's take a closer look at this chunk part:
@@ -134,12 +138,12 @@ Let's take a closer look at this chunk part:
 
 ### Save the .Rmd file
 
-- Do *Cmd+s* or hit the floppy disk icon to save the file.
-- It will ask you what you want to name this file. Call it `01-first-file.Rmd`. RStudio should already be saving this file inside your project folder.
+1. Do *Cmd+s* or hit the floppy disk icon to save the file.
+1. It will ask you what you want to name this file. Call it `01-first-file.Rmd`. RStudio should already be saving this file inside your project folder.
 
 > We named this file with `01-` at the beginning because we'll often have multiple notebooks in a project that should be run in order. Data created from one notebook might be used in another. Using this convention lets us know what order to run the notebooks.
 
-When you do this, you may see another new file created in your Files directory with an `.html` ending. It's the pretty version of the notebook which we'll see in a minute.
+When you do this, you may see another new file created in your Files directory with an `.nb.html` ending. It's the pretty version of the notebook which we'll see in a minute.
 
 In the YAML metadata portion of the file, give your notebook a better title.
 
@@ -149,7 +153,7 @@ In the YAML metadata portion of the file, give your notebook a better title.
 
 There is only one chunk to run in this notebook, so:
 
-- Click on the green right-arrow to run the code.
+1. Click on the green right-arrow to run the code.
 
 You should get something like this:
 
@@ -170,13 +174,13 @@ The text after the chart describes how to insert a new code chunk. Let's do that
 - Your cursor will be inserted into the middle of the chunk. Type in this code in the space provided:
 
 ```r
-# update 53 to your age
-age <- 53
+# update 55 to your age
+age <- 55
 (age - 7) * 2
 ```
 
-- Change for "53" to your real age.
-- With your cursor somewhere in the code block, use the key command *Cmd+Shift+Return*, which is the key command to RUN ALL LINES of code chunk.
+- Change for "55" to your real age.
+- With your cursor somewhere in the code block, use the key command *Cmd+Shift+Return*, which is the key command to RUN ALL LINES of the code chunk.
 - NOTE: To run an individual line, use *Cmd+Return* while on that line.
 
 Congratulations! The answer given at the bottom of that code chunk is the [socially-acceptable maximum age of anyone you should date](https://www.psychologytoday.com/us/blog/meet-catch-and-keep/201405/who-is-too-young-or-too-old-you-date).
@@ -187,21 +191,23 @@ Throwing aside whether the formula is sound, let's break down the code.
 - `age <- 53` is assigning a number (`53`) to a variable name (`age`). A variable is a placeholder. It can hold numbers, text or even groups of numbers. Variables are key to programming because they allow you to change a value as you go along. In R we use an arrow (or dash and angle bracket) to show which direction we are assigning the value, but convention is to name the variable first, then assign from the right.
 - Pro tip: You can use *Option+-* (Option dash) to type in the `<-` assigning operator.
 - The next part is simple math: `(age - 7) * 2` takes the value of `age` and subtracts `7`, then multiplies by `2`. You might have noticed that the editor helped you by adding closing `)` and putting your cursor in the middle. If you've never used a code editor, help like this can be confusing at first, but you'll learn to love it.
-- When you run the code chucnk, you get the result of the math equation below it, `[1] 92` in my case. That means there was one observation, and the value was "92". For the record, my wife is _much_ younger than that.
+- When you run the code chunck, you get the result of the math equation below it, `[1] 92` in my case. That means there was one observation, and the value was "92". For the record, my wife is _much_ younger than that.
 
 Now you can play with the number assigned to the age variable to test out different ages. Do that.
 
+This is how R Markdown documents work ... you intersperse text and code chunks. When  you run a code chunk, you get the results and messages under the chunk.
+
 > We'll break here to make sure everyone is good.
 
-### A note on RMarkdown and clean code
+### A note on R Markdown and clean code
 
-When writing RMarkdown in an RNotebook, you want an empty blank line between each major element: code block, headline, or paragraph of text.
+When writing R Markdown in an R Notebook, you want an empty blank line between each major element: code block, headline, or paragraph of text.
 
-In the text, headlines are indicated with one or more hashtags at the beginning with a space before the words. The more hashtags there are, the smaller the headline (I know, it's counter-intuitive, but it matches HTML headlines.) In RNotebooks, the singe-hashtag headline is the title, so the next biggest headline you should use is two hashes:
+In the text, headlines are indicated with one or more hashtags at the beginning with a space before the words. The more hashtags there are, the smaller the headline (I know, it's counter-intuitive, but it matches HTML headlines.) In R Notebooks, the singe-hashtag headline is the Document in the metadata, so the next biggest headline you should use is two hashes:
 
 ```md
 
-## This is the biggest headline you should add
+## This is the biggest headline you should add in R Markdown
 
 This is text.
 
@@ -210,6 +216,15 @@ This is a new paragraph.
 ### A smaller headline as subhead to the one above
 
 This text is related to the above in some way.
+
+- This is a list item
+- This is another list item
+  - Nested list items do work if you indent it.
+- You need blank lines **above and below** the list.
+
+1. This is an ordered list
+1. This is the next item and it will come out as 2.
+2. Markdown renumbers the ordered list no matter what number you use.
 ```
 
 Also make sure you have blank lines above and below each code chunk.
@@ -218,7 +233,7 @@ Also make sure you have blank lines above and below each code chunk.
 
 The rest of the boilerplate text here describes how you can *Preview* and *Knit* a notebook. Let's do that now.
 
-- Press *Cmd+Shift+K* to open a Preview.
+1. Press *Cmd+Shift+K* to open a Preview.
 
 This will open a new window and show you the "pretty" notebook that we are building.
 
@@ -226,7 +241,7 @@ Preview is a little different than *Knit*, which runs all the code, then creates
 
 ### The toolbar
 
-One last thing to point out with RStudio before we move on is the toolbar that runs across the top of the RNotebook file window. The image below explains some of the more useful tools, but you _REALLY_ should learn and use keyboard commands when they are available.
+One last thing to point out with RStudio before we move on is the toolbar that runs across the top of the R Notebook file window. The image below explains some of the more useful tools, but you _REALLY_ should learn and use keyboard commands when they are available.
 
 ![R Notebook toolbar](images/intro-toolbar.png){width=90%}
 
@@ -234,7 +249,7 @@ One last thing to point out with RStudio before we move on is the toolbar that r
 
 While "base" R is a robust programming language on its own, the true power lies in a community that writes "packages" to do new things easier and better. As R users, we "install" the code for these packages into RStudio to make their functions available to us.
 
-The pièce de résistance of packages is the [tidyverse](https://www.tidyverse.org/), as collection of packages for data science that were all written to work together. Hadley Wickham is one of the main developers. He wrote the book [R for Data Science](https://r4ds.had.co.nz/index.html).
+The pièce de résistance of packages is the [tidyverse](https://www.tidyverse.org/), a collection of packages for data science that were all written to work together. Hadley Wickham is one of the main developers. He wrote the book [R for Data Science](https://r4ds.had.co.nz/index.html).
 
 ![Hadley Wickham holds court at IRE 2019 in Houston](images/hadley.jpg){width=90%}
 
@@ -257,196 +272,84 @@ There are two other packages we are going to install and we'll do it at one time
 
 `install.packages(c("janitor","lubridate"))`
 
-[janitor](https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html) has some data cleaning properties we'll use. [lubridate](https://lubridate.tidyverse.org/) makes dealing with dates and time values a little easier.
+[janitor](https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html) has some data cleaning properties we'll use. [lubridate](https://lubridate.tidyverse.org/) makes dealing with date and time values a little easier.
 
 You'll note we used this `c("term1","term1")` construction to feed R a combination of items, which you'll see a lot. The `c` stands for **combine** and we use it to build collections of things we call **vectors**.
 
-*BORING DETAILS:* [**Vectors**](https://www.tutorialspoint.com/r/r_vectors.htm) are collections of elements of like value, like numbers or strings of letters. Everything is a vector in R, really -- a single letter in R is a vector with a length of 1. I would say think of vectors like a list of common things, but a [list](https://www.tutorialspoint.com/r/r_lists.htm) is a special object of its own, a combination of unlike things.
+> **BORING DETAILS:** [**Vectors**](https://www.tutorialspoint.com/r/r_vectors.htm) are collections of elements of like value, like numbers or strings of letters. Everything is a vector in R, really -- a single letter in R is a vector with a length of 1. Think of vectors like a list of common things, but know a [list](https://www.tutorialspoint.com/r/r_lists.htm) is a special object of its own, a combination of unlike things.
 
-### Using libraries
 
-We're going to start our next RNotebook and set up some of these libraries.
+## Example R Markdown document
 
-- In the first top toolbar icon with the `+` and document, choose RNotebook.
-- In the YAML at the top of the file, change the metadata **title** to "MN Opioid deaths" as that is what we'll be working with.
-- Delete everything after the `---` on the 4th line.
-- Save the file and name it **01-opioid-clean.Rmd**. (We named with `01-` since this is also the first in a series of notebooks that may work together.)
-- Lastly, make sure you have a full blank line after the YAML metadata and add a new code chuck with *Cmd+Option+I*.
+We now want to walk through a full analysis do you can see the power (and reproducibility) of R.
 
-Inside this code chunk we are going to add the libraries we'll use for this next lesson:
+1. In your same project, create a new **R Notebook** document. (Under the +Document icon).
+2. Save the file as `acc-intakes.Rmd`.
+3. Delete everything inside.
+4. Go go [this URL](https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data-prep/chj-aac/aac-intakes.Rmd) in a browser like Chrome.
+5. Copy and paste all the contents and put it in your R Notebook. (You should be able to do **Cmd+a** to select all.)
+6. Once you've pasted the code and saved it, do **Cmd+Shift+R** to Run All. (It's also under the Run menu in the toolbar.)
+
+### Austin Animal Center Intakes Analysis
+
+Hopefully your document ran and you should see all the results and plots. This is an example of a well formatted analysis. (If we have time, we'll quickly explain what is going on in the data, etc.)
+
+Here are some things to consider with this example:
+
+- The Markdown is well formatted. There are blank lines between all elements except list items. This is good for readability in the document and for it to knit properly and beautifully.
+- There is an explanation at the top of what the document hopes to accomplish. It includes a link to the original data.
+- Each major step is broken down into sections with headlines, subheadlines and text to explain what is being done in the code.
+- The R code chunks are named. This helps when you use the bookmark menu at the bottom of the Notebook menu. (Easier to show than explain.)
+- There are some comments inside the code where they might help the author or others.
+- Inside the R chunks, you'll notice that some functions have been split into multiple lines so the arguments are easy to follow. RStudio helps you with this with indenting and such.
+- When data is summarized or overwritten, it is assigned to a new R object with `<-`. This way the original data is always available.
+
+## The tidyverse pipe
+
+As you look through the example, you'll notice this character combination ` %>% ` at the end of lines in the code chunks.
+
+The ` %>% ` (or "pipe" as it is called) is one of the core tenets of the tidyverse. The pipe takes the result of the previous operation and "pipes" the result into the next operation. It makes for more readable code than the nested syntax of base R, so much so I don't even teach nesting.
+
+When we see the pipe, think of the term "and then". Here is an example:
 
 ```r
-library(tidyverse)
-library(janitor)
-```
-
-When you run that chunk of code, you might see this output in your Console:
-
-```r
-> library(tidyverse)
-package ‘tidyverse’ was built under R version 4.0.2Registered S3 methods overwritten by 'dbplyr':
-  method         from
-  print.tbl_lazy     
-  print.tbl_sql      
-── Attaching packages ─────────────────────────────────────────────── tidyverse 1.3.0 ──
-✓ ggplot2 3.3.1     ✓ purrr   0.3.4
-✓ tibble  3.0.1     ✓ dplyr   1.0.0
-✓ tidyr   1.1.0     ✓ stringr 1.4.0
-✓ readr   1.3.1     ✓ forcats 0.5.0
-── Conflicts ────────────────────────────────────────────────── tidyverse_conflicts() ──
-x dplyr::filter() masks stats::filter()
-x dplyr::lag()    masks stats::lag()
-> library(janitor)
-
-Attaching package: ‘janitor’
-
-The following objects are masked from ‘package:stats’:
-
-    chisq.test, fisher.test
-
-```
-
-This tells us that tidyverse is a series of packages. Sometimes packages overwrite base R functions. We are good with this.
-
-## Importing data
-
-OK, let's get to some data, shall we?
-
-### Importing with readr
-
-The tidyverse package [readr](https://readr.tidyverse.org/) (included in the tidyverse library) is our workhorse for importing and exporting of data. There are other tidyverse specialty packages for importing and working with data like [jsonlite](https://cran.r-project.org/web/packages/jsonlite/vignettes/json-aaquickstart.html) and [readxl]([readxl](https://readxl.tidyverse.org/reference/read_excel.html)) and some alternatives like  [rio](https://www.rdocumentation.org/packages/rio/).
-
-The code below shows the `read_csv` function and runs it so you can see the data.
-
-```{r opioid-read, exercise=T}
-read_csv("https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/mn_opiate_short.csv")
-```
-
-When we use `read_csv()` and give it a path (in quotes), R will print the result below the R chunk. You can click on the arrows and page navigation to peek through the data. In this case, the _path_ was to a small file on the internet. If we were to import a file from our own computer, we would put in a path relative to project directory, perhaps:
-
-```{r read_fake, echo=T, eval=F}
-read_csv("data/chj_mn_opiate_deaths_data.csv")
-```
-
-
-But all this does is print the data to our screen. For us to be able to use this data later, we need to assign it to an R object. A table like this in R is called a **data frame** (or **tibble** as they are known in the tidyverse, but we still call them data frames). We use the `<-` assignment operator to assign the data to the object, which we name ourselves.
-
-We are going to assign the result of the `read_csv()` command into an object called `deaths`. We do the operation from right-to-left, so start we start with the newly-named object, and then "fill" it with the data. This takes a bit getting used to, but it makes for readable code down the line. Go ahead and run the code and then we'll talk about it.
-
-
-```{r opioid-assign, exercise=T}
-# read and assign the data
-deaths <- read_csv("https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/mn_opiate_short.csv")
-
-# peek at the result
-deaths %>% head()
-```
-
-The first line of code is the assigning to our data to the data frame called `deaths`. Since that operation isn't printing anything to our screen we add another line with the name of the data frame `deaths` so we can peek at it.
-
-### Cleaning up names
-
-One thing you might notice in the column above is some of the column names are two words. While it is possible to keep working this way, it is much easier if all our column names are lowercase and multi-word names are connected with underscores `_`.
-
-In the process of cleaning these names with the janitor function called `clean_names()` we'll also learn about the tidyverse pipe ` %>% `.
-
-```{r opioid-clean, exercise=TRUE}
-# clean the names and then reassign
-deaths <- read_csv("https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/mn_opiate_short.csv") %>%
-  clean_names()
-
-# peek at the top of the updated data frame with head()
-deaths %>%
+intakes %>% 
   head()
 ```
 
-### The tidyverse pipe
-
-One of the tenets of the tidyverse is the use of the pipe ` %>% ` which takes the result of the previous operation and "pipes" it into the next operation. It makes for more readable code than the nested syntax of base R, so much so I don't even teach nesting.
-
-When we see the pipe, think of the term "and then". We are starting with the `deaths` data frame **and then** limiting that result to just the `head()` of data frame.  If you put a number inside the parenthesis, like `head(20)` then it will give you that many lines. Try it and run the code again.
+We are starting with the `intakes` data frame **and then** limiting that result to just the `head()` (or top) of data frame. The default number of lines for `head()` is six but you can specify how many lines you want by putting a number inside the parenthesis, like `head(20)`.
 
 A couple of things about the pipe:
 
-- The `%>%` has to be on the same line as the data it receives.
-- In complicated strings of code, you can add a return *after* the pipe, then the next line will be indented to indicate it is a continuation. So you'll often see a pipe at the end of a line, like in our examples above.
+- The `%>%` has to be on the same line of code that is "pushing" from.
+- In complicated strings of code, you can add a return *after* the pipe, then the next line will be indented to indicate it is a continuation. So you'll often see a pipe at the end of a line, like in our examples above. (I do this more often than not.)
 - In RStudio you can use the keyboard command *Cmd+shift+m* type the pipe. Unfortunately keyboard commands don't work inside the online tutorials.
-
-### Update your project with deaths
-
-Take a moment to go into your own `01-opioid-deaths.Rmd` RNotebook and add a code chuck (*Cmd+Option+I*) and *type* the code below. (I ask that you type the code instead of copy/paste so you can get used to using *Cmd+shift+m* for the pipe and *Cmd+-* for the assigning operaror. You'll also make mistakes and have to fix them. It helps the learning process.)
-
-> Update to main branch
-
-```{r your_project, eval=F, echo=T}
-deaths <- read_csv("https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/mn_opiate_short.csv") %>%
-  clean_names()
-
-deaths %>% head()
-```
-
-
-Above the code chunk, write text in your own words to describe what is happening in the code chunk. These kind of annotations are as important to your future self as anyone else.
-
-When you assign the data to the `deaths` data frame, you'll notice that the object shows up in your **Environment** tab at the top right of RStudio. Any object you create is "saved" into the environment to use later.
-
-![Environment pane](images/intro-environment.png){width=60%}
-
-> Take a break here to let everyone catch up.
-
-## Exploring data
-
-OK, now we have data imported, but what is in it? One way to get a quick look at the field names and data types is with `summary()`. We'll again use our pipe, though on one line. (These examples assume `deaths` is already in your environment.)
-
-```{r prep-explore, include=FALSE, warning=F, message=F}
-deaths <- read_csv("https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/mn_opiate_short.csv") %>% clean_names()
-```
-
-
-
-```{r explore-summary, exercise=T, exercise.setup = "prep-explore", message=F}
-deaths %>% summary()
-```
-
-For each column you'll see the data type (which is an important lesson for tomorrow) and some other data. Look specifically at `age_years` which is a number data type. The summary gives you some basic stats about the collection of numbers in that column.
-
-One thing `summary()` is useful for is to see if all your data types are correct. If you browse through this list and the head of the data from the code block above, is there anything out of whack? Are all the numbers really numbers? Are the dates really dates?
-
-Another handy way to look at your data is through `glimpse()`. This shows you the names, the data type and some examples from the data, all in one.
-
-```{r explore-glimpse, exercise=T, exercise.setup = "prep-explore", message=F}
-deaths %>% glimpse()
-```
-
-With this look, we can see we have `birth_date` and `death_date` which are stored as <chr> (text) instead of a real date datatype. We'll fix that in the Day 2 lesson.
 
 ## Getting help
 
-We have used a ton of R "verbs" as we call the functions ... probably too many to remember, and there are more to come. Let's talk briefly about how you can get help with how things work in R.
+Our example used a ton of R "verbs" as we call the functions ... probably too many to remember, and there are more to come. Let's talk briefly about how you can get help with how things work in R.
 
 One way is through the built-in **Help** function within RStudio. If you look at the pane at the bottom-right of RStudio, you'll see tabs for "Files", "Plots", "Packages" and "Help". Click on the **Help* tab.
 
-You can type in a function or part of a function and get a list of items. If you search for "glimpse" you'll see two returns, and you can click on the link for **tibble::glimpse** to get more information about how to use the function with some examples toward the bottom.
-
-![Help for glimpse](images/intro-help-glimpse.png){width=60%}
+You can type in a function or part of a function and get a list of items. If you search for "count" and hit return you'll get documentation on how to use it. It takes some getting used to in reading the docs, but the examples at the bottom are often useful.
 
 ### Good Googling
 
-Another way to get help is to Google for it, but that can be an art, especially there are other data science languates and programs with similar terms as R. It helps to use "in R". Some other tips:
+Another way to get help is to Google for it, but that can be an art, especially since there are other data science languages and programs with similar terms as R. Some tips:
 
 - Use "in R" in your search: *How to merge data frames in R*
-- Use the name of the package *if you now it: Add labels with ggplot*
+- Use the name of the package if you now it: *Add labels with ggplot*
 - Use "tidyverse" if appropriate: *convert text to date with tidyverse*
 
-There are plenty of StackOverflow answers along with different tutorials from blogs and such. It is a well-used language, so there are lots of answers to help. Too many, sometimes.
+There are plenty of Stack Overflow answers along with different tutorials from blogs and such. It is a well-used language, so there are lots of answers to help. Too many, sometimes.
 
 ### Tidyverse docs and cheatsheets
 
 It is worth becoming familiar with the [tidyverse](https://www.tidyverse.org/) site. Click on each icon from the home page to learn what each package does. R is also big on [cheatsheets](https://rstudio.com/resources/cheatsheets/), which are printable pages that go through all the verbs. They can be a bit much at first, but useful once you use R more.
 
-We'll try to put together a list of other resources and tutorials. You can find some [I've collected already here](https://docs.google.com/document/d/1slMdrTLfxYt0mZO1G_Wlz1cOcGjCdgiJr7wzpcU9n1Y/edit?usp=sharing).
+We'll try to put together a list of other resources and tutorials. You can find some [I've collected already hxere](https://docs.google.com/document/d/1slMdrTLfxYt0mZO1G_Wlz1cOcGjCdgiJr7wzpcU9n1Y/edit?usp=sharing).
 
 ---
 
-We'll end here for today.
+We'll end here for this session.
 
