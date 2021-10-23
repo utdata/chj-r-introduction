@@ -188,9 +188,11 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
 
 <div id="section-about-these-lessons" class="section level2">
 <h2>About these lessons</h2>
-<p>This lesson was written by Christian McDonald. I use a Mac so any keyboard commands that are <em>Cmd+whatever</em> might be <em>Ctrl+whatever</em> on a PC.</p>
-<p>As we go through this week of training, we will use interactive tutorials like this one to describe and practice key concepts and then provide directions on how you can practice similar steps on your own computer.</p>
-<p>Here is an example interactive code block where you can write R code directly in the browser and run it. R is a programming language that allows you to do simple math, with common operators like <code>+</code>, <code>-</code>, <code>*</code> and <code>\</code>.</p>
+<blockquote>
+<p>These lessons were prepared by Christian McDonald and Andrew Ba Tran. We use Macs so any keyboard commands that are <em>Cmd+whatever</em> might be <em>Ctrl+whatever</em> on a PC. Some keyboard shortcuts might be different, but you can find them from the appropriate menu item in RStudio.</p>
+</blockquote>
+<p>As we go through this week of training, we will use interactive tutorials like this one to describe and practice key concepts about R and the <a href="https://www.tidyverse.org/">tidyverse</a>. We’ll then provide directions on how you can practice similar steps on your own computer using RStudio.</p>
+<p>Here is an example exercise to show how you can write R code directly in the browser and run it. Since R is a programming language that allows you to do simple math, we can do so here with common operators like <code>+</code>, <code>-</code>, <code>*</code> and <code>\</code>.</p>
 <div id="section-exercise" class="section level3">
 <h3>Exercise</h3>
 <p><em>Here’s a simple exercise with an empty code chunk provided for entering the answer.</em></p>
@@ -206,7 +208,8 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
 </div>
 <div id="section-learning-rstudio" class="section level2">
 <h2>Learning RStudio</h2>
-<p>This first session on the first day we’ll be learning about RStudio, RMarkdown and how to use them. It’s a lot of setup and not a lot of practice. I promise we’ll get to the data quickly in future sessions.</p>
+<p>This first session on the first day we’ll be learning about RStudio, R Markdown and how to use them. It’s a lot of setup and not a lot of practice. I promise we’ll get to the data quickly in future sessions.</p>
+<p>With this, you’ll be working in RStudio on your computer and then flipping back to this page for the directions.</p>
 <div id="section-create-a-chj-folder-for-your-work" class="section level3">
 <h3>Create a chj folder for your work</h3>
 <p>Before we even launch RStudio, I would like you to create a folder on your computer called <code>chj</code> in some place you can find it later, like in your <code>Documents</code> folder. Each new data project will have its own folder, and it would be ideal if you could create those for this class inside your <code>chj</code> folder. That way we are all on the same page.</p>
@@ -216,14 +219,14 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
 </div>
 <div id="section-what-is-r-vs-rstudio" class="section level3">
 <h3>What is R vs RStudio</h3>
-<p>While R and RStudio are technically two programs installed on your computer, you will only really launch and use RStudio. R is the programming language, and RStudio is an IDE (Integrated Development Environment) – which is essentially a fancy code editor – developed specifically for R programming.</p>
-<p>There are two main ways to write an R program, either in an R script (files with a <code>.R</code> ending) or as an RNotebook (which has an <code>.Rmd</code> ending because it is written in RMarkdown.) We like using <strong>RNotebooks</strong> because we can interweave our code chunks with text explaining what we are tying to do. This is important as journalists because we want to be transparent about our work. It also helps us remember what the heck we were doing three weeks ago when we last used our code. <em>Remember, the most important audience of your code is your future self!</em></p>
+<p>While R and RStudio are technically two programs installed on your computer, you will only launch and use RStudio. R is the programming language, and RStudio is an IDE (Integrated Development Environment) – which is essentially a fancy code editor – developed specifically for R programming.</p>
+<p>There are two main ways to write an R program, either in an R script (files with a <code>.R</code> ending) or as an R Notebook (which has an <code>.Rmd</code> ending because it is written in R Markdown.) We like using <strong>R Notebooks</strong> because we can interweave our code chunks with text explaining what we are tying to do. This is important as journalists because we want to be transparent about our work. It also helps us remember what the heck we were doing three weeks ago when we last used our code. <em>Remember, the most important audience of your code is your future self!</em></p>
 </div>
 <div id="section-launching-rstudio" class="section level3">
 <h3>Launching RStudio</h3>
-<ul>
+<ol style="list-style-type: decimal">
 <li>Go ahead and launch RStudio if you haven’t already.</li>
-</ul>
+</ol>
 <p>When you launch RStudio, you will get a screen like this:</p>
 <div class="figure">
 <img src="images/intro-start.png" style="width:90.0%" alt="" />
@@ -233,12 +236,12 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
 <div id="section-updating-preferences" class="section level3">
 <h3>Updating preferences</h3>
 <p>There are some preferences in RStudio that I would like you to change. By default, the program wants to save the state of your work (all the variables and such) when you close a project, but that is not good practice. We’ll change that.</p>
-<ul>
+<ol style="list-style-type: decimal">
 <li>Go to the <strong>RStudio</strong> menu and choose <strong>Preferences</strong></li>
 <li>Under the <strong>General</strong> tab, uncheck the first four boxes.</li>
-<li>On the option “Save Workspace to .Rdata on exit”, change that to <strong>Never</strong>.</li>
+<li>On the option “Save Workspace to .Rdata on exit”, change that dropdown to <strong>Never</strong>.</li>
 <li>Click <em>OK</em> to close the box.</li>
-</ul>
+</ol>
 <div class="figure">
 <img src="images/r-preferences.png" style="width:90.0%" alt="" />
 <p class="caption">Updating preferences</p>
@@ -248,13 +251,14 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
 <div id="section-starting-a-new-project" class="section level3">
 <h3>Starting a new Project</h3>
 <p>When we work in RStudio, we will create “Projects” to hold all the files related to one another. This sets the “working directory”, which is a sort of home base for the project.</p>
-<ul>
+<p>We will now go through the directions to create a new project. Please follow these steps on your computer.</p>
+<ol style="list-style-type: decimal">
 <li>In the top toolbar for RStudio, click on the second button that has a green <code>+R</code> sign.</li>
 <li>That brings up a box to create the project with several options. You want <strong>New Directory</strong> (unless you already have a folder for this specific project, which you don’t yet.)</li>
 <li>For <strong>Project Type</strong>, choose <strong>New Project</strong>.</li>
 <li>Next, for the <strong>Directory name</strong>, choose a new name for your project folder. For this project, use “first-project”.</li>
 <li>For <strong>Create project as a subdirectory of:</strong> I want you to click on the <strong>Browse</strong> button and go find the <code>chj</code> folder you created earlier.</li>
-</ul>
+</ol>
 <p>I am pretty anal-retentive about naming folders because they can become URLs in the future. It’s a good programming habit.</p>
 <ul>
 <li>Use lowercase characters.</li>
@@ -267,24 +271,24 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
 <p>When you hit <strong>Create Project</strong>, your RStudio window will refresh and you’ll see the <code>first-project.Rproj</code> file in your Files list.</p>
 </div>
 </div>
-<div id="section-projects-and-rnotebooks" class="section level2">
-<h2>Projects and RNotebooks</h2>
+<div id="section-projects-and-r-notebooks" class="section level2">
+<h2>Projects and R Notebooks</h2>
 <p>You should consider each R project as a self-contained unit. Each R session should run one project at a time. The <code>first-project.Rproj</code> file helps RStudio understand this one-project world. Every other file you need for your project should be stored inside your project folder.</p>
-<p>For this class, we will almost always use R Notebooks. This format allows us to write text in between our blocks of code. The text is written in a language called <a href="https://rmarkdown.rstudio.com/lesson-1.html">R Markdown</a>, a juiced-up version of the common documentation syntax used by programmers, Markdown. It’s not hard to learn.</p>
+<p>For this class, we will almost always use R Notebooks. This format allows us to write text in between our blocks of code. The text is written in a language called <a href="https://R%20Markdown.rstudio.com/lesson-1.html">R Markdown</a>, a juiced-up version of the common documentation syntax used by programmers, Markdown. It’s not hard to learn.</p>
 <div id="section-create-your-first-notebook" class="section level3">
 <h3>Create your first notebook</h3>
-<ul>
+<ol style="list-style-type: decimal">
 <li>Click on the button at the top-left of RStudio that has just the green <code>+</code> sign with a document behind it.</li>
 <li>Choose the item <strong>R Notebook</strong>.</li>
-</ul>
+</ol>
 <p>This will open a new file with some boilerplate R Markdown code.</p>
 <div class="figure">
 <img src="images/intro-rcodechunk.png" style="width:90.0%" alt="" />
 <p class="caption">R code chunk</p>
 </div>
 <ul>
-<li>At the top between the <code>---</code> marks, is the <strong>metadata</strong>. This is written using YAML, and what is inside are commands for the RNotebook. Don’t sweat the YAML syntax too much right now, as we won’t be editing it often.</li>
-<li>Next, you’ll see a couple of paragraphs of text that describe how to use an RNotebooks. It is written in R Markdown, and has some inline links and bold commands, which you will learn.</li>
+<li>At the top between the <code>---</code> marks, is the <strong>metadata</strong>. This is written using YAML, and what is inside are commands for the R Notebook. Don’t sweat the YAML syntax too much right now, as we won’t be editing it often.</li>
+<li>Next, you’ll see a couple of paragraphs of text that describe how to use an R Notebooks. It is written in R Markdown, and has some inline links and bold commands, which you will learn.</li>
 <li>Then you will see an R code chunk.</li>
 </ul>
 <p>Let’s take a closer look at this chunk part:</p>
@@ -299,14 +303,14 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
 </div>
 <div id="section-save-the-.rmd-file" class="section level3">
 <h3>Save the .Rmd file</h3>
-<ul>
+<ol style="list-style-type: decimal">
 <li>Do <em>Cmd+s</em> or hit the floppy disk icon to save the file.</li>
 <li>It will ask you what you want to name this file. Call it <code>01-first-file.Rmd</code>. RStudio should already be saving this file inside your project folder.</li>
-</ul>
+</ol>
 <blockquote>
 <p>We named this file with <code>01-</code> at the beginning because we’ll often have multiple notebooks in a project that should be run in order. Data created from one notebook might be used in another. Using this convention lets us know what order to run the notebooks.</p>
 </blockquote>
-<p>When you do this, you may see another new file created in your Files directory with an <code>.html</code> ending. It’s the pretty version of the notebook which we’ll see in a minute.</p>
+<p>When you do this, you may see another new file created in your Files directory with an <code>.nb.html</code> ending. It’s the pretty version of the notebook which we’ll see in a minute.</p>
 <p>In the YAML metadata portion of the file, give your notebook a better title.</p>
 <ul>
 <li>Replace “R Notebook” in the <code>title: "R Notebook"</code> code to be “Christian’s first notebook”, but use your name.</li>
@@ -315,9 +319,9 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
 <div id="section-run-the-notebook" class="section level3">
 <h3>Run the notebook</h3>
 <p>There is only one chunk to run in this notebook, so:</p>
-<ul>
+<ol style="list-style-type: decimal">
 <li>Click on the green right-arrow to run the code.</li>
-</ul>
+</ol>
 <p>You should get something like this:</p>
 <div class="figure">
 <img src="images/intro-defaultplot.png" style="width:90.0%" alt="" />
@@ -337,12 +341,12 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
 <li>Use the keys <em>Cmd+Option+i</em> to add the chunk.</li>
 <li>Your cursor will be inserted into the middle of the chunk. Type in this code in the space provided:</li>
 </ul>
-<div class="sourceCode" id="section-cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="section-cb2-1"><a href="#section-cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># update 53 to your age</span></span>
-<span id="section-cb2-2"><a href="#section-cb2-2" aria-hidden="true" tabindex="-1"></a>age <span class="ot">&lt;-</span> <span class="dv">53</span></span>
+<div class="sourceCode" id="section-cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="section-cb2-1"><a href="#section-cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># update 55 to your age</span></span>
+<span id="section-cb2-2"><a href="#section-cb2-2" aria-hidden="true" tabindex="-1"></a>age <span class="ot">&lt;-</span> <span class="dv">55</span></span>
 <span id="section-cb2-3"><a href="#section-cb2-3" aria-hidden="true" tabindex="-1"></a>(age <span class="sc">-</span> <span class="dv">7</span>) <span class="sc">*</span> <span class="dv">2</span></span></code></pre></div>
 <ul>
-<li>Change for “53” to your real age.</li>
-<li>With your cursor somewhere in the code block, use the key command <em>Cmd+Shift+Return</em>, which is the key command to RUN ALL LINES of code chunk.</li>
+<li>Change for “55” to your real age.</li>
+<li>With your cursor somewhere in the code block, use the key command <em>Cmd+Shift+Return</em>, which is the key command to RUN ALL LINES of the code chunk.</li>
 <li>NOTE: To run an individual line, use <em>Cmd+Return</em> while on that line.</li>
 </ul>
 <p>Congratulations! The answer given at the bottom of that code chunk is the <a href="https://www.psychologytoday.com/us/blog/meet-catch-and-keep/201405/who-is-too-young-or-too-old-you-date">socially-acceptable maximum age of anyone you should date</a>.</p>
@@ -352,19 +356,20 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
 <li><code>age &lt;- 53</code> is assigning a number (<code>53</code>) to a variable name (<code>age</code>). A variable is a placeholder. It can hold numbers, text or even groups of numbers. Variables are key to programming because they allow you to change a value as you go along. In R we use an arrow (or dash and angle bracket) to show which direction we are assigning the value, but convention is to name the variable first, then assign from the right.</li>
 <li>Pro tip: You can use <em>Option+-</em> (Option dash) to type in the <code>&lt;-</code> assigning operator.</li>
 <li>The next part is simple math: <code>(age - 7) * 2</code> takes the value of <code>age</code> and subtracts <code>7</code>, then multiplies by <code>2</code>. You might have noticed that the editor helped you by adding closing <code>)</code> and putting your cursor in the middle. If you’ve never used a code editor, help like this can be confusing at first, but you’ll learn to love it.</li>
-<li>When you run the code chucnk, you get the result of the math equation below it, <code>[1] 92</code> in my case. That means there was one observation, and the value was “92”. For the record, my wife is <em>much</em> younger than that.</li>
+<li>When you run the code chunck, you get the result of the math equation below it, <code>[1] 92</code> in my case. That means there was one observation, and the value was “92”. For the record, my wife is <em>much</em> younger than that.</li>
 </ul>
 <p>Now you can play with the number assigned to the age variable to test out different ages. Do that.</p>
+<p>This is how R Markdown documents work … you intersperse text and code chunks. When you run a code chunk, you get the results and messages under the chunk.</p>
 <blockquote>
 <p>We’ll break here to make sure everyone is good.</p>
 </blockquote>
 </div>
-<div id="section-a-note-on-rmarkdown-and-clean-code" class="section level3">
-<h3>A note on RMarkdown and clean code</h3>
-<p>When writing RMarkdown in an RNotebook, you want an empty blank line between each major element: code block, headline, or paragraph of text.</p>
-<p>In the text, headlines are indicated with one or more hashtags at the beginning with a space before the words. The more hashtags there are, the smaller the headline (I know, it’s counter-intuitive, but it matches HTML headlines.) In RNotebooks, the singe-hashtag headline is the title, so the next biggest headline you should use is two hashes:</p>
+<div id="section-a-note-on-r-markdown-and-clean-code" class="section level3">
+<h3>A note on R Markdown and clean code</h3>
+<p>When writing R Markdown in an R Notebook, you want an empty blank line between each major element: code block, headline, or paragraph of text.</p>
+<p>In the text, headlines are indicated with one or more hashtags at the beginning with a space before the words. The more hashtags there are, the smaller the headline (I know, it’s counter-intuitive, but it matches HTML headlines.) In R Notebooks, the singe-hashtag headline is the Document in the metadata, so the next biggest headline you should use is two hashes:</p>
 <div class="sourceCode" id="section-cb3"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="section-cb3-1"><a href="#section-cb3-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="section-cb3-2"><a href="#section-cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">## This is the biggest headline you should add</span></span>
+<span id="section-cb3-2"><a href="#section-cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">## This is the biggest headline you should add in R Markdown</span></span>
 <span id="section-cb3-3"><a href="#section-cb3-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="section-cb3-4"><a href="#section-cb3-4" aria-hidden="true" tabindex="-1"></a>This is text.</span>
 <span id="section-cb3-5"><a href="#section-cb3-5" aria-hidden="true" tabindex="-1"></a></span>
@@ -372,21 +377,30 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
 <span id="section-cb3-7"><a href="#section-cb3-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="section-cb3-8"><a href="#section-cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">### A smaller headline as subhead to the one above</span></span>
 <span id="section-cb3-9"><a href="#section-cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="section-cb3-10"><a href="#section-cb3-10" aria-hidden="true" tabindex="-1"></a>This text is related to the above in some way.</span></code></pre></div>
+<span id="section-cb3-10"><a href="#section-cb3-10" aria-hidden="true" tabindex="-1"></a>This text is related to the above in some way.</span>
+<span id="section-cb3-11"><a href="#section-cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="section-cb3-12"><a href="#section-cb3-12" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>This is a list item</span>
+<span id="section-cb3-13"><a href="#section-cb3-13" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>This is another list item</span>
+<span id="section-cb3-14"><a href="#section-cb3-14" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Nested list items do work if you indent it.</span>
+<span id="section-cb3-15"><a href="#section-cb3-15" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>You need blank lines **above and below** the list.</span>
+<span id="section-cb3-16"><a href="#section-cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="section-cb3-17"><a href="#section-cb3-17" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>This is an ordered list</span>
+<span id="section-cb3-18"><a href="#section-cb3-18" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>This is the next item and it will come out as 2.</span>
+<span id="section-cb3-19"><a href="#section-cb3-19" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Markdown renumbers the ordered list no matter what number you use.</span></code></pre></div>
 <p>Also make sure you have blank lines above and below each code chunk.</p>
 </div>
 <div id="section-preview-the-report" class="section level3">
 <h3>Preview the report</h3>
 <p>The rest of the boilerplate text here describes how you can <em>Preview</em> and <em>Knit</em> a notebook. Let’s do that now.</p>
-<ul>
+<ol style="list-style-type: decimal">
 <li>Press <em>Cmd+Shift+K</em> to open a Preview.</li>
-</ul>
+</ol>
 <p>This will open a new window and show you the “pretty” notebook that we are building.</p>
 <p>Preview is a little different than <em>Knit</em>, which runs all the code, then creates the new knitted HTML document. <strong>Knit to HMTL</strong> creates an HTML document that you can send to others, or publish on Github with some additional YAML configurations. You can also Knit to PDFs.</p>
 </div>
 <div id="section-the-toolbar" class="section level3">
 <h3>The toolbar</h3>
-<p>One last thing to point out with RStudio before we move on is the toolbar that runs across the top of the RNotebook file window. The image below explains some of the more useful tools, but you <em>REALLY</em> should learn and use keyboard commands when they are available.</p>
+<p>One last thing to point out with RStudio before we move on is the toolbar that runs across the top of the R Notebook file window. The image below explains some of the more useful tools, but you <em>REALLY</em> should learn and use keyboard commands when they are available.</p>
 <div class="figure">
 <img src="images/intro-toolbar.png" style="width:90.0%" alt="" />
 <p class="caption">R Notebook toolbar</p>
@@ -396,7 +410,7 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
 <div id="section-the-tidyverse-and-r-packages" class="section level2">
 <h2>The tidyverse and R packages</h2>
 <p>While “base” R is a robust programming language on its own, the true power lies in a community that writes “packages” to do new things easier and better. As R users, we “install” the code for these packages into RStudio to make their functions available to us.</p>
-<p>The pièce de résistance of packages is the <a href="https://www.tidyverse.org/">tidyverse</a>, as collection of packages for data science that were all written to work together. Hadley Wickham is one of the main developers. He wrote the book <a href="https://r4ds.had.co.nz/index.html">R for Data Science</a>.</p>
+<p>The pièce de résistance of packages is the <a href="https://www.tidyverse.org/">tidyverse</a>, a collection of packages for data science that were all written to work together. Hadley Wickham is one of the main developers. He wrote the book <a href="https://r4ds.had.co.nz/index.html">R for Data Science</a>.</p>
 <div class="figure">
 <img src="images/hadley.jpg" style="width:90.0%" alt="" />
 <p class="caption">Hadley Wickham holds court at IRE 2019 in Houston</p>
@@ -418,163 +432,75 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
 <li>In your <strong>Console</strong>, run:</li>
 </ul>
 <p><code>install.packages(c("janitor","lubridate"))</code></p>
-<p><a href="https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html">janitor</a> has some data cleaning properties we’ll use. <a href="https://lubridate.tidyverse.org/">lubridate</a> makes dealing with dates and time values a little easier.</p>
+<p><a href="https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html">janitor</a> has some data cleaning properties we’ll use. <a href="https://lubridate.tidyverse.org/">lubridate</a> makes dealing with date and time values a little easier.</p>
 <p>You’ll note we used this <code>c("term1","term1")</code> construction to feed R a combination of items, which you’ll see a lot. The <code>c</code> stands for <strong>combine</strong> and we use it to build collections of things we call <strong>vectors</strong>.</p>
-<p><em>BORING DETAILS:</em> <a href="https://www.tutorialspoint.com/r/r_vectors.htm"><strong>Vectors</strong></a> are collections of elements of like value, like numbers or strings of letters. Everything is a vector in R, really – a single letter in R is a vector with a length of 1. I would say think of vectors like a list of common things, but a <a href="https://www.tutorialspoint.com/r/r_lists.htm">list</a> is a special object of its own, a combination of unlike things.</p>
+<blockquote>
+<p><strong>BORING DETAILS:</strong> <a href="https://www.tutorialspoint.com/r/r_vectors.htm"><strong>Vectors</strong></a> are collections of elements of like value, like numbers or strings of letters. Everything is a vector in R, really – a single letter in R is a vector with a length of 1. Think of vectors like a list of common things, but know a <a href="https://www.tutorialspoint.com/r/r_lists.htm">list</a> is a special object of its own, a combination of unlike things.</p>
+</blockquote>
 </div>
-<div id="section-using-libraries" class="section level3">
-<h3>Using libraries</h3>
-<p>We’re going to start our next RNotebook and set up some of these libraries.</p>
+</div>
+<div id="section-example-r-markdown-document" class="section level2">
+<h2>Example R Markdown document</h2>
+<p>We now want to walk through a full analysis do you can see the power (and reproducibility) of R.</p>
+<ol style="list-style-type: decimal">
+<li>In your same project, create a new <strong>R Notebook</strong> document. (Under the +Document icon).</li>
+<li>Save the file as <code>acc-intakes.Rmd</code>.</li>
+<li>Delete everything inside.</li>
+<li>Go go <a href="https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data-prep/chj-aac/aac-intakes.Rmd">this URL</a> in a browser like Chrome.</li>
+<li>Copy and paste all the contents and put it in your R Notebook. (You should be able to do <strong>Cmd+a</strong> to select all.)</li>
+<li>Once you’ve pasted the code and saved it, do <strong>Cmd+Shift+R</strong> to Run All. (It’s also under the Run menu in the toolbar.)</li>
+</ol>
+<div id="section-austin-animal-center-intakes-analysis" class="section level3">
+<h3>Austin Animal Center Intakes Analysis</h3>
+<p>Hopefully your document ran and you should see all the results and plots. This is an example of a well formatted analysis. (If we have time, we’ll quickly explain what is going on in the data, etc.)</p>
+<p>Here are some things to consider with this example:</p>
 <ul>
-<li>In the first top toolbar icon with the <code>+</code> and document, choose RNotebook.</li>
-<li>In the YAML at the top of the file, change the metadata <strong>title</strong> to “MN Opioid deaths” as that is what we’ll be working with.</li>
-<li>Delete everything after the <code>---</code> on the 4th line.</li>
-<li>Save the file and name it <strong>01-opioid-clean.Rmd</strong>. (We named with <code>01-</code> since this is also the first in a series of notebooks that may work together.)</li>
-<li>Lastly, make sure you have a full blank line after the YAML metadata and add a new code chuck with <em>Cmd+Option+I</em>.</li>
+<li>The Markdown is well formatted. There are blank lines between all elements except list items. This is good for readability in the document and for it to knit properly and beautifully.</li>
+<li>There is an explanation at the top of what the document hopes to accomplish. It includes a link to the original data.</li>
+<li>Each major step is broken down into sections with headlines, subheadlines and text to explain what is being done in the code.</li>
+<li>The R code chunks are named. This helps when you use the bookmark menu at the bottom of the Notebook menu. (Easier to show than explain.)</li>
+<li>There are some comments inside the code where they might help the author or others.</li>
+<li>Inside the R chunks, you’ll notice that some functions have been split into multiple lines so the arguments are easy to follow. RStudio helps you with this with indenting and such.</li>
+<li>When data is summarized or overwritten, it is assigned to a new R object with <code>&lt;-</code>. This way the original data is always available.</li>
 </ul>
-<p>Inside this code chunk we are going to add the libraries we’ll use for this next lesson:</p>
-<div class="sourceCode" id="section-cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="section-cb4-1"><a href="#section-cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="section-cb4-2"><a href="#section-cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span></code></pre></div>
-<p>When you run that chunk of code, you might see this output in your Console:</p>
-<div class="sourceCode" id="section-cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="section-cb5-1"><a href="#section-cb5-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">library</span>(tidyverse)</span>
-<span id="section-cb5-2"><a href="#section-cb5-2" aria-hidden="true" tabindex="-1"></a>package ‘tidyverse’ was built under R version <span class="dv">4</span>.<span class="fl">0.2</span>Registered S3 methods overwritten by <span class="st">&#39;dbplyr&#39;</span><span class="sc">:</span></span>
-<span id="section-cb5-3"><a href="#section-cb5-3" aria-hidden="true" tabindex="-1"></a>  method         from</span>
-<span id="section-cb5-4"><a href="#section-cb5-4" aria-hidden="true" tabindex="-1"></a>  print.tbl_lazy     </span>
-<span id="section-cb5-5"><a href="#section-cb5-5" aria-hidden="true" tabindex="-1"></a>  print.tbl_sql      </span>
-<span id="section-cb5-6"><a href="#section-cb5-6" aria-hidden="true" tabindex="-1"></a>── Attaching packages ─────────────────────────────────────────────── tidyverse <span class="dv">1</span>.<span class="fl">3.0</span> ──</span>
-<span id="section-cb5-7"><a href="#section-cb5-7" aria-hidden="true" tabindex="-1"></a>✓ ggplot2 <span class="dv">3</span>.<span class="fl">3.1</span>     ✓ purrr   <span class="dv">0</span>.<span class="fl">3.4</span></span>
-<span id="section-cb5-8"><a href="#section-cb5-8" aria-hidden="true" tabindex="-1"></a>✓ tibble  <span class="dv">3</span>.<span class="fl">0.1</span>     ✓ dplyr   <span class="dv">1</span>.<span class="fl">0.0</span></span>
-<span id="section-cb5-9"><a href="#section-cb5-9" aria-hidden="true" tabindex="-1"></a>✓ tidyr   <span class="dv">1</span>.<span class="fl">1.0</span>     ✓ stringr <span class="dv">1</span>.<span class="fl">4.0</span></span>
-<span id="section-cb5-10"><a href="#section-cb5-10" aria-hidden="true" tabindex="-1"></a>✓ readr   <span class="dv">1</span>.<span class="fl">3.1</span>     ✓ forcats <span class="dv">0</span>.<span class="fl">5.0</span></span>
-<span id="section-cb5-11"><a href="#section-cb5-11" aria-hidden="true" tabindex="-1"></a>── Conflicts ────────────────────────────────────────────────── <span class="fu">tidyverse_conflicts</span>() ──</span>
-<span id="section-cb5-12"><a href="#section-cb5-12" aria-hidden="true" tabindex="-1"></a>x dplyr<span class="sc">::</span><span class="fu">filter</span>() masks stats<span class="sc">::</span><span class="fu">filter</span>()</span>
-<span id="section-cb5-13"><a href="#section-cb5-13" aria-hidden="true" tabindex="-1"></a>x dplyr<span class="sc">::</span><span class="fu">lag</span>()    masks stats<span class="sc">::</span><span class="fu">lag</span>()</span>
-<span id="section-cb5-14"><a href="#section-cb5-14" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">library</span>(janitor)</span>
-<span id="section-cb5-15"><a href="#section-cb5-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="section-cb5-16"><a href="#section-cb5-16" aria-hidden="true" tabindex="-1"></a>Attaching package<span class="sc">:</span> ‘janitor’</span>
-<span id="section-cb5-17"><a href="#section-cb5-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="section-cb5-18"><a href="#section-cb5-18" aria-hidden="true" tabindex="-1"></a>The following objects are masked from ‘package<span class="sc">:</span>stats’<span class="sc">:</span></span>
-<span id="section-cb5-19"><a href="#section-cb5-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="section-cb5-20"><a href="#section-cb5-20" aria-hidden="true" tabindex="-1"></a>    chisq.test, fisher.test</span></code></pre></div>
-<p>This tells us that tidyverse is a series of packages. Sometimes packages overwrite base R functions. We are good with this.</p>
 </div>
 </div>
-<div id="section-importing-data" class="section level2">
-<h2>Importing data</h2>
-<p>OK, let’s get to some data, shall we?</p>
-<div id="section-importing-with-readr" class="section level3">
-<h3>Importing with readr</h3>
-<p>The tidyverse package <a href="https://readr.tidyverse.org/">readr</a> (included in the tidyverse library) is our workhorse for importing and exporting of data. There are other tidyverse specialty packages for importing and working with data like <a href="https://cran.r-project.org/web/packages/jsonlite/vignettes/json-aaquickstart.html">jsonlite</a> and <a href="%5Breadxl%5D(https://readxl.tidyverse.org/reference/read_excel.html)">readxl</a> and some alternatives like <a href="https://www.rdocumentation.org/packages/rio/">rio</a>.</p>
-<p>The code below shows the <code>read_csv</code> function and runs it so you can see the data.</p>
-<div class="tutorial-exercise" data-label="opioid-read" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
-<pre class="text"><code>read_csv(&quot;https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/mn_opiate_short.csv&quot;)</code></pre>
-<script type="application/json" data-opts-chunk="1">{"fig.width":6.5,"fig.height":4,"fig.retina":2,"fig.align":"default","fig.keep":"high","fig.show":"asis","out.width":624,"warning":true,"error":false,"message":true,"exercise.df_print":"paged","exercise.checker":"NULL"}</script>
-</div>
-<p>When we use <code>read_csv()</code> and give it a path (in quotes), R will print the result below the R chunk. You can click on the arrows and page navigation to peek through the data. In this case, the <em>path</em> was to a small file on the internet. If we were to import a file from our own computer, we would put in a path relative to project directory, perhaps:</p>
-<div class="sourceCode" id="section-cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="section-cb7-1"><a href="#section-cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">&quot;data/chj_mn_opiate_deaths_data.csv&quot;</span>)</span></code></pre></div>
-<p>But all this does is print the data to our screen. For us to be able to use this data later, we need to assign it to an R object. A table like this in R is called a <strong>data frame</strong> (or <strong>tibble</strong> as they are known in the tidyverse, but we still call them data frames). We use the <code>&lt;-</code> assignment operator to assign the data to the object, which we name ourselves.</p>
-<p>We are going to assign the result of the <code>read_csv()</code> command into an object called <code>deaths</code>. We do the operation from right-to-left, so start we start with the newly-named object, and then “fill” it with the data. This takes a bit getting used to, but it makes for readable code down the line. Go ahead and run the code and then we’ll talk about it.</p>
-<div class="tutorial-exercise" data-label="opioid-assign" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
-<pre class="text"><code># read and assign the data
-deaths &lt;- read_csv(&quot;https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/mn_opiate_short.csv&quot;)
-
-# peek at the result
-deaths %&gt;% head()</code></pre>
-<script type="application/json" data-opts-chunk="1">{"fig.width":6.5,"fig.height":4,"fig.retina":2,"fig.align":"default","fig.keep":"high","fig.show":"asis","out.width":624,"warning":true,"error":false,"message":true,"exercise.df_print":"paged","exercise.checker":"NULL"}</script>
-</div>
-<p>The first line of code is the assigning to our data to the data frame called <code>deaths</code>. Since that operation isn’t printing anything to our screen we add another line with the name of the data frame <code>deaths</code> so we can peek at it.</p>
-</div>
-<div id="section-cleaning-up-names" class="section level3">
-<h3>Cleaning up names</h3>
-<p>One thing you might notice in the column above is some of the column names are two words. While it is possible to keep working this way, it is much easier if all our column names are lowercase and multi-word names are connected with underscores <code>_</code>.</p>
-<p>In the process of cleaning these names with the janitor function called <code>clean_names()</code> we’ll also learn about the tidyverse pipe <code>%&gt;%</code>.</p>
-<div class="tutorial-exercise" data-label="opioid-clean" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
-<pre class="text"><code># clean the names and then reassign
-deaths &lt;- read_csv(&quot;https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/mn_opiate_short.csv&quot;) %&gt;%
-  clean_names()
-
-# peek at the top of the updated data frame with head()
-deaths %&gt;%
-  head()</code></pre>
-<script type="application/json" data-opts-chunk="1">{"fig.width":6.5,"fig.height":4,"fig.retina":2,"fig.align":"default","fig.keep":"high","fig.show":"asis","out.width":624,"warning":true,"error":false,"message":true,"exercise.df_print":"paged","exercise.checker":"NULL"}</script>
-</div>
-</div>
-<div id="section-the-tidyverse-pipe" class="section level3">
-<h3>The tidyverse pipe</h3>
-<p>One of the tenets of the tidyverse is the use of the pipe <code>%&gt;%</code> which takes the result of the previous operation and “pipes” it into the next operation. It makes for more readable code than the nested syntax of base R, so much so I don’t even teach nesting.</p>
-<p>When we see the pipe, think of the term “and then”. We are starting with the <code>deaths</code> data frame <strong>and then</strong> limiting that result to just the <code>head()</code> of data frame. If you put a number inside the parenthesis, like <code>head(20)</code> then it will give you that many lines. Try it and run the code again.</p>
+<div id="section-the-tidyverse-pipe" class="section level2">
+<h2>The tidyverse pipe</h2>
+<p>As you look through the example, you’ll notice this character combination <code>%&gt;%</code> at the end of lines in the code chunks.</p>
+<p>The <code>%&gt;%</code> (or “pipe” as it is called) is one of the core tenets of the tidyverse. The pipe takes the result of the previous operation and “pipes” the result into the next operation. It makes for more readable code than the nested syntax of base R, so much so I don’t even teach nesting.</p>
+<p>When we see the pipe, think of the term “and then”. Here is an example:</p>
+<div class="sourceCode" id="section-cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="section-cb4-1"><a href="#section-cb4-1" aria-hidden="true" tabindex="-1"></a>intakes <span class="sc">%&gt;%</span> </span>
+<span id="section-cb4-2"><a href="#section-cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div>
+<p>We are starting with the <code>intakes</code> data frame <strong>and then</strong> limiting that result to just the <code>head()</code> (or top) of data frame. The default number of lines for <code>head()</code> is six but you can specify how many lines you want by putting a number inside the parenthesis, like <code>head(20)</code>.</p>
 <p>A couple of things about the pipe:</p>
 <ul>
-<li>The <code>%&gt;%</code> has to be on the same line as the data it receives.</li>
-<li>In complicated strings of code, you can add a return <em>after</em> the pipe, then the next line will be indented to indicate it is a continuation. So you’ll often see a pipe at the end of a line, like in our examples above.</li>
+<li>The <code>%&gt;%</code> has to be on the same line of code that is “pushing” from.</li>
+<li>In complicated strings of code, you can add a return <em>after</em> the pipe, then the next line will be indented to indicate it is a continuation. So you’ll often see a pipe at the end of a line, like in our examples above. (I do this more often than not.)</li>
 <li>In RStudio you can use the keyboard command <em>Cmd+shift+m</em> type the pipe. Unfortunately keyboard commands don’t work inside the online tutorials.</li>
 </ul>
 </div>
-<div id="section-update-your-project-with-deaths" class="section level3">
-<h3>Update your project with deaths</h3>
-<p>Take a moment to go into your own <code>01-opioid-deaths.Rmd</code> RNotebook and add a code chuck (<em>Cmd+Option+I</em>) and <em>type</em> the code below. (I ask that you type the code instead of copy/paste so you can get used to using <em>Cmd+shift+m</em> for the pipe and <em>Cmd+-</em> for the assigning operaror. You’ll also make mistakes and have to fix them. It helps the learning process.)</p>
-<blockquote>
-<p>Update to main branch</p>
-</blockquote>
-<div class="sourceCode" id="section-cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="section-cb10-1"><a href="#section-cb10-1" aria-hidden="true" tabindex="-1"></a>deaths <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/mn_opiate_short.csv&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="section-cb10-2"><a href="#section-cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>()</span>
-<span id="section-cb10-3"><a href="#section-cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="section-cb10-4"><a href="#section-cb10-4" aria-hidden="true" tabindex="-1"></a>deaths <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
-<p>Above the code chunk, write text in your own words to describe what is happening in the code chunk. These kind of annotations are as important to your future self as anyone else.</p>
-<p>When you assign the data to the <code>deaths</code> data frame, you’ll notice that the object shows up in your <strong>Environment</strong> tab at the top right of RStudio. Any object you create is “saved” into the environment to use later.</p>
-<div class="figure">
-<img src="images/intro-environment.png" style="width:60.0%" alt="" />
-<p class="caption">Environment pane</p>
-</div>
-<blockquote>
-<p>Take a break here to let everyone catch up.</p>
-</blockquote>
-</div>
-</div>
-<div id="section-exploring-data" class="section level2">
-<h2>Exploring data</h2>
-<p>OK, now we have data imported, but what is in it? One way to get a quick look at the field names and data types is with <code>summary()</code>. We’ll again use our pipe, though on one line. (These examples assume <code>deaths</code> is already in your environment.)</p>
-<div class="tutorial-exercise-support" data-label="prep-explore" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
-<pre class="text"><code>deaths &lt;- read_csv(&quot;https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/mn_opiate_short.csv&quot;) %&gt;% clean_names()</code></pre>
-</div>
-<div class="tutorial-exercise" data-label="explore-summary" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
-<pre class="text"><code>deaths %&gt;% summary()</code></pre>
-<script type="application/json" data-opts-chunk="1">{"fig.width":6.5,"fig.height":4,"fig.retina":2,"fig.align":"default","fig.keep":"high","fig.show":"asis","out.width":624,"warning":true,"error":false,"message":false,"exercise.df_print":"paged","exercise.setup":"prep-explore","exercise.checker":"NULL"}</script>
-</div>
-<p>For each column you’ll see the data type (which is an important lesson for tomorrow) and some other data. Look specifically at <code>age_years</code> which is a number data type. The summary gives you some basic stats about the collection of numbers in that column.</p>
-<p>One thing <code>summary()</code> is useful for is to see if all your data types are correct. If you browse through this list and the head of the data from the code block above, is there anything out of whack? Are all the numbers really numbers? Are the dates really dates?</p>
-<p>Another handy way to look at your data is through <code>glimpse()</code>. This shows you the names, the data type and some examples from the data, all in one.</p>
-<div class="tutorial-exercise" data-label="explore-glimpse" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
-<pre class="text"><code>deaths %&gt;% glimpse()</code></pre>
-<script type="application/json" data-opts-chunk="1">{"fig.width":6.5,"fig.height":4,"fig.retina":2,"fig.align":"default","fig.keep":"high","fig.show":"asis","out.width":624,"warning":true,"error":false,"message":false,"exercise.df_print":"paged","exercise.setup":"prep-explore","exercise.checker":"NULL"}</script>
-</div>
-<p>With this look, we can see we have <code>birth_date</code> and <code>death_date</code> which are stored as <chr> (text) instead of a real date datatype. We’ll fix that in the Day 2 lesson.</p>
-</div>
 <div id="section-getting-help" class="section level2">
 <h2>Getting help</h2>
-<p>We have used a ton of R “verbs” as we call the functions … probably too many to remember, and there are more to come. Let’s talk briefly about how you can get help with how things work in R.</p>
+<p>Our example used a ton of R “verbs” as we call the functions … probably too many to remember, and there are more to come. Let’s talk briefly about how you can get help with how things work in R.</p>
 <p>One way is through the built-in <strong>Help</strong> function within RStudio. If you look at the pane at the bottom-right of RStudio, you’ll see tabs for “Files”, “Plots”, “Packages” and “Help”. Click on the **Help* tab.</p>
-<p>You can type in a function or part of a function and get a list of items. If you search for “glimpse” you’ll see two returns, and you can click on the link for <strong>tibble::glimpse</strong> to get more information about how to use the function with some examples toward the bottom.</p>
-<div class="figure">
-<img src="images/intro-help-glimpse.png" style="width:60.0%" alt="" />
-<p class="caption">Help for glimpse</p>
-</div>
+<p>You can type in a function or part of a function and get a list of items. If you search for “count” and hit return you’ll get documentation on how to use it. It takes some getting used to in reading the docs, but the examples at the bottom are often useful.</p>
 <div id="section-good-googling" class="section level3">
 <h3>Good Googling</h3>
-<p>Another way to get help is to Google for it, but that can be an art, especially there are other data science languates and programs with similar terms as R. It helps to use “in R”. Some other tips:</p>
+<p>Another way to get help is to Google for it, but that can be an art, especially since there are other data science languages and programs with similar terms as R. Some tips:</p>
 <ul>
 <li>Use “in R” in your search: <em>How to merge data frames in R</em></li>
-<li>Use the name of the package <em>if you now it: Add labels with ggplot</em></li>
+<li>Use the name of the package if you now it: <em>Add labels with ggplot</em></li>
 <li>Use “tidyverse” if appropriate: <em>convert text to date with tidyverse</em></li>
 </ul>
-<p>There are plenty of StackOverflow answers along with different tutorials from blogs and such. It is a well-used language, so there are lots of answers to help. Too many, sometimes.</p>
+<p>There are plenty of Stack Overflow answers along with different tutorials from blogs and such. It is a well-used language, so there are lots of answers to help. Too many, sometimes.</p>
 </div>
 <div id="section-tidyverse-docs-and-cheatsheets" class="section level3">
 <h3>Tidyverse docs and cheatsheets</h3>
 <p>It is worth becoming familiar with the <a href="https://www.tidyverse.org/">tidyverse</a> site. Click on each icon from the home page to learn what each package does. R is also big on <a href="https://rstudio.com/resources/cheatsheets/">cheatsheets</a>, which are printable pages that go through all the verbs. They can be a bit much at first, but useful once you use R more.</p>
-<p>We’ll try to put together a list of other resources and tutorials. You can find some <a href="https://docs.google.com/document/d/1slMdrTLfxYt0mZO1G_Wlz1cOcGjCdgiJr7wzpcU9n1Y/edit?usp=sharing">I’ve collected already here</a>.</p>
+<p>We’ll try to put together a list of other resources and tutorials. You can find some <a href="https://docs.google.com/document/d/1slMdrTLfxYt0mZO1G_Wlz1cOcGjCdgiJr7wzpcU9n1Y/edit?usp=sharing">I’ve collected already hxere</a>.</p>
 <hr />
-<p>We’ll end here for today.</p>
+<p>We’ll end here for this session.</p>
 
 <script type="application/shiny-prerendered" data-context="server-start">
 library(tidyverse)
@@ -587,7 +513,7 @@ deaths <- read_csv("data/chj_mn_opiate_deaths_data.csv")
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::register_http_handlers(session, metadata = list(id = "chj-r-introduction/day1", version = 0.9))
+learnr:::register_http_handlers(session, metadata = list(id = "chj-r-introduction/chj-day1-p1", version = 0.9))
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
@@ -602,44 +528,9 @@ output$`tutorial-exercise-two-plus-two-output` <- renderUI({
   `tutorial-exercise-two-plus-two-result`()
 })
 </script>
- 
-<script type="application/shiny-prerendered" data-context="server">
-`tutorial-exercise-opioid-read-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-opioid-read-code-editor`)), session)
-output$`tutorial-exercise-opioid-read-output` <- renderUI({
-  `tutorial-exercise-opioid-read-result`()
-})
-</script>
- 
-<script type="application/shiny-prerendered" data-context="server">
-`tutorial-exercise-opioid-assign-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-opioid-assign-code-editor`)), session)
-output$`tutorial-exercise-opioid-assign-output` <- renderUI({
-  `tutorial-exercise-opioid-assign-result`()
-})
-</script>
- 
-<script type="application/shiny-prerendered" data-context="server">
-`tutorial-exercise-opioid-clean-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-opioid-clean-code-editor`)), session)
-output$`tutorial-exercise-opioid-clean-output` <- renderUI({
-  `tutorial-exercise-opioid-clean-result`()
-})
-</script>
- 
-<script type="application/shiny-prerendered" data-context="server">
-`tutorial-exercise-explore-summary-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-explore-summary-code-editor`)), session)
-output$`tutorial-exercise-explore-summary-output` <- renderUI({
-  `tutorial-exercise-explore-summary-result`()
-})
-</script>
- 
-<script type="application/shiny-prerendered" data-context="server">
-`tutorial-exercise-explore-glimpse-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-explore-glimpse-code-editor`)), session)
-output$`tutorial-exercise-explore-glimpse-output` <- renderUI({
-  `tutorial-exercise-explore-glimpse-result`()
-})
-</script>
  <!--html_preserve-->
 <script type="application/shiny-prerendered" data-context="dependencies">
-{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["header-attrs"]},{"type":"character","attributes":{},"value":["2.10"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/pandoc"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["header-attrs.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.10"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["jquery"]},{"type":"character","attributes":{},"value":["1.11.3"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/jquery"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["jquery.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.10"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["bootstrap"]},{"type":"character","attributes":{},"value":["3.3.5"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/bootstrap"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["viewport"]}},"value":[{"type":"character","attributes":{},"value":["width=device-width, initial-scale=1"]}]},{"type":"character","attributes":{},"value":["js/bootstrap.min.js","shim/html5shiv.min.js","shim/respond.min.js"]},{"type":"character","attributes":{},"value":["css/lumen.min.css"]},{"type":"character","attributes":{},"value":["<style>h1 {font-size: 34px;}\n       h1.title {font-size: 38px;}\n       h2 {font-size: 30px;}\n       h3 {font-size: 24px;}\n       h4 {font-size: 18px;}\n       h5 {font-size: 16px;}\n       h6 {font-size: 12px;}\n       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}\n       pre:not([class]) { background-color: white }<\/style>"]},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.10"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["pagedtable"]},{"type":"character","attributes":{},"value":["1.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/pagedtable-1.1"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["js/pagedtable.js"]},{"type":"character","attributes":{},"value":["css/pagedtable.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.10"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial"]},{"type":"character","attributes":{},"value":["0.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/tutorial"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial.js"]},{"type":"character","attributes":{},"value":["tutorial.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial-autocompletion"]},{"type":"character","attributes":{},"value":["0.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/tutorial"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial-autocompletion.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial-diagnostics"]},{"type":"character","attributes":{},"value":["0.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/tutorial"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial-diagnostics.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial-format"]},{"type":"character","attributes":{},"value":["0.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmarkdown/templates/tutorial/resources"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial-format.js"]},{"type":"character","attributes":{},"value":["tutorial-format.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["jquery"]},{"type":"character","attributes":{},"value":["1.11.3"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/jquery"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["jquery.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.10"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["navigation"]},{"type":"character","attributes":{},"value":["1.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/navigation-1.1"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tabsets.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.10"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["highlightjs"]},{"type":"character","attributes":{},"value":["9.12.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/highlightjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["highlight.js"]},{"type":"character","attributes":{},"value":["default.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.10"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["jquery"]},{"type":"character","attributes":{},"value":["1.11.3"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/jquery"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["jquery.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.10"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["font-awesome"]},{"type":"character","attributes":{},"value":["5.1.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/fontawesome"]}]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["css/all.css","css/v4-shims.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.10"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["bootbox"]},{"type":"character","attributes":{},"value":["4.4.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/bootbox"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["bootbox.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["idb-keyvalue"]},{"type":"character","attributes":{},"value":["3.2.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/idb-keyval"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["idb-keyval-iife-compat.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial"]},{"type":"character","attributes":{},"value":["0.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/tutorial"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial.js"]},{"type":"character","attributes":{},"value":["tutorial.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial-autocompletion"]},{"type":"character","attributes":{},"value":["0.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/tutorial"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial-autocompletion.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial-diagnostics"]},{"type":"character","attributes":{},"value":["0.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/tutorial"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial-diagnostics.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.2.6"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["1.5.15"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.2.6"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["1.5.15"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.2.6"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["1.5.15"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.2.6"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["1.5.15"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.2.6"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["1.5.15"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.2.6"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["1.5.15"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]}]}
+{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["header-attrs"]},{"type":"character","attributes":{},"value":["2.10"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/pandoc"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["header-attrs.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.10"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["jquery"]},{"type":"character","attributes":{},"value":["1.11.3"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/jquery"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["jquery.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.10"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["bootstrap"]},{"type":"character","attributes":{},"value":["3.3.5"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/bootstrap"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["viewport"]}},"value":[{"type":"character","attributes":{},"value":["width=device-width, initial-scale=1"]}]},{"type":"character","attributes":{},"value":["js/bootstrap.min.js","shim/html5shiv.min.js","shim/respond.min.js"]},{"type":"character","attributes":{},"value":["css/lumen.min.css"]},{"type":"character","attributes":{},"value":["<style>h1 {font-size: 34px;}\n       h1.title {font-size: 38px;}\n       h2 {font-size: 30px;}\n       h3 {font-size: 24px;}\n       h4 {font-size: 18px;}\n       h5 {font-size: 16px;}\n       h6 {font-size: 12px;}\n       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}\n       pre:not([class]) { background-color: white }<\/style>"]},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.10"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["pagedtable"]},{"type":"character","attributes":{},"value":["1.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/pagedtable-1.1"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["js/pagedtable.js"]},{"type":"character","attributes":{},"value":["css/pagedtable.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.10"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial"]},{"type":"character","attributes":{},"value":["0.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/tutorial"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial.js"]},{"type":"character","attributes":{},"value":["tutorial.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial-autocompletion"]},{"type":"character","attributes":{},"value":["0.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/tutorial"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial-autocompletion.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial-diagnostics"]},{"type":"character","attributes":{},"value":["0.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/tutorial"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial-diagnostics.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial-format"]},{"type":"character","attributes":{},"value":["0.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmarkdown/templates/tutorial/resources"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial-format.js"]},{"type":"character","attributes":{},"value":["tutorial-format.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["jquery"]},{"type":"character","attributes":{},"value":["1.11.3"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/jquery"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["jquery.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.10"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["navigation"]},{"type":"character","attributes":{},"value":["1.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/navigation-1.1"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tabsets.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.10"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["highlightjs"]},{"type":"character","attributes":{},"value":["9.12.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/highlightjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["highlight.js"]},{"type":"character","attributes":{},"value":["default.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.10"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["jquery"]},{"type":"character","attributes":{},"value":["1.11.3"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/jquery"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["jquery.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.10"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["font-awesome"]},{"type":"character","attributes":{},"value":["5.1.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/fontawesome"]}]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["css/all.css","css/v4-shims.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.10"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["bootbox"]},{"type":"character","attributes":{},"value":["4.4.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/bootbox"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["bootbox.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["idb-keyvalue"]},{"type":"character","attributes":{},"value":["3.2.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/idb-keyval"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["idb-keyval-iife-compat.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial"]},{"type":"character","attributes":{},"value":["0.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/tutorial"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial.js"]},{"type":"character","attributes":{},"value":["tutorial.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial-autocompletion"]},{"type":"character","attributes":{},"value":["0.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/tutorial"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial-autocompletion.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial-diagnostics"]},{"type":"character","attributes":{},"value":["0.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/tutorial"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial-diagnostics.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.2.6"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["1.5.15"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]}]}
 </script>
 <!--/html_preserve-->
 <!--html_preserve-->
