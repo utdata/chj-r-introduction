@@ -1,0 +1,117 @@
+---
+title: "APD Pot Arrests"
+output: html_notebook
+---
+
+```{r setup}
+library(tidyverse)
+library(janitor)
+library(readxl)
+```
+
+## Download the data
+
+```{r download}
+# download arrests file
+download.file("https://raw.githubusercontent.com/utdata/chj-r-introduction/main/chj-day1-p2/data-raw/APD_marijuana_arrests_2016-2020_data.xlsx", "data-raw/apd-pot-arrests.xlsx")
+```
+
+
+## Importing from Excel
+
+These are the steps outlined as they are in lesson, but the chunk called `{r read-arrests}` is the finished one.
+
+### First import try
+
+```{r read}
+read_excel(
+  "data-raw/apd-pot-arrests.xlsx"
+)
+```
+
+### Adding the sheet designation
+
+```{r read-sheet}
+read_excel(
+  "data-raw/apd-pot-arrests.xlsx",
+  sheet = "Results"
+)
+```
+
+
+### Add the column types
+
+```{r read-types}
+read_excel(
+  "data-raw/apd-pot-arrests.xlsx",
+  sheet = "Results",
+  col_types = c(
+    "text",
+    "guess",
+    "guess",
+    "guess",
+    "guess",
+    "guess",
+    "text",
+    "guess",
+    "guess"
+    )
+  ) %>% 
+  glimpse()
+```
+
+### Clean the names
+
+```{r read-clean}
+read_excel(
+  "data-raw/apd-pot-arrests.xlsx",
+  sheet = "Results",
+  col_types = c(
+    "text",
+    "guess",
+    "guess",
+    "guess",
+    "guess",
+    "guess",
+    "text",
+    "guess",
+    "guess"
+    )
+  ) %>% 
+  clean_names() %>% 
+  glimpse()
+```
+
+### Save into the arrests object
+
+```{r read-arrests}
+arrests <- read_excel(
+  "data-raw/apd-pot-arrests.xlsx",
+  sheet = "Results",
+  col_types = c(
+    "text",
+    "guess",
+    "guess",
+    "guess",
+    "guess",
+    "guess",
+    "text",
+    "guess",
+    "guess"
+    )
+  ) %>% 
+  clean_names()
+
+arrests %>% 
+  glimpse()
+```
+
+## Export the data
+
+This writes out the fixed data.
+
+```{r export}
+arrests %>% write_rds("data-processed/apd-pot-arrests.rds")
+```
+
+

@@ -114,7 +114,7 @@ You should consider each R project as a self-contained unit. Each R session shou
 
 For this class, we will almost always use R Notebooks. This format allows us to write text in between our blocks of code. The text is written in a language called [R Markdown](https://R Markdown.rstudio.com/lesson-1.html), a juiced-up version of the common documentation syntax used by programmers, Markdown. It's not hard to learn.
 
-### Create your first notebook
+### Create your first R Notebook
 
 1. Click on the button at the top-left of RStudio that has just the green `+` sign with a document behind it.
 1. Choose the item **R Notebook**.

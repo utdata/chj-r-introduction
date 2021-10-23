@@ -43,7 +43,7 @@ In this section we'll cover:
 
 Typically you create an new R project for each "subject" you are working on. You might use more than one dataset and have multiple notebooks, but they should all be related.
 
-(We'll break that convention today by mixing unrelated data, but our "subject" here is to learn about importing data so it is all kinda related.)
+(We'll break that convention today by mixing unrelated data, but our "subject" here is learning so it is all kinda related.)
 
 We want to be careful not to overwrite our original data, so I create a folder to keep all original data and then another to hold all the data files I create. This might be a little anal-retentive, but that is a good trait for a data journalist.
 
@@ -56,7 +56,7 @@ We'll now set up a new project and R Notebook and load some libraries.
 1. Make sure you have RStudio open, but close any open projects using File > Close Project. Save your work if asked.
 1. Select the second toolbar icon +R to create a new project (Or File > New project).
 1. Choose **New Directory**, then **New Project**.
-1. For the directory name, call it `chj-imports`.
+1. For the directory name, call it `chj-inclass`.
 1. You shouldn't have to update the "subdirectory of" part, but if you do you should **Browse** to the `chj` folder we created earlier and set that.
 
 This will create a new R project. Now, within this project we will create folders for our data.
@@ -65,14 +65,14 @@ This will create a new R project. Now, within this project we will create folder
 2. Create a folder called `data-raw`. It should default to save in your `chj-imports` project folder.
 3. Create another folder called `data-processed`. Again, it should be in your project folder.
 
-![Folder strucdture](images/folder-structure.png)
+![Folder structure](images/folder-structure.png)
 
 ### In RStudio: Start up a notebook
 
 - In the first top toolbar icon with the `+` and document, choose R Notebook.
 - In the YAML at the top of the file, change the metadata **title** to "MN Opioid deaths" as that is what we'll be working with.
 - Delete everything after the `---` on the 4th line.
-- Save the file and name it **01-opioid-clean.Rmd**. (We named with `01-` since this is also the first in a series of notebooks that may work together.)
+- Save the file and name it **opioids.Rmd**.
 
 ## Using libraries
 
@@ -91,11 +91,6 @@ When you load the library, you do NOT put quotes around the name. Let's add our 
 Your file should look like this:
 
 ![Library setup](images/opioid-setup.png)
-
-```{r}
-library(tidyverse)
-library(janitor)
-```
 
 When you run that chunk of code, you might see this output in your Console:
 
@@ -133,23 +128,24 @@ OK, let's get to some data, shall we?
 
 The tidyverse package [readr](https://readr.tidyverse.org/) (included in the tidyverse library) is our workhorse for importing and exporting of data. There are other tidyverse specialty packages for importing and working with data like [jsonlite](https://cran.r-project.org/web/packages/jsonlite/vignettes/json-aaquickstart.html) and [readxl]([readxl](https://readxl.tidyverse.org/reference/read_excel.html)) and some alternatives like  [rio](https://www.rdocumentation.org/packages/rio/).
 
-The code below shows the `read_csv` function and runs it so you can see the data.
+> The code below shows the `read_csv` function and runs it so you can see the data. Don't add this to your notebook, just run it here on the site.
 
 ```{r opioid-read, exercise=T}
 read_csv("https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/mn_opiate_short.csv")
 ```
 
-When we use `read_csv()` and give it a path (in quotes), R will print the result below the R chunk. You can click on the arrows and page navigation to peek through the data. In this case, the _path_ is to a small file on the internet. If we were to import a file from our own computer, we would put in a path relative to project directory, perhaps:
+When we use `read_csv()` and give it a path (in quotes), R will print the result below the R chunk. You can click on the arrows and page through the columns and rows to peek through the data. In this case above, the _path_ is to a sample file on the internet. If we were to import a file from our own computer, we would put in a path relative to project directory, perhaps:
 
 ```{r read_fake, exercise = F, echo=T, eval=F}
+# this is just an example
 read_csv("data-raw/chj_mn_opiate_deaths_data.csv")
 ```
 
-But all this does is print the data to our screen. For us to be able to use this data later, we need to assign it to an R object. A table like this in R is called a **data frame** or (**tibble** as they are known in the tidyverse). We use the `<-` assignment operator to assign the data to the object, which we name ourselves.
+But all this does is print the data to our screen. For us to be able to use this data later, we need to assign it to an R object. A table like this in R is called a **data frame** or **tibble** (as they are known in the tidyverse). We use the `<-` assignment operator to assign the data to the object. We choose what to name the new object, and they should be one word or words_with_underscores or words-with-dashes. Use a descriptive name, not `my_data`.
 
 We are going to assign the result of the `read_csv()` command into an object called `deaths`. We **name the new object first** then "fill" it with the data. This takes a bit getting used to, but it makes for more readable code down the line. Go ahead and run the code and then we'll talk about it.
 
-> For our tutorial examples, we have to import our files direct from the internet. When you do this on your own, you'll access the relative path like outlined above.
+> Again, run this in the tutorial here. We'll do this in your notebook in a minute.
 
 ```{r opioid-assign, exercise=T}
 # read and assign the data
@@ -174,11 +170,13 @@ If we run this chunk with those two lines, we would save all the content into `d
 
 ### Cleaning up names
 
-One thing you might notice in the column above is some of the column names are two words. While it is possible to keep working this way, it is much easier if all our column names are lowercase and multi-word names are connected with underscores `_`.
+One thing you might notice in the data above is some of the column names are two words. While it is possible to keep working this way, it is much easier if all our column names are lowercase and multi-word names are connected with underscores `_`.
 
 We'll "clean" our column names using a function in the [janitor package](http://sfirke.github.io/janitor/) called `clean_names()`.
 
 As we do this it illustrates another point: While our code chunks may end up being multiple lines, we _build_ them one line at a time, often editing to make additional changes.
+
+> Just run this in the tutorial
 
 ```{r opioid-clean, exercise=TRUE}
 # clean the names and then reassign
@@ -189,6 +187,8 @@ deaths <- read_csv("https://raw.githubusercontent.com/utdata/chj-r-introduction/
 deaths %>%
   head()
 ```
+
+Now look at the columns names. They are nice and tidy, like `first_name`.
 
 
 ### In RStudio: Download and Import deaths
@@ -202,9 +202,9 @@ We will use the [`download.file()`](https://www.rdocumentation.org/packages/util
 
 1. Go into your own `01-opioid-deaths.Rmd` RNotebook and add a Markdown headline that you are downloading data. Like this: `## Downloading opioid deaths data`. Make sure you have blank lines above and below the headline.
 2. Use **Cmd+Option+i** to add a new code chunk
-3. Insert the following code and run it, then I'll explain it.
+3. Copy/paste the following code and run it, then I'll explain it.
 
-```{r opioid-download, echo=T, eval=F}
+```r
 download.file(
   "https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/chj_mn_opiate_deaths_data.csv",
   "data-processed/opioid_deaths.csv"
@@ -223,8 +223,8 @@ Work this out one part at a time so you see how the process happens:
 2. Then add the `clean_names()` function and run it again.
 3. Then assign it to `deaths` and pipe it into `head()` and run it.
 
-```{r your_project, eval=F, echo=T}
-deaths <- read_csv("https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/mn_opiate_short.csv") %>%
+```r
+deaths <- read_csv("data-raw/opioid_deaths.csv") %>%
   clean_names()
 
 deaths %>% head()
@@ -235,8 +235,7 @@ Here is what it looks like when I'm working this out. I use my **tab** and arrow
 
 ![Import data](images/import-opioids.gif){width=90%}
 
-
-Now that you have the code, above the code chunk, write text in your own words to describe what is happening in the code chunk. These kind of annotations are as important to your future self as anyone else.
+1. Now that you have the code, above the code chunk, write text in your own words to describe what is happening in the code chunk. These kind of annotations are as important to your future self as anyone else.
 
 When you assign the data to the `deaths` data frame, you'll notice that the object shows up in your **Environment** tab at the top right of RStudio. Any object you create is "saved" into the environment to use later.
 
@@ -280,7 +279,7 @@ The Min and Max values can also be useful, telling you the earliest and latest d
 
 ### In RStudio: Explore your data
 
-In your notebook:
+In your opioids notebook:
 
 1. Add an R chunk to glimpse your full data set.
 2. Add another chunk to get summary statistics.
@@ -294,7 +293,7 @@ As noted when we started this session, you can import data from any number of fo
 
 Since readxl is part of the tidyverse, it works similar to other packages.
 
-The function to import  is `read_excel()` can take a number of arguments:
+The function to import is `read_excel()` and it can take a number of arguments:
 
 - The first argument (required) is the path to the file. This is in quotes.
 - `sheet = ` is an optional argument to name which sheet to pull from the document. The default is the first sheet.
@@ -310,9 +309,9 @@ We can't show how this works interactively, so we'll just have you set this up a
 2. Start a new R Notebook. Save it as `arrests.Rmd`.
 3. Update your Notebook title to something like "APD Pot Arrests".
 4. In your Console, install the readxl package: `install.packages("readxl")`.
-1. Add a chunk and load libraries for tidyverse, readxl, janitor.
+1. Add an R chunk and load libraries for tidyverse, readxl and janitor.
 1. In Markdown, add a section that says you are downloading the data.
-1. Add an R chunk with the following:
+1. Add an R chunk and copy/paste the following:
 
 ```r
 # download arrests file
@@ -321,13 +320,15 @@ download.file("https://raw.githubusercontent.com/utdata/chj-r-introduction/main/
 
 - This downloads the file from the internet into your `data-raw` folder and then names the file as `apd-pot-arrests.xlsx`. Note the file path and name are together.
 
+This spreadsheet is the response for an open records request to the Austin Police Department for marijuana arrests.
+
 This is what the data looks like in Excel:
 
 ![Peek at file](images/excel-pot-peek.png){width=90%}
 
 A couple of things to note about this file:
 
-- The data is in a sheet names **Results**. We have to specify that sheet or we'll get the **Summary** sheet by default.
+- The data is in a sheet named **Results**. We have to specify that sheet or we'll get the first **Summary** sheet by default.
 - If we do not specify column types, then we'll have problems. We'll walk through that.
 
 ### In RStudio: First import try
@@ -341,7 +342,9 @@ read_excel(
 )
 ```
 
-- You'll see here we are importing the **Summary** tab, which doesn't work for us.
+- You'll see in the result that we are importing the **Summary** tab from the spreadsheet, which doesn't work for us.
+
+![Summary tab results](images/excel-summary-tab.png)
 
 ### In RStudio: Add the sheet value
 
@@ -369,7 +372,7 @@ This is telling us that the first column has errors, though I admit it is not ve
 
 The second tab is the table that is returned. It did import, just with the problems noted above.
 
-If you tab through the columns in the table, you'll note another issue: **The ZIP is imported as a number**. Not a big issue in Texas, but a real problem for ZIPs that start with zero. We need to change that to text. Always convert ZIPs to text. We'll do that when we fix the arrest ID.
+If you tab through the columns in the table, you'll note another issue: **The ZIP is imported as a number**. Not a big issue in Texas, but a real problem on the East Coast for ZIPs that start with zero. We need to change that to text. Always convert ZIPs to text. We'll do that when we fix the arrest ID.
 
 ### In RStudio: Fix column types
 
@@ -400,7 +403,11 @@ The `col_type()` argument/function works two ways: We can either change all the 
 
 We set these column types based on their order in the data. The first and seventh field should be "text". We just use "guess" for the rest of them because they were OK.
 
-The glimpse allows us to see the results in an easy way. We'll have to remove that later.
+Here is what the glimpse looked like for me:
+
+![Arrests glimpse](images/excel-arrests-glimpse.png)
+
+The glimpse allows us to see the results in an easy way. **We'll have to move that later.**
 
 ### In RStudio: Clean the names
 
@@ -459,7 +466,7 @@ arrests %>%
   glimpse()
 ```
 
-### In RStudio: Write out the data
+### In RStudio: Export the data
 
 R has a filetype called `.rds` that saves data types. This is useful because after we clean our data, we can save it to our computer in a format that will import cleanly in future notebooks.
 
@@ -472,16 +479,19 @@ We'll save this clean data so we can use it later.
 arrests %>% write_rds("data-processed/apd-pot-arrests.rds")
 ```
 
+After you run this you should use your **Files** explorer at bottom right to peek inside your `data-processed` folder to make sure the data was written there.
+
 We may use this data in a future lesson.
 
 ## Other importing packages
 
-As noted earlier, there are other packages like that read in data of different types and from different sources.
+As noted earlier, there are other packages like that read in data of different types and from different sources. To many to list them all, but a couple of notes:
 
-[rio](https://cran.r-project.org/web/packages/rio/vignettes/rio.html) is a package/library designed to simplify importing and exporting data. We are going to stick with the tidyverse readr and readxl libraries, but rio is worth exploring.
-
-There are also packages developed for specific Application Programming Interfaces (APIs) like the U.S. Census bureau ([tidycensus](https://walker-data.com/tidycensus/index.html), [censusapi](https://www.hrecht.com/censusapi/), [tigris](https://github.com/walkerke/tigris)) or [Socrata](https://github.com/Chicago/RSocrata).
+- [rio](https://cran.r-project.org/web/packages/rio/vignettes/rio.html) is a package/library designed to simplify importing and exporting common data types. We are going to stick with the tidyverse readr and readxl libraries, but rio is worth exploring.
+- There are also packages developed for specific Application Programming Interfaces (APIs) like the U.S. Census bureau ([tidycensus](https://walker-data.com/tidycensus/index.html), [censusapi](https://www.hrecht.com/censusapi/), [tigris](https://github.com/walkerke/tigris)) or [Socrata](https://github.com/Chicago/RSocrata).
 
 ## On your own
 
-We've put together some exercises to practice importing and exporting data.
+We've put together [some exercises to practice](https://github.com/utdata/chj-r-introduction/blob/main/students/day1-p2-practice.md) importing and exporting data. They will build on each other each day.
+
+
