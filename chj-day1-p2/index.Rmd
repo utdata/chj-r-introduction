@@ -19,6 +19,7 @@ library(lubridate)
 library(readxl)
 knitr::opts_chunk$set(echo = FALSE)
 
+
 # deaths <- read_csv("data-raw/chj_mn_opiate_deaths_data.csv") %>% clean_names()
 # 
 # deaths_clean <- deaths %>%
@@ -29,6 +30,8 @@ knitr::opts_chunk$set(echo = FALSE)
 #   )
 
 ```
+
+## Goals for this section
 
 In this section we'll cover:
 
@@ -230,7 +233,7 @@ deaths %>% head()
 
 Here is what it looks like when I'm working this out. I use my **tab** and arrow keys to autocomplete function names and paths. I'm using keyboard shortcuts for pipes and assignments.
 
-![Import data](images/import-opioids.gif)
+![Import data](images/import-opioids.gif){width=90%}
 
 
 Now that you have the code, above the code chunk, write text in your own words to describe what is happening in the code chunk. These kind of annotations are as important to your future self as anyone else.
@@ -279,13 +282,11 @@ The Min and Max values can also be useful, telling you the earliest and latest d
 
 In your notebook:
 
-1. Add an R chunk to glimpse your full data set
+1. Add an R chunk to glimpse your full data set.
 2. Add another chunk to get summary statistics.
 3. After inspecting the results, write in Markdown any notes about what you might need to fix in this data.
 
-After you have added the above, you can close this notebook but don't close the project. We'll return to this notebook in a latter lesson.
-
-We'll start a new notebook here directly.
+After you have added the above, you can close this notebook but don't close the project. We'll return to this notebook in a later lesson.
 
 ## Importing Excel
 
@@ -301,16 +302,186 @@ The function to import  is `read_excel()` can take a number of arguments:
 
 You can also [specify cell ranges](https://readxl.tidyverse.org/articles/sheet-geometry.html) and such.
 
-We'll run an example here, then have you try it.
+We can't show how this works interactively, so we'll just have you set this up and run it locally.
 
-```{r read-excel, exercise = T}
-read_excel("https://raw.githubusercontent.com/utdata/chj-r-introduction/main/chj-day1-p2/data-raw/APD_marijuana_arrests_2016-2020_data.xlsx")
+### In RStudio: Create a new R Notebook
+
+1. Close your opioids notebook but don't close the project. (You can just save, then use the `x` next to the file name in the document tab.)
+2. Start a new R Notebook. Save it as `arrests.Rmd`.
+3. Update your Notebook title to something like "APD Pot Arrests".
+4. In your Console, install the readxl package: `install.packages("readxl")`.
+1. Add a chunk and load libraries for tidyverse, readxl, janitor.
+1. In Markdown, add a section that says you are downloading the data.
+1. Add an R chunk with the following:
+
+```r
+# download arrests file
+download.file("https://raw.githubusercontent.com/utdata/chj-r-introduction/main/chj-day1-p2/data-raw/APD_marijuana_arrests_2016-2020_data.xlsx", "data-raw/apd-pot-arrests.xlsx")
 ```
 
+- This downloads the file from the internet into your `data-raw` folder and then names the file as `apd-pot-arrests.xlsx`. Note the file path and name are together.
+
+This is what the data looks like in Excel:
+
+![Peek at file](images/excel-pot-peek.png){width=90%}
+
+A couple of things to note about this file:
+
+- The data is in a sheet names **Results**. We have to specify that sheet or we'll get the **Summary** sheet by default.
+- If we do not specify column types, then we'll have problems. We'll walk through that.
+
+### In RStudio: First import try
+
+1. Add a Markdown section that you are importing your file.
+2. Add an R chunk (and name it!) and insert the following and run it:
+
+```r
+read_excel(
+  "data-raw/apd-pot-arrests.xlsx"
+)
+```
+
+- You'll see here we are importing the **Summary** tab, which doesn't work for us.
+
+### In RStudio: Add the sheet value
+
+1. **Edit your chunk** to add sheet argument like this. **Don't forget the comma after the path line**:
+
+```r
+read_excel(
+  "data-raw/apd-pot-arrests.xlsx",
+  sheet = "Results"
+)
+```
+
+You'll get two output responses in different tabs.
+
+The first called R Console notes that there are problems. Here is a bit of it:
+
+```text
+  Expecting numeric in A5460 / R5460C1: got '201818-01877'
+Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :
+  Expecting numeric in A5748 / R5748C1: got '201818-03343'
+Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :
+```
+
+This is telling us that the first column has errors, though I admit it is not very telling. What is wrong is the "Arrest Primary Key" is being considered a number, but some values have a dash in it, which is text. We will need to fix that.
+
+The second tab is the table that is returned. It did import, just with the problems noted above.
+
+If you tab through the columns in the table, you'll note another issue: **The ZIP is imported as a number**. Not a big issue in Texas, but a real problem for ZIPs that start with zero. We need to change that to text. Always convert ZIPs to text. We'll do that when we fix the arrest ID.
+
+### In RStudio: Fix column types
+
+We can adjust the data types of data as we import it. The [documentation is here](https://readxl.tidyverse.org/articles/cell-and-column-types.html), but we'll do it next and explain it.
+
+1. **Edit your chunk** to add a the the comma, the col_types arguments and the glimpse at the end so we can see our results.
+
+```r
+read_excel(
+  "data-raw/apd-pot-arrests.xlsx",
+  sheet = "Results",
+  col_types = c(
+    "text",
+    "guess",
+    "guess",
+    "guess",
+    "guess",
+    "guess",
+    "text",
+    "guess",
+    "guess"
+    )
+  ) %>% 
+  glimpse()
+```
+
+The `col_type()` argument/function works two ways: We can either change all the columns to text, or we can specify all of them. Luckily we can still tell it to "guess" if it does so correctly, so we are really only fixing our Arrests Primary Key and the ZIP.
+
+We set these column types based on their order in the data. The first and seventh field should be "text". We just use "guess" for the rest of them because they were OK.
+
+The glimpse allows us to see the results in an easy way. We'll have to remove that later.
+
+### In RStudio: Clean the names
+
+I hope you also noted that the column names are upper and lower cases. This makes it hard to work with the data, so we'll add our `clean_names()` function to fix that.
+
+1. **Edit your chunk** to add a pipe and the `clean_names()` function **before** the glimpse.
+
+```r
+read_excel(
+  "data-raw/apd-pot-arrests.xlsx",
+  sheet = "Results",
+  col_types = c(
+    "text",
+    "guess",
+    "guess",
+    "guess",
+    "guess",
+    "guess",
+    "text",
+    "guess",
+    "guess"
+    )
+  ) %>% 
+  clean_names() %>% 
+  glimpse()
+```
+
+Now our glimpse shows us clean names, clean data and we are **almost** done.
+
+### In RStudio: Remove glimpse, save into object
+
+Now that we have everything set we can save our data into an R object so we can work with it later. **But we have to move the glimpse, too**.
+
+1. **Edit your chunk** to save the data into an object called `arrests`. This is on the first line.
+2. Also adjust the bottom of the chunk to reprint the new tibble, but then glimpse it so we can "see" what we have.
+
+```r
+arrests <- read_excel(
+  "data-raw/apd-pot-arrests.xlsx",
+  sheet = "Results",
+  col_types = c(
+    "text",
+    "guess",
+    "guess",
+    "guess",
+    "guess",
+    "guess",
+    "text",
+    "guess",
+    "guess"
+    )
+  ) %>% 
+  clean_names()
+
+arrests %>% 
+  glimpse()
+```
+
+### In RStudio: Write out the data
+
+R has a filetype called `.rds` that saves data types. This is useful because after we clean our data, we can save it to our computer in a format that will import cleanly in future notebooks.
+
+We'll save this clean data so we can use it later.
+
+1. Start a new Markdown section noting you are exporting the data.
+2. Add an R chunk that writes the data as `.rds` to your data-processed folder.
+
+```r
+arrests %>% write_rds("data-processed/apd-pot-arrests.rds")
+```
+
+We may use this data in a future lesson.
+
 ## Other importing packages
+
+As noted earlier, there are other packages like that read in data of different types and from different sources.
 
 [rio](https://cran.r-project.org/web/packages/rio/vignettes/rio.html) is a package/library designed to simplify importing and exporting data. We are going to stick with the tidyverse readr and readxl libraries, but rio is worth exploring.
 
 There are also packages developed for specific Application Programming Interfaces (APIs) like the U.S. Census bureau ([tidycensus](https://walker-data.com/tidycensus/index.html), [censusapi](https://www.hrecht.com/censusapi/), [tigris](https://github.com/walkerke/tigris)) or [Socrata](https://github.com/Chicago/RSocrata).
 
+## On your own
 
+We've put together some exercises to practice importing and exporting data.
