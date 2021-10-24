@@ -1,14 +1,9 @@
 ---
 title: "tidyr, stringr, and lubridate"
 author: "Andrew Ba Tran"
-tutorial:
-  id: "code.r-journalism/chapter-3"
-  version: .85
 output:
   learnr::tutorial:
     progressive: true
-    theme: lumen
-    highlight: espresso
 runtime: shiny_prerendered
 ---
 
@@ -19,59 +14,41 @@ We're going to learn a couple new concepts from a few packages while digging thr
 
 Let's import the latest raw data from the [Covid Tracking Project](https://covidtracking.com/race/dashboard):
 
-```{r importing_data_real, include=FALSE, echo=FALSE}
+```{r setup, include=FALSE, echo=FALSE}
 library(tidyverse)
 library(learnr)
 library(lubridate)
+library(gradethis)
 
 race <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vS8SzaERcKJOD_EzrtCDK1dX1zkoMochlA9iHoHg_RSw3V8bkpfk1mpw4pfL5RdtSOyx_oScsUtyXyk/pub?gid=43720681&single=true&output=csv")
 
 
+race_long <- race %>% 
+  pivot_longer(cols=3:54,
+               names_to="type",
+               values_to="total") %>% 
+  group_by(State, type) %>% 
+  slice(1)
 
-nospace <- function(a) {
-  b <- gsub(" ","",a) 
-  gsub("\\n", "", b)
-}
+race_longer <- race_long %>% 
+  separate(type, c("count_type", "race_ethnicity"), 
+                 sep="_",
+                 extra="merge")
+
+race_long_deaths <- race_longer %>% 
+  filter(count_type=="Deaths") %>% 
+  filter(race_ethnicity!="Total") %>% 
+  filter(!str_detect(race_ethnicity, "Ethnicity_")) %>% 
+  group_by(State) %>% 
+  mutate(percent_deaths=round(total/sum(total, na.rm=T)*100,2))
 
 
-
-is_bad_code <- function(user_code, check_code, envir_result) {
-
-  is_null <- is.null(eval(parse(text = user_code)))
-  e_rows <- nrow(eval(parse(text = user_code)))
-  r_rows <- nrow(eval(parse(text = check_code), envir = envir_result))
-  e_cols <- ncol(eval(parse(text = user_code)))
-  r_cols <- ncol(eval(parse(text = check_code), envir = envir_result))
-  e_type <- typeof(eval(parse(text = user_code)))
-  r_type <- typeof(eval(parse(text = check_code), envir=envir_result))
-  e_len <- length(eval(parse(text = user_code)))
-  r_len <- length(eval(parse(text = check_code)))
-  if (is_null!=T){
-    if (e_len!=0 & r_len!=0) {
-      if (e_type==r_type) {
-        if (e_type!="character" & e_type!="double" & e_type!="integer" & e_type!="logical") {
-          if (e_rows==r_rows && e_cols==r_cols) {
-            eval(parse(text = user_code)) != eval(parse(text = check_code), envir = envir_result)
-          } else {
-            TRUE
-          }
-        } else { eval(parse(text = user_code)) != eval(parse(text = check_code), envir = envir_result) }
-      } else {
-        TRUE
-      }
-    } else { TRUE }
-  } else { nospace(user_code) != nospace(check_code)}
-}
-
-checker <- function(label, user_code, check_code, envir_result, evaluate_result, ...) {
-  if (is_bad_code(user_code, check_code, envir_result)) {
-    return(list(message = "Code wasn't right!", correct = FALSE, location = "append"))
-  } else {
-    return(list(message = "Great Job!", correct = TRUE, location = "append"))
-  }
-}  
-
-tutorial_options(exercise.timelimit = 30, exercise.checker = checker)
+race_wide_deaths_percent <- race_long_deaths %>% 
+  select(State, race_ethnicity, percent_deaths) %>% 
+  pivot_wider(names_from=race_ethnicity,
+              values_from=percent_deaths) %>% 
+  # and let's sort by state with the highest percent of Black deaths from covid-19
+  arrange(desc(Black))
 
 ```
 
@@ -110,6 +87,8 @@ This type of data structure is easy to mutate and manipulate (and also is how a 
 
 Add a line to the end of this code that will add a column to calculate the `percent_black_deaths` from the code above.
 
+You'll have to think about the math formula to create a percent.
+
 
 ```{r tidy2, exercise=TRUE}
 race %>% 
@@ -119,13 +98,16 @@ race %>%
 # add line above
 ```
 
-```{r tidy2-check}
+```{r tidy2-solution}
 race %>% 
   filter(State=="CA") %>% 
   select(Date, State, Deaths_Total, Deaths_Black) %>% 
   mutate(percent_black_deaths=Deaths_Black/Deaths_Total*100)
 ```
 
+```{r tidy2-code-check}
+grade_code()
+```
 
 <div id="tidy2-hint">
 **Hint:** use the `mutate()` function.
@@ -159,12 +141,17 @@ Take a look at all the columns in this data set.
 
 Use the **dplyr** function to view a summary of the dataframe (without using the base `summary()` function) so you can get a clean view of the columns.
 
-```{r tidy3, exercise=TRUE}
+```{r tidy3, exercise=TRUE, exercise.blanks = "_______+"}
 _______(race)
 ```
 
-```{r tidy3-check, warning=F}
+```{r tidy3-solution}
 glimpse(race)
+```
+
+
+```{r tidy3-code-check}
+grade_code()
 ```
 
 
@@ -174,7 +161,7 @@ glimpse(race)
 
 ### Wide groups
 
-Wow, there are 41 columns in this dataframe.
+Wow, there are *54 columns* in this dataframe.
 
 You can see how it's meant to be interpreted as parts of different groups. How do we turn this data long?
 
@@ -205,10 +192,11 @@ The `pivot_longer()` function in the **tidyr** package moves values into column 
 include_graphics("images/pivot_longer_diagram.png")
 ```
 
-Three reasons why you should attempt to structure your data in long (tall) form:
+Four reasons why you should attempt to structure your data in long (tall) form:
 
 * If you have many columns, it’s difficult to summarize it at a glance and see if there are any mistakes in the data.
 * Key-value pairs facilitates conceptual clarity
+* Easier to do math on groups of numbers in columns than in rows
 * Long-form datasets are required for graphing and advanced statistical analysis
 
 ```{r investigate0, warning=F, message=F}
@@ -221,7 +209,10 @@ library(DT)
 library(tidyr)
 
 race_long <- race %>% 
-  pivot_longer(cols=3:41,
+  # WE ARE KEEPING THE DATE AND STATE COLUMNS
+  # THAT IS WHY WE ARE STARTING ON ROW 3 AND ENDING ON
+  # THE TOTAL NUMBER OF COLUMNS IN THE DATA FRAME
+  pivot_longer(cols=3:54,
                names_to="type",
                values_to="total") %>% 
   # we need to limit it to only the most recent day of data
@@ -234,9 +225,9 @@ datatable(race_long)
 
 Scroll through the results. 
 
-We went from 41 columns to 4.
+We went from *54* columns to *4*.
 
-Let's clean it up some more.
+Let's clean it up some more. We can't mix up cases with deaths and hospitalizations.
 
 There is a pattern we can break up type into:
 
@@ -261,7 +252,7 @@ race_longer <- race_long %>%
 race_longer
 ```
 
-```{r investigate3-check}
+```{r investigate3-solution}
 race_longer <- race_long %>% 
   separate(type, c("count_type", "race_ethnicity"), 
                  sep="_",
@@ -270,17 +261,14 @@ race_longer
 ```
 
 
+```{r investigate3-code-check}
+grade_code()
+```
+
+
 <div id="investigate3-hint">
 **Hint:** Use the function I mentioned above on the `type` column. Also, strings are in quotations, remember?
 </div>
-
-```{r investigate3-real, echo=F}
-race_longer <- race_long %>% 
-  separate(type, c("count_type", "race_ethnicity"), 
-                 sep="_",
-                 extra="merge")
-```
-
 
 
 ### Tidy data now
@@ -289,11 +277,11 @@ Congrats!
 
 To make it workable, we can just filter and focus on the count_type we want.
 
-Next, we need to filter the data frame:
+Next, we need to filter the data frame (make sure you hit the "Run Code" in the section above so you're looking at the dataframe):
 
- * Deaths only
+ * **Deaths** only
  
- * We can exclude Totals
+ * We can **exclude** Totals
  
  * We'll exclude Ethnicity counts because that's a separate group and could throw things off if we include them when calculating percents
  
@@ -311,6 +299,7 @@ Fix lines 4 and 5.
 
 ```{r investigate2, exercise=TRUE}
 race_long_deaths <- race_longer %>% 
+  # can you find the right column to filter to deaths?
   filter(__________==________) %>% 
   filter(race_ethnicity__"Total") %>% 
   filter(!str_detect(race_ethnicity, "Ethnicity_"))
@@ -319,7 +308,7 @@ race_long_deaths
 ```
 
 
-```{r investigate2-check}
+```{r investigate2-solution}
 race_long_deaths <- race_longer %>% 
   filter(count_type=="Deaths") %>% 
   filter(race_ethnicity!="Total") %>% 
@@ -328,17 +317,15 @@ race_long_deaths <- race_longer %>%
 race_long_deaths
 ```
 
+```{r investigate2-code-check}
+grade_code()
+```
+
 <div id="investigate2-hint">
 **Hint:** != means doesn't equal
 </div>
 
 
-```{r investigate2-real, echo=F}
-race_long_deaths <- race_longer %>% 
-  filter(count_type=="Deaths") %>% 
-  filter(race_ethnicity!="Total") %>% 
-  filter(!str_detect(race_ethnicity, "Ethnicity_"))
-```
 
 ### Calculate percents by state
 
@@ -400,7 +387,7 @@ race_wide_deaths_percent
 ```
 
 
-```{r investigate5-check}
+```{r investigate5-solution}
 race_wide_deaths_percent <- race_long_deaths %>% 
   select(State, race_ethnicity, percent_deaths) %>% 
   pivot_wider(names_from=race_ethnicity,
@@ -411,15 +398,11 @@ race_wide_deaths_percent <- race_long_deaths %>%
 race_wide_deaths_percent
 ```
 
-
-```{r investigate5-real, echo=F}
-race_wide_deaths_percent <- race_long_deaths %>% 
-  select(State, race_ethnicity, percent_deaths) %>% 
-  pivot_wider(names_from=race_ethnicity,
-              values_from=percent_deaths) %>% 
-  # and let's sort by state with the highest percent of Black deaths from covid-19
-  arrange(desc(Black))
+```{r investigate5-code-check}
+grade_code()
 ```
+
+
 
 ### Next steps?
 
@@ -448,6 +431,10 @@ race_wide_deaths_total_percent <- race_long_deaths %>%
   
 datatable(race_wide_deaths_total_percent)
 ```
+
+## joins
+
+
 
 ## stringr
 
@@ -631,8 +618,14 @@ x <- c("john smith", "Mary Todd", "BILL HOLLIS")
 ____________(x)
 ```
 
-```{r x_case_test-check}
+```{r x_case_test-solution}
+x <- c("john smith", "Mary Todd", "BILL HOLLIS")
+
 str_to_title(x)
+```
+
+```{r x_case_test-code-check}
+grade_code()
 ```
 
 
@@ -663,12 +656,16 @@ race_long_deaths %>%
 race_long_deaths
 ```
 
-```{r str_replace_test-check}
+```{r str_replace_test-solution}
 race_long_deaths %>% 
   mutate(race_ethnicity= str_replace(race_ethnicity, "AIAN", "American Indian and Alaska Native")) %>% 
   mutate(race_ethnicity= str_replace(race_ethnicity, "NHPI", "Native Hawaiian and Pacific Islander"))
 
 race_long_deaths
+```
+
+```{r str_replace_test-code-check}
+grade_code()
 ```
 
 
