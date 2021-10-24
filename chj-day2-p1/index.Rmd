@@ -296,7 +296,7 @@ You can sort by more than one column using a comma between rules within the `arr
 
 ## Practice on your own
 
-Practice using these functions by [solving these quests]() in your practice data.
+Practice using these functions by [solving these quests](https://github.com/utdata/chj-r-introduction/blob/main/students/practice-quests.md) in your practice data.
 
 --- 
 

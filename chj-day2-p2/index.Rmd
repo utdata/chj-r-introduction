@@ -11,7 +11,7 @@ library(learnr)
 library(lubridate)
 knitr::opts_chunk$set(echo = FALSE)
 
-deaths <- read_csv("data-raw/chj_mn_opiate_deaths_data.csv") %>% clean_names()
+deaths <- read_csv("data/chj_mn_opiate_deaths_data.csv") %>% clean_names()
 
 deaths_clean <- deaths %>% 
   mutate(
@@ -24,116 +24,158 @@ deaths_clean <- deaths %>%
 
 ## Goals for this section
 
-- Calculating new data
-- Summarizing data
+We'll build on our wrangling skills and learn how to summarize our data.
 
+- Calculating new data with `mutate()`
+- Summarizing data with `group_by()`, `summarize()` and `arrange()`.
 
+We'll continue using the opioid deaths data to explore certain functions, then add to our practice quests with new challenges.
 
 ## Calculating or updating data
 
-The verb to change data in your data frame is [mutate()](https://dplyr.tidyverse.org/reference/mutate.html). You can use this to calculate new column of data based on other columns, or to replace data with a mutation of the original.
+The verb to change data in your data frame is [mutate()](https://dplyr.tidyverse.org/reference/mutate.html). You can use this to calculate new columns of data based on other columns, or to replace data with a mutation of the original.
 
-We'll use `mutate()` to convert our text-based dates to a real datetime object. We'll be using the [lubridate](https://lubridate.tidyverse.org/) package to help us, but we installed it yesterday and included it in the libraries at the top of our project.
+To demonstrate `mutate()` we'll convert our text-based dates in the `deaths` dataframe into to a real datetime object. We'll be using the [lubridate](https://lubridate.tidyverse.org/) package to help us, which we installed yesterday but haven't talked much about it yet.
+
+If we select and glimpse the deaths data, we can see the dates are `<chr>` data types, which is text and not a real date we can do math on.
+
+1. Review the code below and imagine how it will work, then run it.
+
+```{r glimpse-death, exercise=T, exercise.eval = T}
+deaths %>%
+  select(ends_with("_date")) %>% 
+  glimpse()
+```
+
 
 ### Using mutate to convert dates
 
-We'll show this first in this learning environment before fixing the data in your project.
+Within `mutate()` we name the new column first, then fill it with a value. In this case we are filling the new column with a converted date. We'll walk through that below the code.
 
 ```{r convert-date, exercise=T}
 deaths %>% 
   mutate(
     # creates new date column
-    birth_clean_date = birth_date %>% mdy()
+    birth_clean_date = mdy(birth_date)
   ) %>% 
   # just to show the new/old cols
-  select(birth_date, birth_clean_date)
+  select(birth_date, birth_clean_date) %>% 
+  head()
 ```
-
-I put the value inside the `mutate()` on a line by itself to make it clearly readable what we are doing. I can do multiple mutations by adding a comma and return after line 4 and adding another rule. I also put the `_clean_` part of the name in the middle so we can still use `ends_with("_date")` within our selects.
 
 Let's break this down a little:
 
+- We put the mutate call on a line by itself to make it clear what we are doing. This way we can do multiple mutations by adding a comma and return after line 4 and adding another rule.
 - Within the mutate call, we name the new column first (`birth_clean_date`) and then "fill" it with the right side of the equation. If we wanted to update the existing column, we would use `birth_date` on the left side of the equation, too, but that can be risky because you want to see what the mutation is doing vs the original data in case anything goes awry.
-- On the right side of the equation we are starting with the column we want to convert, `birth_date` but then use a pipe` %>% mdy()` to convert that value.
-- The `mdy()` part on the right side tells lubridate what order the date values are in. If we were starting with 1992/7/18, then we would use `ymd()`.
+- On the right side of the equation we are wrapping the `birth_date` variable inside `mdy()` to convert that a date. The `mdy()` part tells lubridate what order the date values are in. If we were starting with 1992/7/18, then we would use `ymd()`. You can see other parsing options in the [lubridate cheatsheet](https://lubridate.tidyverse.org/).
 
-BORING DETAIL: You might see this written elsewhere as `mutate(birth_date_clean = mdy(birth_date))`, where the column you are converting is inside the `mdy()` function. I like the tidyverse notation using the pipe because nested rules can get confusing if there are more than one. Others may disagree, but they didn't write this tutorial.
+There was thought in choosing `birth_clean_date` as a column name so we can still use `ends_with()` to select them if we want.
+
+### Add other clean dates
+
+1. Update the code below to add two new mutations creating `death_clean_date` and `injury_clean_date`.
+1. After you've solved that, remove the old dates.
+2. Update the code to also set that result into a new R object called `deaths_clean`.
+
+
+```{r date-clean, exercise = T}
+deaths %>% 
+  mutate(
+    birth_clean_date = mdy(birth_date)
+  )
+```
+
+<div id="date-clean-hint">
+
+```r
+deaths %>% 
+  mutate(
+    birth_clean_date = mdy(birth_date),
+    death_clean_date = mdy(death_date),
+    injury_clean_date = mdy(injury_date)
+  ) %>% 
+  select(-c(birth_date, death_date, injury_date))
+```
+
+</div>
 
 ### Calculate a new column with math
 
-We don't have two number columns in our opioid data, so here is an example of creating a new column using math from the `mtcars` data set of automobile statistics. We are creating a "horsepower per cylinder", which is probably not a real thing. Again, the `mutate()` step names the new column first on the left side equation, then sets the result of the right side of the equation for each row.
+We don't have two number columns in our opioid data, so here is an example of creating a new column using math from the `mtcars` data set of automobile statistics. Let's take a gander at the data first:
+
+```{r mtcars, exercise = T, exercise.eval = T}
+mtcars %>% glimpse()
+```
+
+We will create a "horsepower per cylinder" column, which is probably not a real thing. Again, the `mutate()` step names the new column first on the left side of the equation, then sets the result of the right side of the equation for each row.
 
 ```{r mtcars-math, exercise=T, exercise.eval=T}
 mtcars %>% 
   mutate(
-    hp_cyl= hp/cyl
+    hp_cyl = hp/cyl
   ) %>% 
   select(hp, cyl, hp_cyl)
 ```
 
-### Mutate on your own
-
-In your own project, use the convert dates example above to write a mutate rule to convert all three date columns in `deaths` into new "_clean_" columns, but  **assign the result back into a new data frame called `deaths_clean`**. _After_ you've reassigned the data frame, print the `deaths_clean` data frame and pipe in into a `select()` to show all six date columns so you can compare them.
-
-I want you to do this in your own project in RStudio because it is easier to write code there than in this learning environment, but I include a practice session below with a hint in case you have trouble.
-
-```{r convert-date-practice, exercise=T, exercise.lines=10}
-deaths
-```
-
-<div id="convert-date-practice-hint">
-```r
-deaths_clean <- deaths %>% 
-  mutate(
-    birth_clean_date = birth_date %>% mdy(),
-    death_clean_date = death_date %>% mdy(),
-    injury_clean_date = injury_date %>% mdy()
-  )
-
-deaths_clean %>% 
-  select(ends_with("_date"))
-```
-</div>
-
-- After you've written and tested your code, write a Markdown annotation above it explaining the code.
-
 ## Summarizing data
 
-Summarizing data in R typically takes two steps: 1) Group the rows based on some value in the data, 2) Aggregate those groups by counting the rows or doing math on values.
+Summarizing data in R typically takes two steps: 1) Group the rows based on some value in the data, 2) Summarize those groups by counting the rows or doing math on values.
 
-The Group and Aggregate combo can be confusing. We'll watch the video below to get a visual understanding of the concept. It's part of a series on [Basic Data Journalism Function](https://vimeo.com/showcase/7320305).
+The Group and Summarize combo can be confusing. We'll watch the video below to get a visual understanding of the concept. It's part of a series on [Basic Data Journalism Function](https://vimeo.com/showcase/7320305). The summarize part is called "Aggregate" in the video.
 
-![](https://vimeo.com/showcase/7320305/video/435910349)
+![](https://youtu.be/a3VNWYJoy5A)
 
-The verbs we use in R are [group_by](https://dplyr.tidyverse.org/reference/group_by.html) and [summarize](https://dplyr.tidyverse.org/reference/summarise.html).
+The verbs we use in R are [group_by](https://dplyr.tidyverse.org/reference/group_by.html) and [summarize](https://dplyr.tidyverse.org/reference/summarise.html). The pair are often followed by [`arrange()`](https://dplyr.tidyverse.org/reference/arrange.html) to sort the data.
 
-BORING TIDBIT: Hadley Wickham is from New Zealand, so there are both the Queen's English `summarise()` and Americanized `summarize()` functions, but they do exactly the same thing. Unfortunately for Americans, summarise arrives first in alphabetical order in type-assist.
+> BORING TIDBIT: Hadley Wickham is from New Zealand, so there are both the Queen's English `summarise()` and Americanized `summarize()` functions, but they do exactly the same thing. Unfortunately for Americans, summarise arrives first in alphabetical order in type-assist. It doesn't matter which you use.
 
-### Basic group and sum
+### Basic group and summarize
 
-When we group and sum, we are usually counting records or doing math on a value. We only have one number in our data, so we'll start with that.
+When we group and summarize, we are usually counting records or doing math on a value. We only have one number in our data, so we'll start with that.
 
-**THE QUESTION:** What is the average and median age of the deaths by gender?
+**THE QUESTION:** What is the average age of the deaths by gender?
 
-Read the code and guess how it works, then run it and then we'll walk through it line-by-line.
+1. Read the code and guess how it works, then run it and then we'll walk through it line-by-line.
 
 ```{r group-mean, exercise=T}
 deaths_clean %>% 
   group_by(gender) %>% 
   summarize(
-    avg =  mean(age_years),
-    mdn =  age_years %>% median()
-  )
+    avg =  mean(age_years)
+)
 ```
 
-Well, the average and median are not very divergent, which hints at a normal distribution for age. Females skew a little older. But this is about the code:
+- We use `gender` in the `group_by()` step to order/group all the data by `F` rows first and then `M` rows. Any operations following this step are performed WITHIN each group.
+- In the `summarize()` step we first have to name the new column, just like we do in `mutate()`. We then "fill" that column with the right-side of the equation, the `mean(age_years)`.
 
-- I use `gender` in the `group_by()` step to order/group all the data by `F` rows first and then `M` rows. Any operations following this step are performed WITHIN each group.
-- In the `summarize()` step I broke down the step into individual lines so we can read them more easily. I first name the new column, just like we do in `mutate()`. I then "fill" that column with the right-side of the equation.
-- For the "avg" column I wrote the rule in "nested" style, where the column goes inside the `mean()` function.
-- For the "mdn" column I wrote the rule in "tidyverse" style using the ` %>% ` pipe.
+### Add a median age
 
-You shouldn't mix up your nesting/tidyverse style like this, but I wanted to you to see both methods. In this case, the nested style _might_ be a little easier to understand, but I like the consistency of using tidyverse style.
+1. Edit the chunk below to also add a summary for the median age. The function for median is ... `median()`. You do this by just adding another rule within summarize, much like we did with mutate.
+1. Set
+
+```{r group-median, exercise = T, exercise.setup="prep-deaths-date"}
+deaths_clean %>% 
+  group_by(gender) %>% 
+  summarize(
+    avg =  mean(age_years)
+)
+```
+
+<div id="group-median-hint">
+
+```r
+deaths_clean %>% 
+  group_by(gender) %>% 
+  summarize(
+    avg =  mean(age_years),
+    med = median(age_years)
+)
+
+```
+
+</div>
+
+Well, the average and median ages are not very divergent, which hints at a normal distribution for age. Females skew a little older.
 
 ### Grouping multiple columns
 
@@ -141,41 +183,51 @@ The more columns you add into the `group_by()` the more little groups are formed
 
 **THE QUESTION:** How have deaths differed by race by year?
 
-
-```{r group-cnt, exercise=T, exercise.setup="prep-deaths-date", exercise.lines=10}
+```{r group-cnt, exercise=T, exercise.lines=10}
 deaths_clean %>%
   group_by(
-    yr = death_clean_date %>% year(),
+    yr = year(death_clean_date),
     race
   ) %>% 
   summarize(
     cnt = n()
   ) %>% 
-  arrange(yr, cnt %>% desc())
+  arrange(yr, desc(cnt))
 ```
 
-I'm throwing several new things in here:
+We're throwing several new things in here:
 
-- In the `group_by` I'm grouping by two columns, the "year of death" and `race`.
-  - In that first group, I create a name for the new group result with `yr =`. I then "fill" that group result with our cleaned date field, but I pluck out just the "year" by piping it into the lubridate function that gets years from dates: ` %>% year()`. (I could nest this as `year(death_clean_date)`, but now I'm trying to be tidy and consistent.)
+- In the `group_by` we group by two columns, the "year of death" and `race`.
+  - In that first group, we create a name for the new group result with `yr =`. We then "fill" that group result with our cleaned date field, but we pluck out just the "year" putting our `death_clean_date)` inside lubridate function `year()`. This give us just the YYYY part of the date.
   - The second grouping value is `race`. This means with both grouping values in there the data is organized by all our 2005 African American rows first, then 2005 American Indian rows, etc., until we get to the next year.
 - For `summarize()` we only have one aggregation, but is a new function for us.
   - We are calling our new column name `cnt`, short for count.
   - The function `n()` is simply returning the "number" of rows in each group. i.e, counting the rows.
-- Lastly, I use the `arrange()` function to sort the date first by `yr` ascending (the default), then by the highest count in descending order.
+- Lastly, we use the `arrange()` function to sort the date first by `yr` ascending (the default), then by the highest count in descending order.
 
 ### Shortcuts for counting
 
-We do a lot of grouping and counting in data science, so there are some shortcuts. I wanted to show the long way first because the concept is foundational, but I use these shortcuts in practice a lot.
+We do a lot of grouping and counting in data science, so there are some shortcuts. We wanted to show the long way first because the concept is foundational, but we use these shortcuts in practice a lot.
 
 #### Using count()
 
-The `count()` function includes the `group_by` and `summarize(n())` all in one. You feed it the columns you want to group and count.
+The `count()` function includes the `group_by` and `summarize(n())` and `arrange()` all in one. You feed it the columns you want to group and count.
 
-```{r count-example, exercise=T, excercise.setup="prep-deaths-date"}
+- You can also name the new count column with `name = "new_name"`
+- You can sort the data in descending order by the count with `sort = TRUE`
+
+Here is the count version of the same code as above.
+
+```{r count-example, exercise=T}
 deaths_clean %>% 
-  count(race)
+  count(
+    yr = year(birth_clean_date),
+    race, name = "cnt", 
+    sort = TRUE
+  )
 ```
+
+We also name the converted year column while we are at it.
 
 #### Using tabyl()
 
@@ -190,39 +242,28 @@ deaths_clean %>%
 
 ### Summaries on your own
 
-In your own project, use summaries to:
+1. Using `deaths_clean` data, find the average age and number of rows in each group by `hispanic_ethnicity`. This will take a traditional `group_by()` and `summarize()` combination.
 
-- Get the average age by `hispanic_ethnicity`, along with the number of rows in each group. This will take a traditional `group_by()` and `summarize()` combination.
-- Get counts by year. You can use `count()`, but you'll have to parse the death_clean_date to group by the year, like I did above.
-  - BONUS: Try renaming the "n" column to "deaths" using the `rename()` function. It works similar to mutate where you name the new column first.
+```{r hisp-group, exercise = T}
+deaths_clean
   
-Again, I want you to do this in your own project but have provided a hint the code block below if you need it.
-
-
-```{r sums-own, exercise=T, exercise.lines=10}
-
 ```
 
-
-<div id="sums-own-hint">
+<div id="hisp-group-hint">
 ```r
-# avg age by hispanic
 deaths_clean %>% 
   group_by(hispanic_ethnicity) %>% 
   summarize(
     avg = age_years %>% mean(),
     cnt = n()
   )
-  
-# count by year
-deaths_clean %>% 
-  count(
-    yr = death_clean_date %>% year()
-  ) %>% 
-  rename(cnt = n)
 ```
 </div>
 
+## On your own practice
+
+You'll find some Day 1, Part 1 quests for both the LESO and Maritime Reports data sets in the [Practice quests page](https://github.com/utdata/chj-r-introduction/blob/main/students/practice-quests.md)
+
 ---
 
-We are done for day 2.
+We are done for for this session. Do the practice!
