@@ -37,9 +37,18 @@ This covers select, filter and arrange.
 2. Remove the following columns: sheet, state, nsn and both demil_ columns.
 3. What is the most expensive item in the list and who go it?
 
+### Day 2, Part 2
+
+For leso:
+
+1. Create total_value columns
+1. Find agency in TX or state with most total value
+1. Filter to agency Austin Police or your local police agency (or one near). Maybe give str_detect() hint. Just describe and point to docks but let them figure it out.
+
+
 ## Maritime health reports
 
-> Some information forthcoming about this data
+This data is [Cruise Ships: Reporting Maritime Death or Illness (non-gastrointestinal) to DGMQ](https://www.cdc.gov/quarantine/cruise/reporting-deaths-illness/index.html) from the CDC.
 
 ### Day 1
 
@@ -64,6 +73,10 @@ Picking up with the `reports` object you created above.
 1. What's the earliest date someone from QStation Los Angeles became sick?
 1. Create a new dataframe called "crew" with people who were a Crew Member (person_type). How many reports?
 1. What's the percentage of crew to everyone else who got sick? (You'll have to do a little math, but you have the values.)
+
+### Day 2, Part 2
+
+> We have to dream some up here.
 
 
 
