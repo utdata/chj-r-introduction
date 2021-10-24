@@ -82,7 +82,7 @@ There are some preferences in RStudio that I would like you to change. By defaul
 1. On the option "Save Workspace to .Rdata on exit", change that dropdown to **Never**.
 1. Click *OK* to close the box.
 
-![Updating preferences](images/r-preferences.png){width="90%"}
+![Updating preferences](images/r-preferences.png){width="80%"}
 
 We only have to do this once for each computer.
 
@@ -103,7 +103,7 @@ I am pretty anal-retentive about naming folders because they can become URLs in 
 - Use lowercase characters.
 - Don't use spaces. Use dashes.
 
-![New project screen](images/intro-newproject.png){width=90%}
+![New project screen](images/intro-newproject.png){width=70%}
 
 When you hit **Create Project**, your RStudio window will refresh and you'll see the `first-project.Rproj` file in your Files list.
 
@@ -139,9 +139,7 @@ Let's take a closer look at this chunk part:
 ### Save the .Rmd file
 
 1. Do *Cmd+s* or hit the floppy disk icon to save the file.
-1. It will ask you what you want to name this file. Call it `01-first-file.Rmd`. RStudio should already be saving this file inside your project folder.
-
-> We named this file with `01-` at the beginning because we'll often have multiple notebooks in a project that should be run in order. Data created from one notebook might be used in another. Using this convention lets us know what order to run the notebooks.
+1. It will ask you what you want to name this file. Call it `first-notebook.Rmd`. RStudio should already be saving this file inside your project folder.
 
 When you do this, you may see another new file created in your Files directory with an `.nb.html` ending. It's the pretty version of the notebook which we'll see in a minute.
 
@@ -179,7 +177,7 @@ age <- 55
 (age - 7) * 2
 ```
 
-- Change for "55" to your real age.
+- Change the "55" to your real age.
 - With your cursor somewhere in the code block, use the key command *Cmd+Shift+Return*, which is the key command to RUN ALL LINES of the code chunk.
 - NOTE: To run an individual line, use *Cmd+Return* while on that line.
 
@@ -187,11 +185,11 @@ Congratulations! The answer given at the bottom of that code chunk is the [socia
 
 Throwing aside whether the formula is sound, let's break down the code.
 
-- `# update 53 to your age` is a comment. It's a way to explain what is happening in the code without being considered part of the code. The hashtag at the beginning of the line makes it a comment.
-- `age <- 53` is assigning a number (`53`) to a variable name (`age`). A variable is a placeholder. It can hold numbers, text or even groups of numbers. Variables are key to programming because they allow you to change a value as you go along. In R we use an arrow (or dash and angle bracket) to show which direction we are assigning the value, but convention is to name the variable first, then assign from the right.
+- `# update 55 to your age` is a comment. It's a way to explain what is happening in the code without being considered part of the code. The hashtag at the beginning of the line makes it a comment.
+- `age <- 55` is assigning a number (`55`) to a variable name (`age`). A variable is a placeholder. It can hold numbers, text or even groups of numbers. Variables are key to programming because they allow you to change a value as you go along. In R we use an arrow (or dash and angle bracket) to show which direction we are assigning the value, but convention is to name the variable first, then assign from the right.
 - Pro tip: You can use *Option+-* (Option dash) to type in the `<-` assigning operator.
 - The next part is simple math: `(age - 7) * 2` takes the value of `age` and subtracts `7`, then multiplies by `2`. You might have noticed that the editor helped you by adding closing `)` and putting your cursor in the middle. If you've never used a code editor, help like this can be confusing at first, but you'll learn to love it.
-- When you run the code chunck, you get the result of the math equation below it, `[1] 92` in my case. That means there was one observation, and the value was "92". For the record, my wife is _much_ younger than that.
+- When you run the code chunk, you get the result of the math equation below it, `[1] 96` in my case. That means there was one observation, and the value was "92". For the record, my wife is _much_ younger than that.
 
 Now you can play with the number assigned to the age variable to test out different ages. Do that.
 
@@ -224,7 +222,7 @@ This text is related to the above in some way.
 
 1. This is an ordered list
 1. This is the next item and it will come out as 2.
-2. Markdown renumbers the ordered list no matter what number you use.
+2. Markdown renumbers ordered lists when knitting.
 ```
 
 Also make sure you have blank lines above and below each code chunk.
@@ -286,7 +284,7 @@ We now want to walk through a full analysis do you can see the power (and reprod
 1. In your same project, create a new **R Notebook** document. (Under the +Document icon).
 2. Save the file as `acc-intakes.Rmd`.
 3. Delete everything inside.
-4. Go go [this URL](https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data-prep/chj-aac/aac-intakes.Rmd) in a browser like Chrome.
+4. Go to <a href="https://github.com/utdata/chj-r-introduction/blob/main/students/day1-p2-practice.md" target="_blank">this link</a> in your browser.
 5. Copy and paste all the contents and put it in your R Notebook. (You should be able to do **Cmd+a** to select all.)
 6. Once you've pasted the code and saved it, do **Cmd+Shift+R** to Run All. (It's also under the Run menu in the toolbar.)
 
@@ -321,7 +319,7 @@ We are starting with the `intakes` data frame **and then** limiting that result 
 
 A couple of things about the pipe:
 
-- The `%>%` has to be on the same line of code that is "pushing" from.
+- The `%>%` has to be on the same line of code that it is "pushing" from.
 - In complicated strings of code, you can add a return *after* the pipe, then the next line will be indented to indicate it is a continuation. So you'll often see a pipe at the end of a line, like in our examples above. (I do this more often than not.)
 - In RStudio you can use the keyboard command *Cmd+shift+m* type the pipe. Unfortunately keyboard commands don't work inside the online tutorials.
 
@@ -427,7 +425,7 @@ Here, `is.na()` is a **function**. Functions are followed by parentheses, and ac
 
 ## Getting help
 
-Our example used a ton of R "verbs" as we call the functions ... probably too many to remember, and there are more to come. Let's talk briefly about how you can get help with how things work in R.
+Our example markown doc used a ton of R "verbs" as we call the functions ... probably too many to remember, and there are more to come. Let's talk briefly about how you can get help with how things work in R.
 
 One way is through the built-in **Help** function within RStudio. If you look at the pane at the bottom-right of RStudio, you'll see tabs for "Files", "Plots", "Packages" and "Help". Click on the **Help* tab.
 
@@ -447,7 +445,7 @@ There are plenty of Stack Overflow answers along with different tutorials from b
 
 It is worth becoming familiar with the [tidyverse](https://www.tidyverse.org/) site. Click on each icon from the home page to learn what each package does. R is also big on [cheatsheets](https://rstudio.com/resources/cheatsheets/), which are printable pages that go through all the verbs. They can be a bit much at first, but useful once you use R more.
 
-We'll try to put together a list of other resources and tutorials. You can find some [I've collected already hxere](https://docs.google.com/document/d/1slMdrTLfxYt0mZO1G_Wlz1cOcGjCdgiJr7wzpcU9n1Y/edit?usp=sharing).
+We'll try to put together a list of other resources and tutorials. You can find some [I've collected already here](https://docs.google.com/document/d/1slMdrTLfxYt0mZO1G_Wlz1cOcGjCdgiJr7wzpcU9n1Y/edit?usp=sharing).
 
 ---
 

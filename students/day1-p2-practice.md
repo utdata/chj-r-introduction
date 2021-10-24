@@ -33,7 +33,7 @@ Still working in your `practice` project but in a new R Notebook ...
 
 1. Create a new R Notebook called `maritime.Rmd`.
 1. Add the libraries tidyverse, readxl, janitor and lubridate.
-1. Use `download.file()` to download the file at this url: `tk`. Save the file in your data-raw folder as `data-raw/maritime.xlsx`.
+1. Use `download.file()` to download the file at this url: `https://github.com/utdata/chj-r-introduction/blob/main/students/chj-practice/data-raw/maritime-redacted.xlsx?raw=true`. Save the file in your data-raw folder as `data-raw/maritime.xlsx`.
 1. Import the downloaded file into your notebook, use `clean_names()` to fix the column names and save into a new R object.
 1. Use glimpse and summary to explore the data.
 1. Export the data to an `.rds` file into the `data-processed` folder.
