@@ -11,7 +11,9 @@ library(readxl)
 library(janitor)
 ```
 
-## Download the file
+## Day 1
+
+### Download the file
 
 Use `download.file` to get the data
 
@@ -19,8 +21,7 @@ Use `download.file` to get the data
 download.file("https://github.com/utdata/chj-r-introduction/blob/main/students/chj-practice/data-raw/maritime-redacted.xlsx?raw=true", "data-raw/maritime.xlsx")
 ```
 
-
-## import the file
+### Import the file
 
 ```{r}
 reports <- read_excel("data-raw/maritime-redacted.xlsx") %>% clean_names()
@@ -28,14 +29,67 @@ reports <- read_excel("data-raw/maritime-redacted.xlsx") %>% clean_names()
 reports %>% head()
 ```
 
-## glimpse
+### glimpse
+
 ```{r}
 reports %>% glimpse()
 ```
 
-## Export the file
+### Export the file
 
 ```{r export}
 reports %>% write_rds("data-processed/reports.rds")
 ```
+
+
+## Day 2, Part 1
+
+Even though we exported the data, we'll continue here with `reports`.
+
+How many reports are there?
+
+```{r}
+total_reports = reports %>% nrow()
+# can also get from glimpse()
+```
+
+### Looking at Los Angeles
+
+- Filter to just LA
+- Select just focused columns
+
+```{r}
+la <- reports %>%
+  filter(q_station == "Los Angeles") %>% 
+  select(report_date, death_illness, notification_time, agency, person_type, gender)
+
+la
+```
+
+### Min/Max dates of sickness
+
+Can get this from summary stats.
+
+```{r}
+la %>% summary()
+```
+
+### Looking at crew
+
+```{r}
+crew <- reports %>% 
+  filter(person_type == "Crew Member")
+
+crew_numb = crew %>% nrow()
+```
+
+### Percentage that is crew
+
+```{r}
+((crew_numb / total_reports) * 100) %>% round(1)
+```
+
+## Day 2, Part 2
+
+
 
