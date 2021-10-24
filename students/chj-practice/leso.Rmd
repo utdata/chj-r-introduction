@@ -31,4 +31,22 @@ leso %>% glimpse()
 leso %>% summary()
 ```
 
+## Day 2, Part 1
+
+Filter to state and remove unneeded columns
+
+```{r}
+tx <- leso %>% 
+  filter(state == "TX") %>% 
+  select(-c(sheet, state, nsn), -starts_with("demil"))
+
+tx %>% glimpse()
+```
+
+### Most expensive item
+
+```{r}
+tx %>% 
+  arrange(acquisition_value %>% desc())
+```
 
