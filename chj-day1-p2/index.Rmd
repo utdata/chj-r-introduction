@@ -92,7 +92,7 @@ Your file should look like this:
 
 ![Library setup](images/opioid-setup.png)
 
-When you run that chunk of code, you might see this output in your Console:
+When you run that chunk of code, you might see output similar to this:
 
 ```r
 > library(tidyverse)
@@ -128,7 +128,7 @@ OK, let's get to some data, shall we?
 
 The tidyverse package [readr](https://readr.tidyverse.org/) (included in the tidyverse library) is our workhorse for importing and exporting of data. There are other tidyverse specialty packages for importing and working with data like [jsonlite](https://cran.r-project.org/web/packages/jsonlite/vignettes/json-aaquickstart.html) and [readxl]([readxl](https://readxl.tidyverse.org/reference/read_excel.html)) and some alternatives like  [rio](https://www.rdocumentation.org/packages/rio/).
 
-> The code below shows the `read_csv` function and runs it so you can see the data. Don't add this to your notebook, just run it here on the site.
+> The code below shows the `read_csv` function and runs it so you can see the data. Don't add this to your notebook, just run it here in the tutorial.
 
 ```{r opioid-read, exercise=T}
 read_csv("https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data/mn_opiate_short.csv")
@@ -141,7 +141,7 @@ When we use `read_csv()` and give it a path (in quotes), R will print the result
 read_csv("data-raw/chj_mn_opiate_deaths_data.csv")
 ```
 
-But all this does is print the data to our screen. For us to be able to use this data later, we need to assign it to an R object. A table like this in R is called a **data frame** or **tibble** (as they are known in the tidyverse). We use the `<-` assignment operator to assign the data to the object. We choose what to name the new object, and they should be one word or words_with_underscores or words-with-dashes. Use a descriptive name, not `my_data`.
+But all this does is print the data to our screen. For us to be able to use this data later, we need to assign it to an R object. A table like this in R is called a **data frame** or **tibble** (as they are known in the tidyverse). We use the `<-` assignment operator to assign the data to the object. We choose what to name the new object, and that name should not contain spaces. Use a descriptive name, not `my_data`.
 
 We are going to assign the result of the `read_csv()` command into an object called `deaths`. We **name the new object first** then "fill" it with the data. This takes a bit getting used to, but it makes for more readable code down the line. Go ahead and run the code and then we'll talk about it.
 
@@ -162,7 +162,7 @@ Let's break this down:
 - Continuing on line 2, we see the assignment operator ` <- ` so we know whatever comes next is getting put into `deaths`.
 - Lastly on line 2 we have the `read_csv` function which has one argument, the path to a csv file on the internet.
 
-If we run this chunk with those two lines, we would save all the content into `deaths`, but we wouldn't be able to see it, so call it to print the top of the tibble to the screen.
+If we run this chunk with those two lines, we would save all the content into `deaths`, but we wouldn't be able to see it, so call it again to print the top of the tibble to the screen.
 
 - On line 4 we have another comment to say what we are doing
 - On line 5 we start with `deaths`, which would print all rows to the screen.
@@ -193,14 +193,14 @@ Now look at the columns names. They are nice and tidy, like `first_name`.
 
 ### In RStudio: Download and Import deaths
 
-In RStudio on your computer, we are doing to use the concepts we talked about above to download the full csv dataset to your computer and then import it into your notebook.
+In RStudio on your computer, we are going to use the concepts we talked about above to download the full csv dataset to your computer and then import it into your notebook.
 
 We will use the [`download.file()`](https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/download.file) function to get our opioids death file from the internet and save it into your `data-raw` folder. The function takes two arguments:
 
 - The path to the file you are downloading.
 - The path and file name where you are saving the data.
 
-1. Go into your own `01-opioid-deaths.Rmd` RNotebook and add a Markdown headline that you are downloading data. Like this: `## Downloading opioid deaths data`. Make sure you have blank lines above and below the headline.
+1. Go into your own `opioids.Rmd` RNotebook and add a Markdown headline that you are downloading data. Like this: `## Downloading opioid deaths data`. Make sure you have blank lines above and below the headline.
 2. Use **Cmd+Option+i** to add a new code chunk
 3. Copy/paste the following code and run it, then I'll explain it.
 
@@ -301,7 +301,7 @@ The function to import is `read_excel()` and it can take a number of arguments:
 
 You can also [specify cell ranges](https://readxl.tidyverse.org/articles/sheet-geometry.html) and such.
 
-We can't show how this works interactively, so we'll just have you set this up and run it locally.
+We can't show how this works in this tutorial, so we'll jwalk you through it in your RStudio.
 
 ### In RStudio: Create a new R Notebook
 
@@ -348,7 +348,7 @@ read_excel(
 
 ### In RStudio: Add the sheet value
 
-1. **Edit your chunk** to add sheet argument like this. **Don't forget the comma after the path line**:
+1. **Edit your chunk** to add the `sheet =` argument like this. **Don't forget the comma after the path line**:
 
 ```r
 read_excel(
@@ -359,7 +359,9 @@ read_excel(
 
 You'll get two output responses in different tabs.
 
-The first called R Console notes that there are problems. Here is a bit of it:
+![Import errors](images/sheets-error.png){width=80%}
+
+The first tab called R Console notes that there are problems. Here is a bit of it:
 
 ```text
   Expecting numeric in A5460 / R5460C1: got '201818-01877'
@@ -368,7 +370,7 @@ Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :
 Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i = sheet,  :
 ```
 
-This is telling us that the first column has errors, though I admit it is not very telling. What is wrong is the "Arrest Primary Key" is being considered a number, but some values have a dash in it, which is text. We will need to fix that.
+This is telling us that the first column has errors, though I admit it is not very _telling_. What is wrong is the "Arrest Primary Key" is being considered a number, but some values have a dash in it, which is text. We will need to fix that.
 
 The second tab is the table that is returned. It did import, just with the problems noted above.
 
@@ -378,7 +380,7 @@ If you tab through the columns in the table, you'll note another issue: **The ZI
 
 We can adjust the data types of data as we import it. The [documentation is here](https://readxl.tidyverse.org/articles/cell-and-column-types.html), but we'll do it next and explain it.
 
-1. **Edit your chunk** to add a the the comma, the col_types arguments and the glimpse at the end so we can see our results.
+1. **Edit your chunk** to add the comma, the col_types arguments and the glimpse at the end so we can see our results.
 
 ```r
 read_excel(

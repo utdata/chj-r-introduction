@@ -243,7 +243,7 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
 <li>Click <em>OK</em> to close the box.</li>
 </ol>
 <div class="figure">
-<img src="images/r-preferences.png" style="width:90.0%" alt="" />
+<img src="images/r-preferences.png" style="width:80.0%" alt="" />
 <p class="caption">Updating preferences</p>
 </div>
 <p>We only have to do this once for each computer.</p>
@@ -265,7 +265,7 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
 <li>Don’t use spaces. Use dashes.</li>
 </ul>
 <div class="figure">
-<img src="images/intro-newproject.png" style="width:90.0%" alt="" />
+<img src="images/intro-newproject.png" style="width:70.0%" alt="" />
 <p class="caption">New project screen</p>
 </div>
 <p>When you hit <strong>Create Project</strong>, your RStudio window will refresh and you’ll see the <code>first-project.Rproj</code> file in your Files list.</p>
@@ -305,11 +305,8 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
 <h3>Save the .Rmd file</h3>
 <ol style="list-style-type: decimal">
 <li>Do <em>Cmd+s</em> or hit the floppy disk icon to save the file.</li>
-<li>It will ask you what you want to name this file. Call it <code>01-first-file.Rmd</code>. RStudio should already be saving this file inside your project folder.</li>
+<li>It will ask you what you want to name this file. Call it <code>first-notebook.Rmd</code>. RStudio should already be saving this file inside your project folder.</li>
 </ol>
-<blockquote>
-<p>We named this file with <code>01-</code> at the beginning because we’ll often have multiple notebooks in a project that should be run in order. Data created from one notebook might be used in another. Using this convention lets us know what order to run the notebooks.</p>
-</blockquote>
 <p>When you do this, you may see another new file created in your Files directory with an <code>.nb.html</code> ending. It’s the pretty version of the notebook which we’ll see in a minute.</p>
 <p>In the YAML metadata portion of the file, give your notebook a better title.</p>
 <ul>
@@ -345,18 +342,18 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
 <span id="section-cb2-2"><a href="#section-cb2-2" aria-hidden="true" tabindex="-1"></a>age <span class="ot">&lt;-</span> <span class="dv">55</span></span>
 <span id="section-cb2-3"><a href="#section-cb2-3" aria-hidden="true" tabindex="-1"></a>(age <span class="sc">-</span> <span class="dv">7</span>) <span class="sc">*</span> <span class="dv">2</span></span></code></pre></div>
 <ul>
-<li>Change for “55” to your real age.</li>
+<li>Change the “55” to your real age.</li>
 <li>With your cursor somewhere in the code block, use the key command <em>Cmd+Shift+Return</em>, which is the key command to RUN ALL LINES of the code chunk.</li>
 <li>NOTE: To run an individual line, use <em>Cmd+Return</em> while on that line.</li>
 </ul>
 <p>Congratulations! The answer given at the bottom of that code chunk is the <a href="https://www.psychologytoday.com/us/blog/meet-catch-and-keep/201405/who-is-too-young-or-too-old-you-date">socially-acceptable maximum age of anyone you should date</a>.</p>
 <p>Throwing aside whether the formula is sound, let’s break down the code.</p>
 <ul>
-<li><code># update 53 to your age</code> is a comment. It’s a way to explain what is happening in the code without being considered part of the code. The hashtag at the beginning of the line makes it a comment.</li>
-<li><code>age &lt;- 53</code> is assigning a number (<code>53</code>) to a variable name (<code>age</code>). A variable is a placeholder. It can hold numbers, text or even groups of numbers. Variables are key to programming because they allow you to change a value as you go along. In R we use an arrow (or dash and angle bracket) to show which direction we are assigning the value, but convention is to name the variable first, then assign from the right.</li>
+<li><code># update 55 to your age</code> is a comment. It’s a way to explain what is happening in the code without being considered part of the code. The hashtag at the beginning of the line makes it a comment.</li>
+<li><code>age &lt;- 55</code> is assigning a number (<code>55</code>) to a variable name (<code>age</code>). A variable is a placeholder. It can hold numbers, text or even groups of numbers. Variables are key to programming because they allow you to change a value as you go along. In R we use an arrow (or dash and angle bracket) to show which direction we are assigning the value, but convention is to name the variable first, then assign from the right.</li>
 <li>Pro tip: You can use <em>Option+-</em> (Option dash) to type in the <code>&lt;-</code> assigning operator.</li>
 <li>The next part is simple math: <code>(age - 7) * 2</code> takes the value of <code>age</code> and subtracts <code>7</code>, then multiplies by <code>2</code>. You might have noticed that the editor helped you by adding closing <code>)</code> and putting your cursor in the middle. If you’ve never used a code editor, help like this can be confusing at first, but you’ll learn to love it.</li>
-<li>When you run the code chunck, you get the result of the math equation below it, <code>[1] 92</code> in my case. That means there was one observation, and the value was “92”. For the record, my wife is <em>much</em> younger than that.</li>
+<li>When you run the code chunk, you get the result of the math equation below it, <code>[1] 96</code> in my case. That means there was one observation, and the value was “92”. For the record, my wife is <em>much</em> younger than that.</li>
 </ul>
 <p>Now you can play with the number assigned to the age variable to test out different ages. Do that.</p>
 <p>This is how R Markdown documents work … you intersperse text and code chunks. When you run a code chunk, you get the results and messages under the chunk.</p>
@@ -386,7 +383,7 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
 <span id="section-cb3-16"><a href="#section-cb3-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="section-cb3-17"><a href="#section-cb3-17" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>This is an ordered list</span>
 <span id="section-cb3-18"><a href="#section-cb3-18" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>This is the next item and it will come out as 2.</span>
-<span id="section-cb3-19"><a href="#section-cb3-19" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Markdown renumbers the ordered list no matter what number you use.</span></code></pre></div>
+<span id="section-cb3-19"><a href="#section-cb3-19" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Markdown renumbers ordered lists when knitting.</span></code></pre></div>
 <p>Also make sure you have blank lines above and below each code chunk.</p>
 </div>
 <div id="section-preview-the-report" class="section level3">
@@ -446,7 +443,7 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
 <li>In your same project, create a new <strong>R Notebook</strong> document. (Under the +Document icon).</li>
 <li>Save the file as <code>acc-intakes.Rmd</code>.</li>
 <li>Delete everything inside.</li>
-<li>Go go <a href="https://raw.githubusercontent.com/utdata/chj-r-introduction/main/data-prep/chj-aac/aac-intakes.Rmd">this URL</a> in a browser like Chrome.</li>
+<li>Go to <a href="https://github.com/utdata/chj-r-introduction/blob/main/students/day1-p2-practice.md" target="_blank">this link</a> in your browser.</li>
 <li>Copy and paste all the contents and put it in your R Notebook. (You should be able to do <strong>Cmd+a</strong> to select all.)</li>
 <li>Once you’ve pasted the code and saved it, do <strong>Cmd+Shift+R</strong> to Run All. (It’s also under the Run menu in the toolbar.)</li>
 </ol>
@@ -475,7 +472,7 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
 <p>We are starting with the <code>intakes</code> data frame <strong>and then</strong> limiting that result to just the <code>head()</code> (or top) of data frame. The default number of lines for <code>head()</code> is six but you can specify how many lines you want by putting a number inside the parenthesis, like <code>head(20)</code>.</p>
 <p>A couple of things about the pipe:</p>
 <ul>
-<li>The <code>%&gt;%</code> has to be on the same line of code that is “pushing” from.</li>
+<li>The <code>%&gt;%</code> has to be on the same line of code that it is “pushing” from.</li>
 <li>In complicated strings of code, you can add a return <em>after</em> the pipe, then the next line will be indented to indicate it is a continuation. So you’ll often see a pipe at the end of a line, like in our examples above. (I do this more often than not.)</li>
 <li>In RStudio you can use the keyboard command <em>Cmd+shift+m</em> type the pipe. Unfortunately keyboard commands don’t work inside the online tutorials.</li>
 </ul>
@@ -650,7 +647,7 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
 </div>
 <div id="section-getting-help-1" class="section level2">
 <h2>Getting help</h2>
-<p>Our example used a ton of R “verbs” as we call the functions … probably too many to remember, and there are more to come. Let’s talk briefly about how you can get help with how things work in R.</p>
+<p>Our example markown doc used a ton of R “verbs” as we call the functions … probably too many to remember, and there are more to come. Let’s talk briefly about how you can get help with how things work in R.</p>
 <p>One way is through the built-in <strong>Help</strong> function within RStudio. If you look at the pane at the bottom-right of RStudio, you’ll see tabs for “Files”, “Plots”, “Packages” and “Help”. Click on the **Help* tab.</p>
 <p>You can type in a function or part of a function and get a list of items. If you search for “count” and hit return you’ll get documentation on how to use it. It takes some getting used to in reading the docs, but the examples at the bottom are often useful.</p>
 <div id="section-good-googling" class="section level3">
@@ -666,7 +663,7 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
 <div id="section-tidyverse-docs-and-cheatsheets" class="section level3">
 <h3>Tidyverse docs and cheatsheets</h3>
 <p>It is worth becoming familiar with the <a href="https://www.tidyverse.org/">tidyverse</a> site. Click on each icon from the home page to learn what each package does. R is also big on <a href="https://rstudio.com/resources/cheatsheets/">cheatsheets</a>, which are printable pages that go through all the verbs. They can be a bit much at first, but useful once you use R more.</p>
-<p>We’ll try to put together a list of other resources and tutorials. You can find some <a href="https://docs.google.com/document/d/1slMdrTLfxYt0mZO1G_Wlz1cOcGjCdgiJr7wzpcU9n1Y/edit?usp=sharing">I’ve collected already hxere</a>.</p>
+<p>We’ll try to put together a list of other resources and tutorials. You can find some <a href="https://docs.google.com/document/d/1slMdrTLfxYt0mZO1G_Wlz1cOcGjCdgiJr7wzpcU9n1Y/edit?usp=sharing">I’ve collected already here</a>.</p>
 <hr />
 <p>We’ll end here for this session.</p>
 
