@@ -494,6 +494,6 @@ As noted earlier, there are other packages like that read in data of different t
 
 ## On your own
 
-We've put together [some exercises to practice](https://github.com/utdata/chj-r-introduction/blob/main/students/day1-p2-practice.md) importing and exporting data. They will build on each other each day.
+We've put together [some exercises to practice](https://github.com/utdata/chj-r-introduction/blob/main/students/practice-quests.md) importing and exporting data. They will build on each other each day.
 
 
