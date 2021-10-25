@@ -8,7 +8,7 @@
 
 
 
-### Find the csv link on tihs page https://data.cdc.gov/Vaccinations/COVID-19-Vaccinations-in-the-United-States-County/8xkx-amqh
+### Find the csv link on this page https://data.cdc.gov/Vaccinations/COVID-19-Vaccinations-in-the-United-States-County/8xkx-amqh
 ### import it with read_csv() and assign it to the object "vax"
 
 
