@@ -5,9 +5,9 @@ account: utdata
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 4937868
-bundleId: 5172280
+bundleId: 5173112
 url: https://utdata.shinyapps.io/chj-day1-p1/
-when: 1635100640.16398
-lastSyncTime: 1635100640.16399
+when: 1635132610.36885
+lastSyncTime: 1635132610.36886
 asMultiple: FALSE
 asStatic: FALSE
