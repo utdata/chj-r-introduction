@@ -9,6 +9,7 @@ output: html_notebook
 library(tidyverse)
 library(readxl)
 library(janitor)
+library(lubridate)
 ```
 
 ## Day 1
@@ -34,6 +35,20 @@ reports %>% head()
 ```{r}
 reports %>% glimpse()
 ```
+### How many reports are there?
+
+```{r}
+reports %>% nrow()
+# can also get from the glimpse()
+```
+
+### What is the date range of the data
+
+```{r}
+reports$report_date %>% 
+  summary()
+```
+Answer: Jan 1, 2020 to May 30, 2020.
 
 ### Export the file
 
@@ -46,44 +61,38 @@ reports %>% write_rds("data-processed/reports.rds")
 
 Even though we exported the data, we'll continue here with `reports`.
 
-How many reports are there?
+
+### Cut the data
 
 ```{r}
-total_reports = reports %>% nrow()
-# can also get from glimpse()
+reports_cut <- reports %>% 
+  select(report_date, death_illness, q_station, notification_time, agency, person_type, gender, vessel_name, presumptive_diagnosis)
+
+reports_cut %>% glimpse()
 ```
 
-### Looking at Los Angeles
+### Percentage of reports as crew
 
-- Filter to just LA
-- Select just focused columns
+Get number of total reports
 
 ```{r}
-la <- reports %>%
-  filter(q_station == "Los Angeles") %>% 
-  select(report_date, death_illness, notification_time, agency, person_type, gender)
+total_reports = reports_cut %>% nrow()
 
-la
+total_reports
 ```
 
-### Min/Max dates of sickness
-
-Can get this from summary stats.
+Get number of crew reports
 
 ```{r}
-la %>% summary()
-```
-
-### Looking at crew
-
-```{r}
-crew <- reports %>% 
+crew <- reports_cut %>% 
   filter(person_type == "Crew Member")
 
 crew_numb = crew %>% nrow()
+
+crew_numb
 ```
 
-### Percentage that is crew
+Percentage that is crew
 
 ```{r}
 ((crew_numb / total_reports) * 100) %>% round(1)
@@ -91,5 +100,40 @@ crew_numb = crew %>% nrow()
 
 ## Day 2, Part 2
 
+### Where were the most people held in quarantined
 
+```{r}
+reports_cut %>% 
+  count(q_station, sort = TRUE, name = "people_quarantined")
+```
+
+
+### Which vessel had the most Coronavirus cases
+
+```{r}
+reports_cut %>% 
+  filter(str_detect(presumptive_diagnosis, "2019 Novel Coronavirus")) %>% 
+  group_by(vessel_name) %>% 
+  summarise(cnt = n()) %>% 
+  arrange(cnt %>% desc())
+```
+
+### How many people died?
+
+Col is death_illness
+
+```{r}
+reports_cut %>% 
+  count(death_illness, name = "cnt")
+```
+
+
+### Cases per month
+
+```{r}
+reports_cut %>% 
+  filter(str_detect(presumptive_diagnosis, "2019 Novel Coronavirus")) %>% 
+  group_by(mo = month(report_date, label = T)) %>% 
+  summarise(cnt = n())
+```
 

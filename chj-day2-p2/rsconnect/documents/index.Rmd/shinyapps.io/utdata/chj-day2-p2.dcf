@@ -1,0 +1,14 @@
+name: chj-day2-p2
+title: chj-day2-p2
+username:
+account: utdata
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 4945281
+bundleId: 5172335
+url: https://utdata.shinyapps.io/chj-day2-p2/
+when: 1635102237.78623
+lastSyncTime: 1635102237.78624
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: exercises_d1p2_the_answers.R

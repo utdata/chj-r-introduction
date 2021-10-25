@@ -1,5 +1,5 @@
 ---
-title: "Law Enforcement Support Office"
+title: "Law Enforcement Support Office answers"
 output: html_notebook
 ---
 
@@ -35,7 +35,7 @@ leso %>% summary()
 
 Filter to state and remove unneeded columns
 
-```{r}
+```{r filter-tx}
 tx <- leso %>% 
   filter(state == "TX") %>% 
   select(-c(sheet, state, nsn), -starts_with("demil"))
@@ -45,8 +45,64 @@ tx %>% glimpse()
 
 ### Most expensive item
 
-```{r}
+```{r top-item}
 tx %>% 
   arrange(acquisition_value %>% desc())
 ```
+
+## Creating a total_values column
+
+We'll use mutate() to make a total_values column from quantity and acquisition value.
+
+```{r create-total-values}
+tx_totals <- tx %>% 
+  mutate(
+    total_value = (quantity * acquisition_value)
+  )
+
+tx_totals %>% glimpse()
+```
+
+## Agency with most total_value
+
+```{r top-agencies-value}
+tx_totals %>% 
+  group_by(agency_name) %>% 
+  summarize(
+    sum_total_value = sum(total_value)
+  ) %>% 
+  arrange(sum_total_value %>% desc()) %>% 
+  filter(sum_total_value > 2500000)
+```
+
+### Summed quantity, total value of items for a department
+
+Example of using filter to find an agency name
+
+```{r find-agency}
+tx_totals %>% 
+  filter(str_detect(agency_name, "LEAGUE")) %>% 
+  head()
+```
+
+
+```{r sum-items}
+tx_totals %>% 
+  filter(agency_name == "AUSTIN POLICE DEPT") %>% 
+  group_by(item_name) %>% 
+  summarise(
+    sum_quantity = sum(quantity),
+    sum_total_value = sum(total_value)
+  ) %>% 
+  arrange(sum_total_value %>% desc())
+```
+
+
+
+
+
+
+
+
+
 

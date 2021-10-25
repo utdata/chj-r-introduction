@@ -39,16 +39,18 @@ This covers select, filter and arrange.
 
 ### Day 2, Part 2
 
-For leso:
+This covers mutate, group_by, summarize and arrange.
 
-1. Create total_value columns
-1. Find agency in TX or state with most total value
-1. Filter to agency Austin Police or your local police agency (or one near). Maybe give str_detect() hint. Just describe and point to docks but let them figure it out.
-
+1. Create a `total_value` columns from `quantity` and `acquisition_value`.
+1. Find agency in TX (or your state) with most `total_value`.
+1. For "AUSTIN POLICE DEPT" (or agency close to you) get a list of items, totalling the `quantity` and `total_value`. The function to add together is `sum()`. Sort it by highest summed total value.
+  - If you want to find an agency in the list, you can filter using `str_detect()` for part of the word. The filter for partial matches like this: `filter(str_detect(agency_name, "AGENCYNAMEPART"))`
 
 ## Maritime health reports
 
 This data is [Cruise Ships: Reporting Maritime Death or Illness (non-gastrointestinal) to DGMQ](https://www.cdc.gov/quarantine/cruise/reporting-deaths-illness/index.html) from the CDC.
+
+This was obtained through a FOIA request in May, 2020, so it is a little dated.
 
 ### Day 1
 
@@ -61,24 +63,22 @@ Still working in your `practice` project but in a new R Notebook ...
 1. Use `download.file()` to download the file at this url: `https://github.com/utdata/chj-r-introduction/blob/main/students/chj-practice/data-raw/maritime-redacted.xlsx?raw=true`. Save the file in your data-raw folder as `data-raw/maritime.xlsx`.
 1. Import the downloaded file into your notebook, use `clean_names()` to fix the column names and save into a new R object called `reports`.
 1. Use glimpse and summary to explore the data.
+1. How many rows are in all the reports?
+1. What is the date range of the data? `report_date` is the date field of interest.
 1. Export the data to an `.rds` file into the `data-processed` folder.
 
 ### Day 2, Part 1
 
-Picking up with the `reports` object you created above.
+Picking up with the `reports_cut` object you created above.
 
-1. How many rows are in all the reports?
-1. Create a new dataframe called `la` with people who were at QStation of Los Angeles. Now many rows is it?
-1. Narrow the `la` dataframe from 100 columns to the following: report_date, death_illness, notification_time, agency, person_type, gender?
-1. What's the earliest date someone from QStation Los Angeles became sick?
-1. Create a new dataframe called "crew" with people who were a Crew Member (person_type). How many reports?
+1. Reduce the data from the 100 columns to the following variables and save into a new R object called `reports_cut`: report_date, death_illness, q_station, notification_time, agency, person_type, gender, vessel_name, presumptive_diagnosis. 
+1. From the `reports_cut` data, create a new dataframe called "crew" with people who were a Crew Member (person_type). How many reports?
 1. What's the percentage of crew to everyone else who got sick? (You'll have to do a little math, but you have the values.)
 
 ### Day 2, Part 2
 
-> We have to dream some up here.
-
-
-
-
+1. Where were the most people held in quarantine? `q_station` is the field.
+1. Which ship (`vessel_name`) had the most "2019 Novel Coronavirus" cases? 
+  - You can filter using `str_detect()` for part of the word. You filter partial matches like this: `filter(str_detect(agency_name, "Coronavirus"))`.
+1. How many people died within the data? `death_illness` is the field.
 
