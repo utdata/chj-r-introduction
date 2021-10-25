@@ -153,7 +153,7 @@ deaths_clean %>%
 1. Edit the chunk below to also add a summary for the median age. The function for median is ... `median()`. You do this by just adding another rule within summarize, much like we did with mutate.
 1. Set
 
-```{r group-median, exercise = T, exercise.setup="prep-deaths-date"}
+```{r group-median, exercise = T}
 deaths_clean %>% 
   group_by(gender) %>% 
   summarize(
@@ -233,7 +233,7 @@ We also name the converted year column while we are at it.
 
 For quick looks at counts and percentages of a group, the janitor package has the [tabyl](https://cran.r-project.org/web/packages/janitor/vignettes/tabyls.html) function that is quite useful. This example uses `adorn_pct_formatting()` to make the percentages pretty and then arranges by the highest percent.
 
-```{r tabyl-example, exercise=T, exercise.setup="prep-deaths-date"}
+```{r tabyl-example, exercise=T}
 deaths_clean %>% 
   tabyl(race) %>% 
   adorn_pct_formatting() %>% 
@@ -262,7 +262,7 @@ deaths_clean %>%
 
 ## On your own practice
 
-You'll find some Day 1, Part 1 quests for both the LESO and Maritime Reports data sets in the [Practice quests page](https://github.com/utdata/chj-r-introduction/blob/main/students/practice-quests.md)
+You'll find some Day 1, Part 1 quests for both the LESO and Maritime Reports data sets in the [Practice quests page](https://github.com/utdata/chj-r-introduction/blob/main/students/practice-quests.md).
 
 ---
 
