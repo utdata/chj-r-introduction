@@ -189,7 +189,7 @@ Throwing aside whether the formula is sound, let's break down the code.
 - `age <- 55` is assigning a number (`55`) to a variable name (`age`). A variable is a placeholder. It can hold numbers, text or even groups of numbers. Variables are key to programming because they allow you to change a value as you go along. In R we use an arrow (or dash and angle bracket) to show which direction we are assigning the value, but convention is to name the variable first, then assign from the right.
 - Pro tip: You can use *Option+-* (Option dash) to type in the `<-` assigning operator.
 - The next part is simple math: `(age - 7) * 2` takes the value of `age` and subtracts `7`, then multiplies by `2`. You might have noticed that the editor helped you by adding closing `)` and putting your cursor in the middle. If you've never used a code editor, help like this can be confusing at first, but you'll learn to love it.
-- When you run the code chunk, you get the result of the math equation below it, `[1] 96` in my case. That means there was one observation, and the value was "92". For the record, my wife is _much_ younger than that.
+- When you run the code chunk, you get the result of the math equation below it, `[1] 96` in my case. That means there was one observation, and the value was "96". For the record, my wife is _much_ younger than that.
 
 Now you can play with the number assigned to the age variable to test out different ages. Do that.
 
@@ -201,7 +201,7 @@ This is how R Markdown documents work ... you intersperse text and code chunks. 
 
 When writing R Markdown in an R Notebook, you want an empty blank line between each major element: code block, headline, or paragraph of text.
 
-In the text, headlines are indicated with one or more hashtags at the beginning with a space before the words. The more hashtags there are, the smaller the headline (I know, it's counter-intuitive, but it matches HTML headlines.) In R Notebooks, the singe-hashtag headline is the Document in the metadata, so the next biggest headline you should use is two hashes:
+In the text, headlines are indicated with one or more hashtags at the beginning with a space before the words. The more hashtags there are, the smaller the headline (I know, it's counter-intuitive, but it matches HTML headlines.) In R Notebooks, the single-hashtag headline is the Document in the metadata, so the next biggest headline you should use is two hashes:
 
 ```md
 
@@ -279,12 +279,12 @@ You'll note we used this `c("term1","term1")` construction to feed R a combinati
 
 ## Example R Markdown document
 
-We now want to walk through a full analysis do you can see the power (and reproducibility) of R.
+We now want to walk through a full analysis so you can see the power (and reproducibility) of R.
 
 1. In your same project, create a new **R Notebook** document. (Under the +Document icon).
 2. Save the file as `acc-intakes.Rmd`.
 3. Delete everything inside.
-4. Go to <a href="https://github.com/utdata/chj-r-introduction/blob/main/students/day1-p2-practice.md" target="_blank">this link</a> in your browser.
+4. Go to <a href="https://raw.githubusercontent.com/utdata/chj-r-introduction/main/students/first-project/aac-intakes.Rmd" target="_blank">this link</a> in your browser.
 5. Copy and paste all the contents and put it in your R Notebook. (You should be able to do **Cmd+a** to select all.)
 6. Once you've pasted the code and saved it, do **Cmd+Shift+R** to Run All. (It's also under the Run menu in the toolbar.)
 
