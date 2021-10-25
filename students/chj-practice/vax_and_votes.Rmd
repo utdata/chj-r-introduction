@@ -1,0 +1,181 @@
+---
+title: "Vaccinations and votes"
+output: html_document
+---
+
+## Practice quests - Day 3
+
+### Go to your chj-practice project
+
+1. Open up chj-practice.proj
+2. Load the tidyverse package
+
+```{r setup}
+library(tidyverse)
+```
+
+### Find the csv link on tihs page https://data.cdc.gov/Vaccinations/COVID-19-Vaccinations-in-the-United-States-County/8xkx-amqh
+### import it with read_csv() and assign it to the object "vax"
+
+```{r loading, eval=F}
+vax <- read_csv("https://data.cdc.gov/api/views/8xkx-amqh/rows.csv?accessType=DOWNLOAD")
+
+# this will take maybe 10 minutes to download
+# save it as an RDS file ("vax.RDS") to your data-raw folder for later
+
+saveRDS(vax, "data-raw/vax.RDS")
+```
+
+```{r loading2}
+vax <- readRDS("data-raw/vax.RDS")
+```
+
+## Load the library that works with dates
+
+```{r lubridate}
+library(lubridate)
+```
+
+## Let's filter it to the latest week of data
+
+```{r }
+vax_recent <- vax %>% 
+  mutate(Date=mdy(Date)) %>% 
+  group_by(FIPS) %>% 
+  arrange(desc(Date)) %>% 
+  slice(1)
+```
+
+## 1. Which states have the highest the county average vaccination rate? (Series_Complete_Pop_Pct)
+### (Call the new column whatever you like)
+
+```{r q1}
+vax_recent %>% 
+  group_by(Recip_State) %>% 
+  summarize(average_vax_rate=mean(Series_Complete_Pop_Pct, na.rm=T)) %>% 
+  arrange(desc(average_vax_rate))
+```
+
+## 2. Which states have the lowest?
+
+```{r q2}
+vax_recent %>% 
+  group_by(Recip_State) %>% 
+  summarize(average_vax_rate=mean(Series_Complete_Pop_Pct, na.rm=T)) %>% 
+  arrange(average_vax_rate)
+```
+
+## Import in this presidential election results data by county
+### save it to the object "election"
+
+```{r import2}
+election <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vTRNr9AxpysIFXKHymcCynzdWAJUePkCi3M6E0z5shAPVv1MCQQA2DnLkgUjaQzrq6m0I2mWw80SYvC/pub?gid=456911902&single=true&output=csv")
+
+```
+
+## 3. take a summarized look at vax_recent and election
+
+```{r q3}
+glimpse(vax_recent)
+
+glimpse(election)
+```
+
+# #4. What column(s) could you join on?
+
+```
+any of the county ones
+```
+
+## 5. Take a closer look at those columns, what problems could you foresee with the joins?
+
+```
+* One of the states columns is abbreviated, the other isn.t
+* County names includes state name and the other doesn't
+* the fips columns have different cases and some are missing the leading zero
+```
+
+### Let's focus on the fips/FIPS columns
+
+## 6. What is the data type in election$fips?
+
+```
+according to glimpse(), the election$fips column is numeric
+```
+
+## 7. What is the data type in vax_recent$FIPS?
+
+```
+according to glimpse(), the vax_recent$FIPS is a string (character)
+```
+
+### Let's fix these so join well
+
+```{r election_fips}
+election <- election %>% 
+  mutate(
+    fips=as.character(fips),
+    FIPS=case_when(
+    nchar(fips)==4 ~ paste0("0", fips),
+    TRUE ~ fips
+  ))
+```
+
+## 8. join election to vax_recent
+### call the dataframe vax_election
+
+```{r vax_election}
+vax_election <- left_join(vax_recent, election)
+```
+
+## 9. What's the average vaxination rate based on who was voted on in the county?
+
+```{r avg_vote}
+vax_election %>% 
+  group_by(winner) %>% 
+  summarize(average_vax_rate=mean(Series_Complete_Pop_Pct, na.rm=T))
+```
+
+# 10. What was the rate two months ago (let's say 8/20/21)
+
+```{r twomonthsago}
+vax %>% 
+  mutate(Date=mdy(Date)) %>% 
+  filter(Date==mdy("08/20/21")) %>% 
+  left_join(election) %>% 
+  group_by(winner) %>% 
+  summarize(average_vax_rate=mean(Series_Complete_Pop_Pct, na.rm=T))
+```
+
+## 11. What's the percent point difference between then and now for Trump-leaning counties?
+
+```{r math1}
+41.36-31.86
+```
+
+## 12. What's the percent point difference between then and now for Biden-leaning counties?
+
+```{r math2}
+53.37-43.29
+```
+
+## 13. Which county saw the biggest jump in vaccination rates between June 1 and October 1?
+
+### a. Start with the vax dataframe
+### b. Change the Date column into a date
+### c. Filter to June 1, 2021 and October 1,2021
+### d. Isolate the county, state, date, and Series_Complete_Pop_Pct columns
+### e. pivot_wider!
+### f. do math to calculate change
+### g. sort the dataframe so biggest change is first
+
+
+```{r jump}
+vax %>% 
+  mutate(Date=mdy(Date)) %>% 
+  filter(Date==mdy("06/01/21") | Date==mdy("10/01/21")) %>% 
+  select(Recip_County, Recip_State, Date, Series_Complete_Pop_Pct) %>% 
+  pivot_wider(names_from="Date", values_from="Series_Complete_Pop_Pct") %>% 
+  mutate(change=`2021-10-01`-`2021-06-01`) %>% 
+  arrange(desc(change)) 
+```
