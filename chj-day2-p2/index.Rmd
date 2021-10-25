@@ -151,7 +151,6 @@ deaths_clean %>%
 ### Add a median age
 
 1. Edit the chunk below to also add a summary for the median age. The function for median is ... `median()`. You do this by just adding another rule within summarize, much like we did with mutate.
-1. Set
 
 ```{r group-median, exercise = T}
 deaths_clean %>% 

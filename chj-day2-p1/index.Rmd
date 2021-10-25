@@ -108,11 +108,14 @@ deaths
 There are a number of ways you could build this select:
 
 ```r
-select(-first_name, -middle_name, -last_name, -maiden_name, -suffix)
+deaths %>% 
+  select(-first_name, -middle_name, -last_name, -maiden_name, -suffix)
 
-select(-ends_with("_name"), -suffix)
+deaths %>% 
+  select(-ends_with("_name"), -suffix)
 
-select(-c(first_name, middle_name, last_name, maiden_name, suffix))
+deaths %>% 
+  select(-c(first_name, middle_name, last_name, maiden_name, suffix))
 ```
 </div>
 
