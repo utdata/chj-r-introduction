@@ -19,7 +19,7 @@ library(lubridate)
 Use `download.file` to get the data
 
 ```{r download}
-download.file("https://github.com/utdata/chj-r-introduction/blob/main/students/chj-practice/data-raw/maritime-redacted.xlsx?raw=true", "data-raw/maritime.xlsx")
+download.file("https://github.com/utdata/chj-r-introduction/raw/main/students/chj-practice/data-raw/maritime-redacted.xlsx", "data-raw/maritime.xlsx", mode = "wb")
 ```
 
 ### Import the file
