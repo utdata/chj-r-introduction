@@ -60,7 +60,7 @@ Still working in your `practice` project but in a new R Notebook ...
 
 1. Create a new R Notebook called `maritime.Rmd`.
 1. Add the libraries tidyverse, readxl, janitor and lubridate.
-1. Use `download.file()` to download the file at this url: `https://github.com/utdata/chj-r-introduction/blob/main/students/chj-practice/data-raw/maritime-redacted.xlsx?raw=true`. Save the file in your data-raw folder as `data-raw/maritime.xlsx`.
+1. Use `download.file()` to download the file at this url: `https://github.com/utdata/chj-r-introduction/blob/main/students/chj-practice/data-raw/maritime-redacted.xlsx?raw=true`. Save the file in your data-raw folder as `data-raw/maritime.xlsx`. Be sure to also include `mode = "wb"` as an argument.
 1. Import the downloaded file into your notebook, use `clean_names()` to fix the column names and save into a new R object called `reports`.
 1. Use glimpse and summary to explore the data.
 1. How many rows are in all the reports?
@@ -69,7 +69,7 @@ Still working in your `practice` project but in a new R Notebook ...
 
 ### Day 2, Part 1
 
-Picking up with the `reports_cut` object you created above.
+Picking up with the `reports` object you created above.
 
 1. Reduce the data from the 100 columns to the following variables and save into a new R object called `reports_cut`: report_date, death_illness, q_station, notification_time, agency, person_type, gender, vessel_name, presumptive_diagnosis. 
 1. From the `reports_cut` data, create a new dataframe called "crew" with people who were a Crew Member (person_type). How many reports?

@@ -315,10 +315,10 @@ We can't show how this works in this tutorial, so we'll jwalk you through it in 
 
 ```r
 # download arrests file
-download.file("https://raw.githubusercontent.com/utdata/chj-r-introduction/main/chj-day1-p2/data-raw/APD_marijuana_arrests_2016-2020_data.xlsx", "data-raw/apd-pot-arrests.xlsx")
+download.file("https://raw.githubusercontent.com/utdata/chj-r-introduction/main/chj-day1-p2/data-raw/APD_marijuana_arrests_2016-2020_data.xlsx", "data-raw/apd-pot-arrests.xlsx", mode = "wb")
 ```
 
-- This downloads the file from the internet into your `data-raw` folder and then names the file as `apd-pot-arrests.xlsx`. Note the file path and name are together.
+- This downloads the file from the internet into your `data-raw` folder and then names the file as `apd-pot-arrests.xlsx`. Note the file path and name are together. The `mode = "wb"` notes to download as a binary file to preserve the integrity of the file. [Documentation can be found here](https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/download.file).
 
 This spreadsheet is the response for an open records request to the Austin Police Department for marijuana arrests.
 
