@@ -4,6 +4,7 @@ author: "Andrew Ba Tran"
 output:
   learnr::tutorial:
     progressive: true
+    allow_skip: true
 runtime: shiny_prerendered
 ---
 
