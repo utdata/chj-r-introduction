@@ -111,6 +111,8 @@ reports_cut %>%
 ### Which vessel had the most Coronavirus cases
 
 ```{r}
+
+
 reports_cut %>% 
   filter(str_detect(presumptive_diagnosis, "2019 Novel Coronavirus")) %>% 
   group_by(vessel_name) %>% 
