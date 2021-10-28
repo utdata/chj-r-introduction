@@ -85,6 +85,36 @@ sd_year <- sd_adjusted %>%
   # if we're going to compare this year to previous years, we need to exclude data we don't have yet
   filter(!month %in% c("Oct", "Nov", "Dec")) %>% 
   count(year, manner_of_death, name="deaths") 
+
+
+no_scent_analysis <- scented %>% 
+  # filter the reviews so we're only looking at scented candles
+  filter(type=="scented") %>% 
+  arrange(Date) %>% 
+  # only focus on the reviews from this year
+  filter(Date >= mdy("01-01-2020")) %>% 
+  # create a new column no_scent that will fill a 1 if No Scent is mentioned
+  mutate(no_scent=case_when(
+    str_detect(Review, "[Nn]o scent") ~ 1, 
+    str_detect(Review, "[Nn]o smell") ~ 1,
+    str_detect(Review, "[Dd]oes not smell like") ~ 1,
+    str_detect(Review, "[Dd]oesn't smell like") ~ 1,
+    str_detect(Review, "[Cc]an't smell") ~ 1,
+    str_detect(Review, "[Cc]annot smell") ~ 1,
+    str_detect(Review, "[Ff]aint smell") ~ 1,
+    str_detect(Review, "[Ff]aint scent") ~ 1,
+    str_detect(Review, "[Dd]on't smell") ~ 1,
+    str_detect(Review, "[Ll]ike nothing") ~ 1,
+    TRUE ~ 0
+  )) %>% 
+  # create a new month column
+  mutate(month=month(Date, label=TRUE)) %>% 
+  # let's aggregate around month
+  group_by(month) %>% 
+  # we just need to add up the 1s in no_scent and count up the total reviews with n()
+  summarize(no_scent=sum(no_scent), reviews=n()) %>% 
+  # and do some math
+  mutate(percent=no_scent/reviews*100)
 ```
 
 Note: All answers to exercises can be found [here](https://github.com/utdata/chj-r-introduction/blob/main/chj-day4/chj-day4-answers.Rmd).
@@ -719,7 +749,9 @@ no_scent_analysis <- scented %>%
 no_scent_analysis
 ```
 
-**Make me a chart of your choice using the data above**
+**Make me a chart of your choice using the data above.**
+
+(Actually, maybe not geom_line()-- that one doesn't work on this data for some reason)
 
 ### Exercise 6
    
